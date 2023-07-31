@@ -383,14 +383,9 @@
     <div class="contact">
       <div class="container hidden">
         <h2>Contact Me</h2>
-        <form action="https://formsubmit.co/ghostshell201@gmail.com" method="POST">
-          <input type="text" name="name" placeholder="Your Name" />
-          <input type="email" name="email" placeholder="Your Email" pattern="[A-Za-z0-9._+-]+@[A-Za-z0-9-]+\.[a-z]{2,}"
-            required />
-          <textarea name="messege" class="input" cols="30" rows="10" placeholder="Tell Me About Your Needs"
-            required></textarea>
-          <input type="submit" name="submit" value="Send" />
-        </form>
+        <!-- form.123formbuilder.com script begins here -->
+<script type="text/javascript" defer src="https://form.123formbuilder.com/embed/6490100.js" data-role="form" data-default-width="650px"></script>
+<!-- form.123formbuilder.com script ends here -->
       </div>
     </div>
   </section>
