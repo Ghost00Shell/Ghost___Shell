@@ -364,38 +364,34 @@
             <img src="/assets/achi2.png.png" alt="">
             <div class="text">
               <h3>Microsoft Vulnerability disclosure Program</h3>
-            </div>
+ </div>
           </div>
         </div>
         <a class="link" href="/Achievement.html">See More..</a>
       </div>
     </div>
-              </div>
-            </div>
-          </a>
-        </div>
-      </div>
-    </div>
+    <!-- achivment end -->
     <div class="contact">
       <div class="container hidden">
-        <h2>Contact Me</h2>
-<iframe allowTransparency="true" style="min-height:300px; height:inherit; overflow:auto;" width="100%" id="contactform123" name="contactform123" marginwidth="0" marginheight="0" frameborder="0" src="https://form.123formbuilder.com/my-contact-form-6490100.html">
+        <h2>Contact Us</h2>
+<iframe allowTransparency="true" style="min-height:200px; height:inherit; overflow:auto;" width="100%" id="contactform123" name="contactform123" marginwidth="0" marginheight="0" frameborder="0" src="https://form.123formbuilder.com/my-contact-form-6490100.html">
 <p>Your browser does not support iframes. The contact form cannot be displayed. Please use another contact method (phone, fax etc)</p>
 </iframe>
       </div>
     </div>
+    <!-- contact end -->
   </section>
   <footer>
     <div class="container">
       <div class="links">
-        <a href="https://google.com/">
+        <a href="https://web.facebook.com/">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
             <path
               d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.325-1.325z" />
           </svg>
         </a>
         <a href="https://google.com/">
-          <svg xmlns="http://www.w3.org/2000/svg" aria-label="Google" role="img" viewBox="0 0 512 512">
+          <svg xmlns="http://www.w3.org/2000/svg" aria-label="HackerOne" role="img" viewBox="0 0 512 512">
             <rect width="512" height="512" rx="15%" fill="white" />
             <path
               d="M174 56c-10 1-23 5-25 16v367c2 9 11 15 20 16h14c9-2 20-7 21-17a116708 116708 0 0 0 0-366c-3-11-15-15-25-16h-5zM333 200c-7 1-13 2-17 5l-74 47c-4 3-5 8-5 12 2 12 8 21 17 27 7 4 18 7 25 2l29-19v165c3 10 12 15 21 17h10c9-2 19-5 23-14l1-3a18494 18494 0 0 0 0-222c-1-12-16-16-26-17h-4z" />
@@ -408,7 +404,8 @@
               d="m38.5 260.4 107.1 185.1h219.5l109.1-185.1L365.1 66.5H145.6zm178.7-115.7c7.6 4.7 8.1 8.3 8.1 47v31.2l6.8-6.2c3.8-3.4 11.1-8.1 16.3-10.7c8.4-3.9 11.6-4.4 26.6-4.2c18.2 0 28.5 3 41.6 12.2c13.5 9.5 25.7 31.1 29.1 51.2c7.3 44.7-9.2 83.6-42.2 99.3c-10.9 5.1-12.7 5.4-30.2 5.4c-16.5 0-19.8-.5-28.1-4.4c-5.1-2.4-12.2-7.2-15.6-10.4l-6.5-5.9v18.1h-38.6V273c0-51.9-.5-94.9-1.2-95.5c-.6-.7-5.2-1.7-10-2.2l-8.8-.9V158.6c-.2-11.1.5-16.2 1.8-17c1.2-.7 11.9-1 23.7-.9c18.5.4 22.2.9 27.2 4zM258 236.4c-22.3 5.2-33.9 22.7-33.5 50.9c.2 28 14.6 47.6 36 49.1c13.8 1 22.5-1.9 31.3-10.7c18.4-18 19-59.2 1.4-77.9c-8.9-9.3-23.7-14.1-35.2-11.4z" />
           </svg>
         </a>
-        <a href="https://discord.gg/">
+        <a href="https://discord.gg/
+        ">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-discord" viewBox="0 0 16 16"> <path d="M13.545 2.907a13.227 13.227 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.19 12.19 0 0 0-3.658 0 8.258 8.258 0 0 0-.412-.833.051.051 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.041.041 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032c.001.014.01.028.021.037a13.276 13.276 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019c.308-.42.582-.863.818-1.329a.05.05 0 0 0-.01-.059.051.051 0 0 0-.018-.011 8.875 8.875 0 0 1-1.248-.595.05.05 0 0 1-.02-.066.051.051 0 0 1 .015-.019c.084-.063.168-.129.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.052.052 0 0 1 .053.007c.08.066.164.132.248.195a.051.051 0 0 1-.004.085 8.254 8.254 0 0 1-1.249.594.05.05 0 0 0-.03.03.052.052 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.235 13.235 0 0 0 4.001-2.02.049.049 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.034.034 0 0 0-.02-.019Zm-8.198 7.307c-.789 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612Zm5.316 0c-.788 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612Z"/> </svg>
         </a>
         <a href="https://twitter.com/">
@@ -417,7 +414,7 @@
           </svg>
         </a>
       </div>
-      <p>Copyright &copy; 2023 <a href="https://gotphp.com">Ghost_Shell</a></p>
+      <p>Copyright &copy; 2023 <a href="https://gotphp.com/">Ghost_Shell</a></p>
     </div>
   </footer>
 
