@@ -315,10 +315,7 @@
           <li class="hover"><a class="noselect" href="#">Home</a></li>
           <li class="hover"><a class="noselect" href="/Achievement.html">Achievement</a></li>
           <li class="hover"><a class="noselect" href="/HallOfFame.html">Hall Of Fame</a></li>
-          <li class="hover"><a class="noselect" href="/Courses.html">Courses</a></li>
-          <li class="hover"><a class="noselect" href="/FreeContent.html">Free Content</a></li>
           <li class="hover"><a class="noselect" href="/Contact.html">Contact</a></li>
-          <li class="hover"><a class="noselect" href="/stream.html">Stream</a></li>
         </ul>
       </div>
     </nav>
@@ -340,8 +337,6 @@
         </div>
       </div>
     </div>
-    <!-- hero end -->
-    <!-- hall of fame start -->
     <div class="hallOfFame">
       <div class="container">
         <h2 class="Title">Hall Of Fame</h2>
@@ -353,7 +348,7 @@
             <img src="/assets/ibm.svg" alt="">
             <img src="/assets/yahoo.svg" alt="">
 
-          </div>
+        </div>
           <a class="link" href="HallOfFame.html">See More..</a>
         </div>
       </div>
@@ -373,7 +368,7 @@
           <div class="box">
             <img src="/assets/achi2.jpg" alt="">
             <div class="text">
-              <h3>Third on the world in discovering Bugs </h3>
+              <h3>Third on the world in discovering Bugs</h3>
             </div>
           </div>
 
@@ -381,27 +376,6 @@
         <a class="link" href="/Achievement.html">See More..</a>
       </div>
     </div>
-    <!-- achivment end -->
-    <!-- courses start -->
-    <div class="course">
-      <div class="container">
-        <h2 class="Title">Courses</h2>
-        <div class="main">
-          <!-- نسخ بوكس -->
-          <a href="course1.html">
-            <div class="box">
-              <div class="img">
-                <img src="/assets/course1.png" alt="">
-              </div>
-              <div class="text">
-                <h3>Bug Bounty Hunter Premium
-                </h3>
-                <p>
-                  كورس اختبار اختراق المواقع واكتشاف الثغرات وتبليغ عنها في منصات مثل هاكرون وغيرها
-
-
-
-                </p>
               </div>
             </div>
           </a>
@@ -409,52 +383,47 @@
         </div>
       </div>
     </div>
-    <!-- courses end -->
-    <!-- contact start -->
     <div class="contact">
       <div class="container hidden">
-        <h2>Contact Us</h2>
-        <form action="https://formsubmit.co/ghostshell201@gmail.com
-" method="POST">
+        <h2>Contact Me</h2>
+        <form action="https://formsubmit.co/ghostshell201@gmail.com" method="POST">
           <input type="text" name="name" placeholder="Your Name" />
           <input type="email" name="email" placeholder="Your Email" pattern="[A-Za-z0-9._+-]+@[A-Za-z0-9-]+\.[a-z]{2,}"
             required />
-          <textarea name="messege" class="input" cols="30" rows="10" placeholder="Tell Us About Your Needs"
+          <textarea name="messege" class="input" cols="30" rows="10" placeholder="Tell Me About Your Needs"
             required></textarea>
           <input type="submit" name="submit" value="Send" />
         </form>
       </div>
     </div>
-    <!-- contact end -->
   </section>
   <footer>
     <div class="container">
       <div class="links">
-        <a href="https://web.facebook.com/Ghost_Shell/">
+        <a href="https://google.com/">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
             <path
               d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.325-1.325z" />
           </svg>
         </a>
-        <a href="https://hackerone.com/Ghost_Shell">
+        <a href="https://google.com/">
           <svg xmlns="http://www.w3.org/2000/svg" aria-label="HackerOne" role="img" viewBox="0 0 512 512">
             <rect width="512" height="512" rx="15%" fill="white" />
             <path
               d="M174 56c-10 1-23 5-25 16v367c2 9 11 15 20 16h14c9-2 20-7 21-17a116708 116708 0 0 0 0-366c-3-11-15-15-25-16h-5zM333 200c-7 1-13 2-17 5l-74 47c-4 3-5 8-5 12 2 12 8 21 17 27 7 4 18 7 25 2l29-19v165c3 10 12 15 21 17h10c9-2 19-5 23-14l1-3a18494 18494 0 0 0 0-222c-1-12-16-16-26-17h-4z" />
           </svg>
         </a>
-        <a href="https://bugcrowd.com/Ghost_Shell">
+        <a href="https://google.com/">
           <svg xmlns="http://www.w3.org/2000/svg" aria-label="Bugcrowd" role="img" viewBox="0 0 512 512">
             <rect width="512" height="512" rx="15%" fill="#ffffff" />
             <path fill="#f26922"
               d="m38.5 260.4 107.1 185.1h219.5l109.1-185.1L365.1 66.5H145.6zm178.7-115.7c7.6 4.7 8.1 8.3 8.1 47v31.2l6.8-6.2c3.8-3.4 11.1-8.1 16.3-10.7c8.4-3.9 11.6-4.4 26.6-4.2c18.2 0 28.5 3 41.6 12.2c13.5 9.5 25.7 31.1 29.1 51.2c7.3 44.7-9.2 83.6-42.2 99.3c-10.9 5.1-12.7 5.4-30.2 5.4c-16.5 0-19.8-.5-28.1-4.4c-5.1-2.4-12.2-7.2-15.6-10.4l-6.5-5.9v18.1h-38.6V273c0-51.9-.5-94.9-1.2-95.5c-.6-.7-5.2-1.7-10-2.2l-8.8-.9V158.6c-.2-11.1.5-16.2 1.8-17c1.2-.7 11.9-1 23.7-.9c18.5.4 22.2.9 27.2 4zM258 236.4c-22.3 5.2-33.9 22.7-33.5 50.9c.2 28 14.6 47.6 36 49.1c13.8 1 22.5-1.9 31.3-10.7c18.4-18 19-59.2 1.4-77.9c-8.9-9.3-23.7-14.1-35.2-11.4z" />
           </svg>
         </a>
-        <a href="https://discord.gg/
-        ">
+        <a href="https://discord.gg/">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-discord" viewBox="0 0 16 16"> <path d="M13.545 2.907a13.227 13.227 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.19 12.19 0 0 0-3.658 0 8.258 8.258 0 0 0-.412-.833.051.051 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.041.041 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032c.001.014.01.028.021.037a13.276 13.276 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019c.308-.42.582-.863.818-1.329a.05.05 0 0 0-.01-.059.051.051 0 0 0-.018-.011 8.875 8.875 0 0 1-1.248-.595.05.05 0 0 1-.02-.066.051.051 0 0 1 .015-.019c.084-.063.168-.129.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.052.052 0 0 1 .053.007c.08.066.164.132.248.195a.051.051 0 0 1-.004.085 8.254 8.254 0 0 1-1.249.594.05.05 0 0 0-.03.03.052.052 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.235 13.235 0 0 0 4.001-2.02.049.049 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.034.034 0 0 0-.02-.019Zm-8.198 7.307c-.789 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612Zm5.316 0c-.788 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612Z"/> </svg>
         </a>
-        <a href="https://twitter.com/Ghost_Shell">
+        <a href="https://twitter.com/">
           <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" viewBox="0 0 248 204">
             <path fill="#1d9bf0" d="M221.95 51.29c.15 2.17.15 4.34.15 6.53 0 66.73-50.8 143.69-143.69 143.69v-.04c-27.44.04-54.31-7.82-77.41-22.64 3.99.48 8 .72 12.02.73 22.74.02 44.83-7.61 62.72-21.66-21.61-.41-40.56-14.5-47.18-35.07 7.57 1.46 15.37 1.16 22.8-.87-23.56-4.76-40.51-25.46-40.51-49.5v-.64c7.02 3.91 14.88 6.08 22.92 6.32C11.58 63.31 4.74 33.79 18.14 10.71c25.64 31.55 63.47 50.73 104.08 52.76-4.07-17.54 1.49-35.92 14.61-48.25 20.34-19.12 52.33-18.14 71.45 2.19 11.31-2.23 22.15-6.38 32.07-12.26-3.77 11.69-11.66 21.62-22.2 27.93 10.01-1.18 19.79-3.86 29-7.95-6.78 10.16-15.32 19.01-25.2 26.16z"/>
           </svg>
