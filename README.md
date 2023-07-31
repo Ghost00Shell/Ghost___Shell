@@ -362,13 +362,14 @@
               <h3>Google Vulnerability Reward Program</h3>
             </div>
           </div>
-          <div class="box">
+        </div>
+  
+        <div class="box">
             <img src="/assets/achi2.png.png" alt="">
             <div class="text">
               <h3>Microsoft Vulnerability disclosure Program</h3>
             </div>
           </div>
-
         </div>
         <a class="link" href="/Achievement.html">See More..</a>
       </div>
@@ -376,7 +377,6 @@
               </div>
             </div>
           </a>
-          <!-- نسخ بوكس -->
         </div>
       </div>
     </div>
