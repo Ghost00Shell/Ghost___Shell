@@ -330,7 +330,6 @@
           <p>Ghost_Shell , 0 years old, from Anywhere, interested in information security
             I have experience in Linux integration, networking and joining
             I studied programming languages, including Python, JavaScript, and others</p>
-          <a href="/Courses.html">Get Courses</a>
         </div>
         <div class="img">
           <img src="./assets/hero.svg" alt="">
@@ -360,15 +359,15 @@
         <h2 class="Title">Achievements</h2>
         <div class="main">
           <div class="box">
-            <img src="/assets/achi1.png" alt="">
+            <img src="/assets/achi1.png.png" alt="">
             <div class="text">
-              <h3>Fourth on the Department of Defense in finding Bugs</h3>
+              <h3>Google Vulnerability Reward Program</h3>
             </div>
           </div>
           <div class="box">
-            <img src="/assets/achi2.jpg" alt="">
+            <img src="/assets/achi2.png.png" alt="">
             <div class="text">
-              <h3>Third on the world in discovering Bugs</h3>
+              <h3>Microsoft Vulnerability disclosure Program</h3>
             </div>
           </div>
 
@@ -407,7 +406,7 @@
           </svg>
         </a>
         <a href="https://google.com/">
-          <svg xmlns="http://www.w3.org/2000/svg" aria-label="HackerOne" role="img" viewBox="0 0 512 512">
+          <svg xmlns="http://www.w3.org/2000/svg" aria-label="Google" role="img" viewBox="0 0 512 512">
             <rect width="512" height="512" rx="15%" fill="white" />
             <path
               d="M174 56c-10 1-23 5-25 16v367c2 9 11 15 20 16h14c9-2 20-7 21-17a116708 116708 0 0 0 0-366c-3-11-15-15-25-16h-5zM333 200c-7 1-13 2-17 5l-74 47c-4 3-5 8-5 12 2 12 8 21 17 27 7 4 18 7 25 2l29-19v165c3 10 12 15 21 17h10c9-2 19-5 23-14l1-3a18494 18494 0 0 0 0-222c-1-12-16-16-26-17h-4z" />
