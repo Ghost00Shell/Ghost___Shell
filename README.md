@@ -309,7 +309,6 @@
         <a href="/index.html">
           <h3 id="hackerText">Ghost_Shell</h3>
         </a>
-
         <ul>
           <li class="hover"><a class="noselect" href="#">Home</a></li>
           <li class="hover"><a class="noselect" href="/Achievement.html">Achievement</a></li>
