@@ -383,9 +383,9 @@
     <div class="contact">
       <div class="container hidden">
         <h2>Contact Me</h2>
-        <!-- form.123formbuilder.com script begins here -->
-<script type="text/javascript" defer src="https://form.123formbuilder.com/embed/6490100.js" data-role="form" data-default-width="650px"></script>
-<!-- form.123formbuilder.com script ends here -->
+<iframe allowTransparency="true" style="min-height:300px; height:inherit; overflow:auto;" width="100%" id="contactform123" name="contactform123" marginwidth="0" marginheight="0" frameborder="0" src="https://form.123formbuilder.com/my-contact-form-6490100.html">
+<p>Your browser does not support iframes. The contact form cannot be displayed. Please use another contact method (phone, fax etc)</p>
+</iframe>
       </div>
     </div>
   </section>
