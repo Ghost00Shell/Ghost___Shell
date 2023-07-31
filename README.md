@@ -350,8 +350,6 @@
         </div>
       </div>
     </div>
-    <!-- hall of fame end -->
-    <!-- achivment start -->
     <div class="achi">
       <div class="container">
         <h2 class="Title">Achievements</h2>
@@ -363,7 +361,6 @@
             </div>
           </div>
         </div>
-  
         <div class="box">
             <img src="/assets/achi2.png.png" alt="">
             <div class="text">
