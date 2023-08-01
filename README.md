@@ -21,8 +21,8 @@
   <meta property="og:image" content="img/person.svg" />
   <meta name="theme-color" content="#020617" />
   <meta name="referrer" content="no-referrer-when-downgrade">
-  <meta name="author" content="Ghost_Shell Najeh">
-  <link rel="canonical" href="https://www.imx4.me">
+  <meta name="author" content="Ghost_Shell">
+  <link rel="canonical" href="https://gotphp.com">
   <meta name="robots" content="index, follow">
   <meta name="keywords" content="bug bounty hunter,
     bug bounty hunter salary,
