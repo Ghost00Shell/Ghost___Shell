@@ -344,7 +344,6 @@
             <img src="/assets/nasa.svg" alt="">
             <img src="/assets/ibm.svg" alt="">
             <img src="/assets/yahoo.svg" alt="">
-
           </div>
           <a class="link" href="HallOfFame.html">See More..</a>
         </div>
