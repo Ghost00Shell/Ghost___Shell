@@ -308,12 +308,10 @@
     <nav>
       <div class="container">
         <a href="/index.html">
-          <h3 id="hackerText">Ghost_Shell</h3>
-        </a>
-
+          <h3 id="hackerText">Ghost_Shell</h3></a>
         <ul>
           <li class="hover"><a class="noselect" href="#">Home</a></li>
-          <li class="hover"><a class="noselect" href="/Achievement.html">Achievement</a></li>
+          <li class="hover"><a class="noselect" href="/Achievement.html">Achievements</a></li>
           <li class="hover"><a class="noselect" href="/HallOfFame.html">Hall Of Fame</a></li>
           <li class="hover"><a class="noselect" href="/Contact.html">Contact</a></li>
         </ul>
