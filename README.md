@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ghost_Shell Bug Hunting Hub: Uncovering Vulnerabilities with Precision</title>
+  <title>Ghost_Shell Bug Hunting: Uncovering Vulnerabilities with Precision</title>
   <meta name="description"
-    content="Welcome to Ghost_Shell Bug Hunting Hub, your go-to destination for uncovering vulnerabilities and enhancing website security. With a keen eye for detail and extensive expertise in the world of cybersecurity, Ghost_Shell is dedicated to hunting down bugs and identifying potential weaknesses in websites. Join us on this exciting adventure as we delve deep into the digital realm, exploring the intricate web of code to discover and mitigate vulnerabilities. From thorough scans to meticulous testing, Ghost_Shell's Bug Hunting Hub offers a comprehensive range of techniques and tools to ensure that your website remains resilient and fortified against potential threats. Trust Ghost_Shell expertise to safeguard your online presence and stay one step ahead in the ever-evolving landscape of cybersecurity." />
+    content="Welcome to Ghost_Shell's Bug Hunting, your go-to destination for uncovering vulnerabilities and enhancing website security. With a keen eye for detail and extensive expertise in the world of cybersecurity, Ghost_Shell is dedicated to hunting down bugs and identifying potential weaknesses in websites. Join me on this exciting adventure as we delve deep into the digital realm, exploring the intricate web of code to discover and mitigate vulnerabilities. From thorough scans to meticulous testing, Ghost_Shell's Bug Hunting offers a comprehensive range of techniques and tools to ensure that your website remains resilient and fortified against potential threats. Trust Ghost_Shell's expertise to safeguard your online presence and stay one step ahead in the ever-evolving landscape of cybersecurity." />
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,8 +21,8 @@
   <meta property="og:image" content="img/person.svg" />
   <meta name="theme-color" content="#020617" />
   <meta name="referrer" content="no-referrer-when-downgrade">
-  <meta name="author" content="Ghost_Shell">
-  <link rel="canonical" href="https://openopps.org">
+  <meta name="author" content="Ghost_Shell Najeh">
+  <link rel="canonical" href="https://www.imx4.me">
   <meta name="robots" content="index, follow">
   <meta name="keywords" content="bug bounty hunter,
     bug bounty hunter salary,
@@ -309,6 +310,7 @@
         <a href="/index.html">
           <h3 id="hackerText">Ghost_Shell</h3>
         </a>
+
         <ul>
           <li class="hover"><a class="noselect" href="#">Home</a></li>
           <li class="hover"><a class="noselect" href="/Achievement.html">Achievement</a></li>
@@ -325,15 +327,15 @@
       <div class="container">
         <div class="text">
           <h1>Ghost_Shell</h1>
-          <p>Ghost_Shell , 0 years old, from Anywhere, interested in information security
-            I have experience in Linux integration, networking and joining
-            I studied programming languages, including Python, JavaScript, and others.</p>
+          <p>Ghost_Shell , 0 years old, from Anywhere, interested in information security I have experience in Linux integration, networking and joining I studied programming languages, including Python, JavaScript, and others.</p>
         </div>
         <div class="img">
           <img src="./assets/hero.svg" alt="">
         </div>
       </div>
     </div>
+    <!-- hero end -->
+    <!-- hall of fame start -->
     <div class="hallOfFame">
       <div class="container">
         <h2 class="Title">Hall Of Fame</h2>
@@ -344,39 +346,49 @@
             <img src="/assets/nasa.svg" alt="">
             <img src="/assets/ibm.svg" alt="">
             <img src="/assets/yahoo.svg" alt="">
-        </div>
+
+          </div>
           <a class="link" href="HallOfFame.html">See More..</a>
         </div>
       </div>
     </div>
+    <!-- hall of fame end -->
+    <!-- achivment start -->
     <div class="achi">
       <div class="container">
         <h2 class="Title">Achievements</h2>
         <div class="main">
+          <div class="box">
+            <img src="/assets/achi2.png.png" alt="">
+            <div class="text">
+              <h3>Microsoft Vulnerability disclosure Program</h3>
+            </div>
+          </div>
           <div class="box">
             <img src="/assets/achi1.png.png" alt="">
             <div class="text">
               <h3>Google Vulnerability Reward Program</h3>
             </div>
           </div>
-        </div>
-        <div class="box">
-            <img src="/assets/achi2.png.png" alt="">
-            <div class="text">
-              <h3>Microsoft Vulnerability disclosure Program</h3>
- </div>
-          </div>
+
         </div>
         <a class="link" href="/Achievement.html">See More..</a>
       </div>
     </div>
     <!-- achivment end -->
+    <!-- contact start -->
     <div class="contact">
       <div class="container hidden">
-        <h2>Contact Us</h2>
-<iframe allowTransparency="true" style="min-height:200px; height:inherit; overflow:auto;" width="100%" id="contactform123" name="contactform123" marginwidth="0" marginheight="0" frameborder="0" src="https://form.123formbuilder.com/my-contact-form-6490100.html">
-<p>Your browser does not support iframes. The contact form cannot be displayed. Please use another contact method (phone, fax etc)</p>
-</iframe>
+        <h2>Contact Me</h2>
+        <form action="https://formsubmit.co/ghostshell201@gmail.com
+" method="POST">
+          <input type="text" name="name" placeholder="Your Name" />
+          <input type="email" name="email" placeholder="Your Email" pattern="[A-Za-z0-9._+-]+@[A-Za-z0-9-]+\.[a-z]{2,}"
+            required />
+          <textarea name="messege" class="input" cols="30" rows="10" placeholder="Tell Me About Your Needs"
+            required></textarea>
+          <input type="submit" name="submit" value="Send" />
+        </form>
       </div>
     </div>
     <!-- contact end -->
