@@ -349,8 +349,6 @@
         </div>
       </div>
     </div>
-    <!-- hall of fame end -->
-    <!-- achivment start -->
     <div class="achi">
       <div class="container">
         <h2 class="Title">Achievements</h2>
@@ -367,13 +365,10 @@
               <h3>Google Vulnerability Reward Program</h3>
             </div>
           </div>
-
         </div>
         <a class="link" href="/Achievement.html">See More..</a>
       </div>
     </div>
-    <!-- achivment end -->
-    <!-- contact start -->
     <div class="contact">
       <div class="container hidden">
         <h2>Contact Me</h2>
