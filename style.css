@@ -524,19 +524,19 @@ footer .links svg {
 }
 
 .sidebyside {
-  display: flex;  
+  display: center;  
 }
 .one {
-  float: left;
+  float: auto;
 }
 .two {
-    float: right;
+    float: auto;
 }
 .three {
-    float: left;
+    float: auto;
 }
 .four {
-  float: right;  
+  float: auto;  
 }
 
 .split {
