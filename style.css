@@ -143,7 +143,7 @@ html {
   left: 0;
   top: 0;
   width: 100%;
-  height: 100%;
+  height: 500%;
 }
 /* end of the project */
 
@@ -527,16 +527,16 @@ footer .links svg {
   display: flex;  
 }
 .one {
-  
+  float: left;
 }
 .two {
-  
+    float: right;
 }
 .three {
-  
+    float: left;
 }
 .four {
-  
+  float: right;  
 }
 /* footer end */
 /* end of the project */
