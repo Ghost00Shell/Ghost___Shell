@@ -523,5 +523,20 @@ footer .links svg {
   fill: var(--blue);
 }
 
+.sidebyside {
+  display: flex;  
+}
+.one {
+  
+}
+.two {
+  
+}
+.three {
+  
+}
+.four {
+  
+}
 /* footer end */
 /* end of the project */
