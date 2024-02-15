@@ -48,21 +48,20 @@
     }
 
     var marker, circle;
-
-    function getPosition(position){
-        // console.log(position)
-        var lat = position.coords.latitude
-        var long = position.coords.longitude
-        var accuracy = position.coords.accuracy
-
-        if(marker) {
-            map.removeLayer(marker)
-        }
-
-        if(circle) {
-            map.removeLayer(circle)
-        }
-
+function onSuccess(position){
+    button.innerText = "Detecting your location...";
+    let {latitude, longitude} = position.coords;
+    fetch(`https://api.opencagedata.com/geocode/v1/json?q=52.3877830%2C9.7334394&key=401f57a2025b43b8bafda6294342e382`)
+    .then(response => response.json()).then(response =>{
+        let allDetails = response.results[0].components;
+        console.table(allDetails);
+        let {county, postcode, country} = allDetails;
+        button.innerText = `${county} ${postcode}, ${country}`;
+    }).catch(()=>{
+        button.innerText = "Something went wrong";
+    });
+}
+ 
         marker = L.marker([lat, long])
         circle = L.circle([lat, long], {radius: accuracy})
 
