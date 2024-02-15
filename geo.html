@@ -1,75 +1,87 @@
+
 <!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
+<!-- Created By CodingNepal - www.codingnepalweb.com -->
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Detect User Location | CodingNepal</title>
+    <link rel="stylesheet" href="style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Realtime location tracker</title>
+  </head>
+  <body>
+    const button = document.querySelector("button");
 
-    <!-- leaflet css  -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
+    button.addEventListener("click", ()=>{
+        if(navigator.geolocation){ //if browser support geolocation api
+            button.innerText = "Allow to detect location";
+            // geolocation.getCurrentPosition method is used to get current position of the device
+            // it takes three paramaters success, error, options. If everything is right then success 
+            // callback function will call else error callback function will call. We don't need third paramater for this project
+            navigator.geolocation.getCurrentPosition(onSuccess, onError);
+        }else{
+            button.innerText = "Your browser not support";
         }
-
-        #map {
-            width: 100%;
-            height: 100vh;
-        }
-    </style>
-</head>
-
-<body>
-    <div id="map"></div>
-</body>
-</html>
-
-<!-- leaflet js  -->
-<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-<script>
-    // Map initialization 
-    var map = L.map('map').setView([14.0860746, 100.608406], 6);
-
-    //osm layer
-    var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     });
-    osm.addTo(map);
 
-    if(!navigator.geolocation) {
-        console.log("Your browser doesn't support geolocation feature!")
-    } else {
-        setInterval(() => {
-            navigator.geolocation.getCurrentPosition(getPosition)
-        }, 5000);
+    function onSuccess(position){
+        button.innerText = "Detecting your location...";
+        let {latitude, longitude} = position.coords; //getting latitude and longitude properties value from coords obj
+        //sending get request to the api with passing latitude and longitude coordinates of the user position
+        fetch(`https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=YOUR_API_KEY`)
+        //parsing json data into javascript object and returning it and in another then function receiving the object that is sent by the api
+        .then(response => response.json()).then(response =>{
+            let allDetails = response.results[0].components; //passing components object to allDetails variable
+            console.table(allDetails);
+            let {county, postcode, country} = allDetails; //getting country, postcode, country properties value from allDetails obj
+            button.innerText = `${county} ${postcode}, ${country}`; //passing these value to the button innerText
+        }).catch(()=>{ //if error any error occured
+            button.innerText = "Something went wrong";
+        });
     }
 
-    var marker, circle;
-function onSuccess(position){
-    button.innerText = "Detecting your location...";
-    let {latitude, longitude} = position.coords;
-    fetch(`https://api.opencagedata.com/geocode/v1/json?q=52.3877830%2C9.7334394&key=401f57a2025b43b8bafda6294342e382`)
-    .then(response => response.json()).then(response =>{
-        let allDetails = response.results[0].components;
-        console.table(allDetails);
-        let {county, postcode, country} = allDetails;
-        button.innerText = `${county} ${postcode}, ${country}`;
-    }).catch(()=>{
-        button.innerText = "Something went wrong";
-    });
+    function onError(error){
+        if(error.code == 1){ //if user denied the request
+            button.innerText = "You denied the request";
+        }else if(error.code == 2){ //if location in not available
+            button.innerText = "Location is unavailable";
+        }else{ //if other error occured
+            button.innerText = "Something went wrong";
+        }
+        button.setAttribute("disabled", "true"); //disbaled the button if error occured
+    }
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
 }
+body{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: linear-gradient(#252930 50%, #5372F0 50%);
+}
+::selection{
+  color: #fff;
+  background: #5372F0;
+}
+button{
+  border: none;
+  outline: none;
+  font-size: 50px;
+  color: #5372F0;
+  padding: 23px 44px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 500;
+  background: #fff;
+  box-shadow: 0 0 20px 0 rgba(0,0,0,0.1);
+}
+
+    <button>Detect your location</button>
  
-        marker = L.marker([lat, long])
-        circle = L.circle([lat, long], {radius: accuracy})
-
-        var featureGroup = L.featureGroup([marker, circle]).addTo(map)
-
-        map.fitBounds(featureGroup.getBounds())
-
-        console.log("Your coordinate is: Lat: "+ lat +" Long: "+ long+ " Accuracy: "+ accuracy)
-    }
-
-</script>
+  </body>
+</html>
