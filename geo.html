@@ -27,7 +27,7 @@
         button.innerText = "Detecting your location...";
         let {latitude, longitude} = position.coords; //getting latitude and longitude properties value from coords obj
         //sending get request to the api with passing latitude and longitude coordinates of the user position
-        fetch(`https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=YOUR_API_KEY`)
+        fetch(`https://api.opencagedata.com/geocode/v1/json?key=401f57a2025b43b8bafda6294342e382`)
         //parsing json data into javascript object and returning it and in another then function receiving the object that is sent by the api
         .then(response => response.json()).then(response =>{
             let allDetails = response.results[0].components; //passing components object to allDetails variable
