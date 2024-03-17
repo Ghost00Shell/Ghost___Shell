@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subdomain Scanner</title>
+    <style>
+        body {
+            background-color: #1a1a1a;
+            color: #00ff00;
+            font-family: Arial, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        #container {
+            max-width: 1000px;
+            padding: 150px;
+            border: 1px solid #333;
+            border-radius: 8px;
+            background-color: #333;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+        input {
+            width: 90%;
+            padding: 8px;
+            margin-bottom: 20px;
+            background-color: #000;
+            color: #00ff00;
+            border: 5px solid #00ff00;
+            border-radius: 4px;
+        }
+        button {
+            width: 100%;  /* Make the button full width */
+            padding: 30px 20px;
+            background-color: #00ff00;
+            color: #000;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            justify-content: left;
+
+        }
+        button:hover {
+            background-color: #00cc00;
+        }
+        #subdomains-list {
+            margin-top: 50px;
+        }
+        h2 {
+            color: #00ff00;
+            font-size: 2.5em;
+            font-weight: bold;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 5px;
+        }
+        th, td {
+            border: 1px solid #00ff00;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #333;
+        }
+        a {
+            color: #00ff00;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <h2 for="domain">Domain:</h2>
+        <input type="text" id="hostname" placeholder="hostname.com">
+        <button onclick="scanSubdomains()">Scan</button>
+        <div id="subdomains-list"></div>
+    </div>
+
+    <script>
+        function scanSubdomains() {
+            var domain = document.getElementById('hostname').value;
+
+            if (!hostname) {
+                alert('Please enter a valid domain');
+                return;
+            }
+
+            // SecurityTrails API key (replace 'YOUR_API_KEY' with your actual key)
+            var securityTrailsApiKey = 'TfM4E9IixJtBWDP0fq67lb95vB77Ri7m';
+
+            fetch(`https://api.securitytrails.com/v1/domain/{hostname}/subdomains`, {
+                headers: {
+                    'APIKEY': TfM4E9IixJtBWDP0fq67lb95vB77Ri7m,
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                displaySubdomains(data);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+
+        function displaySubdomains(subdomains) {
+            var subdomainsList = document.getElementById('subdomains-list');
+            subdomainsList.innerHTML = '<h2>Subdomains:</h2>';
+
+            if (subdomains && subdomains.subdomains) {
+                var table = document.createElement('table');
+                var headerRow = table.insertRow(0);
+
+                // Create table headers
+                var headers = ['Subdomain'];
+                headers.forEach(headerText => {
+                    var header = document.createElement('th');
+                    header.textContent = headerText;
+                    headerRow.appendChild(header);
+                });
+
+                // Create table rows with subdomains as links
+                subdomains.subdomains.forEach((subdomain, index) => {
+                    var row = table.insertRow(index + 1);
+                    var cell = row.insertCell(0);
+
+                    var link = document.createElement('a');
+                    link.href = 'http://' + subdomain;
+                    link.target = '_blank';
+                    link.textContent = subdomain;
+
+                    cell.appendChild(link);
+                });
+
+                subdomainsList.appendChild(table);
+            } else {
+                subdomainsList.innerHTML += '<p>No subdomains found.</p>';
+            }
+        }
+    </script>
+</body>
+</html>
