@@ -69,9 +69,11 @@ body {
 }
 .nav-item {
 color: #00ff00;
+align-items: center;
 }
 nav-item { 
 color: #00ff00;
+align-items: center;
 }
 
 h1,
@@ -85,6 +87,7 @@ h6 {
 
 .navbar-nav {
   color: #00ff00;
+  align-items: center;
 }
  
  .half-black {
