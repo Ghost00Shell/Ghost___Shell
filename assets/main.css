@@ -11,7 +11,11 @@ body {
 }
 
 .rounded-image {
-    border-radius: 50%; 
+   height:100px;
+    width:100px;
+    border-radius:50%;
+    background:green;
+    overflow:hidden;
 }
 a:link {
 	color: #00ff00;
@@ -240,6 +244,11 @@ section {
   to { width: 100% }
 }
 .rounded-image {
-    border-radius: 50%; 
+    height:100px;
+    width:100px;
+    border-radius:50%;
+    background:green;
+    overflow:hidden;
 }
+
 
