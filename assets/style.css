@@ -1,0 +1,58 @@
+nav span {
+	padding-right: 10px;
+}
+body {
+	font-family: system, -apple-system, "San Francisco", "Roboto", "Segoe UI", "Helvetica Neue", "Helvetica", "Lucida Grande", "Arial", sans-serif;
+	padding: 0 10px;
+	line-height: 1.2;
+	font-size: 16px;
+	color: #fff;
+	background-color: #000000;
+}
+
+
+a:link {
+	color: #00ff00;
+	background-color: transparent;
+	text-decoration: none;
+  }
+  
+  a:visited {
+	color: pink;
+	background-color: transparent;
+	text-decoration: none;
+  }
+  
+  a:hover {
+	color: red;
+	background-color: transparent;
+	text-decoration: underline;
+  }
+  
+  a:active {
+	color: yellow;
+	background-color: transparent;
+	text-decoration: underline;
+  }
+
+li {
+	line-height: 1.4;
+}
+h1,h2,h3 {
+	line-height: 1.0;
+}
+#pwn {
+	background-image: url('img/pwn.png');
+	position: fixed;
+	right: 0px;
+	bottom: 0px;
+	width: 370px;
+	height: 314px;
+	background-size: cover;
+	background-repeat: no-repeat;
+}
+@media screen and (max-width: 800px) {
+	#pwn {
+		display: none !important;
+	}
+}
