@@ -26,8 +26,22 @@
     </head>
     <body style="margin: auto; max-width: 650px" data-new-gr-c-s-check-loaded="14.1101.0" data-gr-ext-installed="">
         <div style="margin-top: 40px;"></div>
-                <p style="color:#00ff00;">☠︎︎A Cyber Security Researcher.☠︎︎Bug Bounty Hunter in love with Web Application Security.☠︎︎Mobile Application Security and Api Security Testing.☠︎︎</p>
+<button class="button" onclick="typeWriter()">Click Me</button>
 
+<p id="hack" style="color:#00ff00"></p>
+
+<script>
+var i = 0;
+var txt = '☠︎︎I Am Ghost_Shell, A Cyber Security Researcher.☠︎︎Bug Bounty Hunter in love with Web Application Security.☠︎︎Mobile Application Security and Api Security Testing.☠︎︎';
+var speed = 50;
+function typeWriter() {
+  if (i < txt.length) {
+    document.getElementById("hack").innerHTML += txt.charAt(i);
+    i++;
+    setTimeout(typeWriter, speed);
+  }
+}
+</script>
         <center><nav style="display: flex; align-items: center; margin-top: 20px;">
             <span><a target="_blank" href="https://github.com/"><img src="./assets/github.png" width="25px"></a></span>
             <span><a target="_blank" href="https://twitter.com/"><img src="./assets/twitter.png" width="25px"></a></span>
