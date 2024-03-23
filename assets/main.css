@@ -16,13 +16,13 @@ body {
     border-radius: 50%; 
 }
 a:link {
-	color: green;
+	color: #00ff00;
 	background-color: transparent;
 	text-decoration: none;
   }
   
   a:visited {
-	color: pink;
+	color: #00ff00;
 	background-color: transparent;
 	text-decoration: none;
   }
@@ -34,7 +34,7 @@ a:link {
   }
   
   a:active {
-	color: yellow;
+	color: red;
 	background-color: transparent;
 	text-decoration: underline;
   }
