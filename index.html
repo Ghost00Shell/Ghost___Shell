@@ -149,5 +149,19 @@ function typeWriter() {
             <span><a target="_blank" href="https://www.udemy.com/user/"><img src="./assets/udemy.png" width="23px"></a></span></nav>
         <hr>
         <!-- <h2>Currently working in</h2> -->
+	<head>
+		<script>
+  function onClick(e) {
+    e.preventDefault();
+    grecaptcha.enterprise.ready(async () => {
+      const token = await grecaptcha.enterprise.execute('6Lfiga0pAAAAAGnJfn0tNC5X6EjFdCczXW5Hy5wt', {action: 'LOGIN'});
+    });
+  }
+</script>
+  <script src="https://www.google.com/recaptcha/enterprise.js?render=6Lfiga0pAAAAAGnJfn0tNC5X6EjFdCczXW5Hy5wt"></script>
+  <!-- Your code -->
+</head>
+	    <html>  <head>    <title>reCAPTCHA demo: Simple page</title>    <script src="https://www.google.com/recaptcha/api.js" async defer></script>  </head>  <body>    <form action="?" method="POST">      <div class="g-recaptcha" data-sitekey="6Lf0fa0pAAAAABSXhJIF9oTzlVRJwsKkx18zEHLs"></div>      <br/>      <input type="submit" value="Submit">    </form>  </body></html>
     </body>
+	
 </html>
