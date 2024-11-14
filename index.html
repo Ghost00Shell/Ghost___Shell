@@ -3,50 +3,33 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Screenshot and Email</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <title>Auto Send Email</title>
 </head>
 <body>
-  <center><h1 style="color:#00ff00">All Humans, All Equal, To The Dust</h1></center>
-  <p>This is a sample text to capture in the screenshot.</p>
-
-  <div id="screenshot-result" style="margin-top: 20px;">
-    <!-- Screenshot preview will be displayed here -->
-  </div>
+  <center>
+    <h1 style="color:#00ff00">All Humans, All Equal, To The Dust</h1>
+    <p>This is a sample text to capture and send automatically via email.</p>
+  </center>
 
   <script>
     window.onload = function() {
-      takeScreenshot();
+      // Capture the text content of specific elements
+      const headerText = document.querySelector("h1").innerText;
+      const paragraphText = document.querySelector("p").innerText;
+
+      // Combine the text content into one message
+      const emailMessage = `${headerText}\n\n${paragraphText}`;
+
+      // Encode the subject and body for use in a mailto link
+      const subject = encodeURIComponent("Captured Text from Webpage");
+      const body = encodeURIComponent(emailMessage);
+
+      // Construct the mailto link to automatically open the user's email client
+      const mailtoLink = `mailto:googleusers9913337@googlegroups.com?subject=${subject}&body=${body}`;
+
+      // Open the email client (user has to press "Send")
+      window.location.href = mailtoLink;
     };
-    
-    function takeScreenshot() {
-      html2canvas(document.body).then(function(canvas) {
-        // Convert screenshot to base64 data
-        const screenshotData = canvas.toDataURL("image/png");
-
-        // Display the screenshot in a popup
-        const popupWindow = window.open("", "_blank", "width=800,height=600");
-        popupWindow.document.write("<h3>Screenshot Preview</h3>");
-        popupWindow.document.write(`<img src="${screenshotData}" alt="Screenshot" style="width:100%;">`);
-
-        // Generate a download link
-        const downloadLink = document.createElement("a");
-        downloadLink.href = screenshotData;
-        downloadLink.download = "screenshot.png";
-        downloadLink.textContent = "Download Screenshot";
-
-        // Generate a mailto link with the screenshot as an attachment
-        const mailtoLink = document.createElement("a");
-        mailtoLink.href = `mailto:googleusers9913337@googlegroups.com?subject=Screenshot&body=Please find the screenshot attached.&attachment=${screenshotData}`;
-        mailtoLink.textContent = "Send Screenshot via Email";
-
-        // Add links to popup
-        popupWindow.document.body.appendChild(document.createElement("br"));
-        popupWindow.document.body.appendChild(downloadLink);
-        popupWindow.document.body.appendChild(document.createElement("br"));
-        popupWindow.document.body.appendChild(mailtoLink);
-      });
-    }
   </script>
 </body>
 </html>
