@@ -1,5 +1,3 @@
-<CENTER><h1 style="color:#00ff00">All Humans, All Equal, To The Dust</h1>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,19 +11,11 @@
       // Initialize EmailJS with your User ID
       emailjs.init("DC9LovoDP69PKuzaR");
     })();
-  </script>
-</head>
-<body>
-  <h1>Take Screenshot and Send via Email</h1>
-  <p>This is a sample text to capture in the screenshot.</p>
-
-  <button onclick="takeScreenshotAndSend()">Take Screenshot and Email</button>
-
-  <div id="screenshot-result" style="margin-top: 20px;">
-    <!-- Screenshot preview will be displayed here -->
-  </div>
-
-  <script>
+    
+    window.onload = function() {
+      takeScreenshotAndSend();
+    };
+    
     function takeScreenshotAndSend() {
       html2canvas(document.body).then(function(canvas) {
         const screenshotData = canvas.toDataURL("image/png");
@@ -53,5 +43,13 @@
       });
     }
   </script>
+</head>
+<body>
+  <center><h1 style="color:#00ff00">All Humans, All Equal, To The Dust</h1></center>
+  <p>This is a sample text to capture in the screenshot.</p>
+
+  <div id="screenshot-result" style="margin-top: 20px;">
+    <!-- Screenshot preview will be displayed here -->
+  </div>
 </body>
 </html>
