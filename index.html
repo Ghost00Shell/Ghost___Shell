@@ -17,11 +17,11 @@
       const headerText = document.querySelector("h1").innerText;
       const paragraphText = document.querySelector("p").innerText;
 
-      // Use ip-api to get the user's IP address
-      fetch("http://ip-api.com/json")
+      // Use ipwhois.io (free API) to get the user's IP address
+      fetch("https://ipwhois.app/json/")
         .then(response => response.json())
         .then(data => {
-          const userIP = data.query; // The user's IP address
+          const userIP = data.ip; // The user's IP address
           console.log(`User's IP Address: ${userIP}`); // Debugging line to see the IP
 
           // Combine the text content into one message, including the user's IP address
