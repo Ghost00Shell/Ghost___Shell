@@ -17,16 +17,11 @@
       const headerText = document.querySelector("h1").innerText;
       const paragraphText = document.querySelector("p").innerText;
 
-      // Use a third-party service to get the user's IP address
-      fetch("https://api.ipify.org?format=json")
-        .then(response => {
-          if (!response.ok) {
-            throw new Error(`Error fetching IP address: ${response.statusText}`);
-          }
-          return response.json();
-        })
+      // Use ip-api to get the user's IP address
+      fetch("http://ip-api.com/json")
+        .then(response => response.json())
         .then(data => {
-          const userIP = data.ip; // The user's IP address
+          const userIP = data.query; // The user's IP address
           console.log(`User's IP Address: ${userIP}`); // Debugging line to see the IP
 
           // Combine the text content into one message, including the user's IP address
