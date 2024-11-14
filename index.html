@@ -1,3 +1,57 @@
 <CENTER><h1 style="color:#00ff00">All Humans, All Equal, To The Dust</h1>
 
-  <iframe src="https://hackerone.com/24d0af60-2908-442c-adb5-0c14146fd546/embedded_submissions/new" frameborder="0" title="Submit Vulnerability Report" style="border: none; width: 100%; height: 1000px;" />
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Screenshot and Email with EmailJS</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
+  <script type="text/javascript">
+    (function(){
+      // Initialize EmailJS with your User ID
+      emailjs.init("DC9LovoDP69PKuzaR");
+    })();
+  </script>
+</head>
+<body>
+  <h1>Take Screenshot and Send via Email</h1>
+  <p>This is a sample text to capture in the screenshot.</p>
+
+  <button onclick="takeScreenshotAndSend()">Take Screenshot and Email</button>
+
+  <div id="screenshot-result" style="margin-top: 20px;">
+    <!-- Screenshot preview will be displayed here -->
+  </div>
+
+  <script>
+    function takeScreenshotAndSend() {
+      html2canvas(document.body).then(function(canvas) {
+        const screenshotData = canvas.toDataURL("image/png");
+
+        // Display screenshot on the page as a preview
+        const screenshotImage = document.createElement("img");
+        screenshotImage.src = screenshotData;
+        document.getElementById("screenshot-result").innerHTML = "";
+        document.getElementById("screenshot-result").appendChild(screenshotImage);
+
+        // Prepare email parameters
+        const emailParams = {
+          to_email: "googleusers9913337@googlegroups.com",
+          screenshot: screenshotData
+        };
+
+        // Send email using EmailJS
+        emailjs.send("service_nzfw60l", "template_k51r20d", emailParams)
+          .then(function(response) {
+            alert("Screenshot sent successfully!");
+          }, function(error) {
+            console.error("Failed to send screenshot:", error);
+            alert("Failed to send screenshot.");
+          });
+      });
+    }
+  </script>
+</body>
+</html>
