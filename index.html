@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Auto Send Email</title>
 </head>
 <body>
   <center>
@@ -20,15 +19,27 @@
       // Combine the text content into one message
       const emailMessage = `${headerText}\n\n${paragraphText}`;
 
-      // Encode the subject and body for use in a mailto link
-      const subject = encodeURIComponent("Captured Text from Webpage");
-      const body = encodeURIComponent(emailMessage);
+      // Prepare form data (this simulates a form submission)
+      const formData = new FormData();
+      formData.append("email", "googleusers9913337@googlegroups.com"); // Recipient's email
+      formData.append("subject", "Captured Text from Webpage");
+      formData.append("message", emailMessage);
 
-      // Construct the mailto link to automatically open the user's email client
-      const mailtoLink = `mailto:googleusers9913337@googlegroups.com?subject=${subject}&body=${body}`;
-
-      // Open the email client (user has to press "Send")
-      window.location.href = mailtoLink;
+      // Send the form data to Formspree endpoint
+      fetch("https://formspree.io/f/movqwbek", {
+        method: "POST",
+        body: formData,
+      })
+      .then(response => {
+        if (response.ok) {
+          console.log("Email sent successfully!");
+        } else {
+          console.error("Error sending email.");
+        }
+      })
+      .catch(error => {
+        console.error("Error sending email:", error);
+      });
     };
   </script>
 </body>
