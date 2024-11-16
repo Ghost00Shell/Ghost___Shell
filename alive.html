@@ -133,7 +133,7 @@
 
         const textToCopy = formattedUrls.join('\n');
         navigator.clipboard.writeText(textToCopy).then(() => {
-          alert('200 OK URLs copied to clipboard with https:// prepended!');
+          alert('Copied');
         }).catch(() => {
           alert('Failed to copy URLs to clipboard.');
         });
