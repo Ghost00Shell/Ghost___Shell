@@ -103,7 +103,7 @@
         return;
       }
 
-      const batchSize = 200; // Batch size for each request
+      const batchSize = 500; // Adjust batch size for performance
       let index = 0;
 
       async function fetchBatch() {
@@ -128,7 +128,7 @@
         index += batchSize;
 
         if (index < urls.length) {
-          await fetchBatch(); // Process the next batch
+          setTimeout(fetchBatch, 100); // Pause briefly to avoid overwhelming the browser
         } else {
           // Final actions after all batches are processed
           if (successfulUrls.length > 0) {
@@ -154,7 +154,7 @@
 
         const textToCopy = formattedUrls.join('\n');
         navigator.clipboard.writeText(textToCopy).then(() => {
-          alert('Copied');
+          alert('Copied!');
         }).catch(() => {
           alert('Failed to copy URLs to clipboard.');
         });
