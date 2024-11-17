@@ -103,11 +103,11 @@
         return;
       }
 
-      const maxConcurrency = 50; // Increased concurrency for faster scans
+      const batchSize = 200; // Batch size for each request
       let index = 0;
 
       async function fetchBatch() {
-        const batch = urls.slice(index, index + maxConcurrency);
+        const batch = urls.slice(index, index + batchSize);
         const promises = batch.map(async (url) => {
           try {
             const apiUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`;
@@ -125,21 +125,22 @@
         // Filter out null values (failed URLs)
         const successfulResults = results.filter(result => result !== null);
         resultsDiv.innerHTML += successfulResults.join('');
-        index += maxConcurrency;
+        index += batchSize;
 
         if (index < urls.length) {
-          await fetchBatch();
+          await fetchBatch(); // Process the next batch
+        } else {
+          // Final actions after all batches are processed
+          if (successfulUrls.length > 0) {
+            copyButton.classList.remove('hidden');
+          } else {
+            resultsDiv.innerHTML = "<p>No URLs with 200 OK status found.</p>";
+            copyButton.classList.add('hidden');
+          }
         }
       }
 
-      await fetchBatch();
-
-      if (successfulUrls.length > 0) {
-        copyButton.classList.remove('hidden');
-      } else {
-        resultsDiv.innerHTML = "<p>No URLs with 200 OK status found.</p>";
-        copyButton.classList.add('hidden');
-      }
+      await fetchBatch(); // Start the first batch
     }
 
     function copyUrls() {
