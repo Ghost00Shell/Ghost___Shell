@@ -93,14 +93,17 @@
       const copyButton = document.getElementById('copyButton');
       resultsDiv.innerHTML = ""; // Clear previous results
       successfulUrls = []; // Clear previous successful URLs
-      const urls = document.getElementById('urlList').value.split('\n').map(url => url.trim()).filter(url => url);
+      const urls = document.getElementById('urlList').value
+        .split('\n')
+        .map(url => url.trim())
+        .filter(url => url);
 
       if (urls.length === 0) {
         resultsDiv.innerHTML = "<p>Please enter or upload at least one URL.</p>";
         return;
       }
 
-      const maxConcurrency = 10; // Limit to 10 concurrent requests
+      const maxConcurrency = 50; // Increased concurrency for faster scans
       let index = 0;
 
       async function fetchBatch() {
@@ -111,14 +114,17 @@
             const response = await fetch(apiUrl);
             if (response.ok) {
               successfulUrls.push(url);
-              resultsDiv.innerHTML += `<p class="success">${url}: 200 OK</p>`;
+              return `<p class="success">${url}: 200 OK</p>`;
             }
           } catch (error) {
-            // Ignore failed URLs
+            return `<p>${url}: Failed</p>`;
           }
         });
-        await Promise.all(promises);
+
+        const results = await Promise.all(promises);
+        resultsDiv.innerHTML += results.join('');
         index += maxConcurrency;
+
         if (index < urls.length) {
           await fetchBatch();
         }
