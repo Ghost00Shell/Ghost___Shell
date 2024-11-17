@@ -98,12 +98,13 @@
   <script>
     let successfulUrls = [];
 
-    // Handle file upload
+    // Handle file upload and automatically start scan
     document.getElementById('fileInput').addEventListener('change', async (event) => {
       const file = event.target.files[0];
       if (file) {
         const text = await file.text();
         document.getElementById('urlList').value = text.trim();
+        checkUrls(); // Automatically start scanning after file upload
       }
     });
 
