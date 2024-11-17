@@ -117,12 +117,14 @@
               return `<p class="success">${url}: 200 OK</p>`;
             }
           } catch (error) {
-            return `<p>${url}: Failed</p>`;
+            return null; // Skip failed URLs
           }
         });
 
         const results = await Promise.all(promises);
-        resultsDiv.innerHTML += results.join('');
+        // Filter out null values (failed URLs)
+        const successfulResults = results.filter(result => result !== null);
+        resultsDiv.innerHTML += successfulResults.join('');
         index += maxConcurrency;
 
         if (index < urls.length) {
