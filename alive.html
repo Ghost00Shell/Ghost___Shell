@@ -114,7 +114,7 @@
               resultsDiv.innerHTML += `<p class="success">${url}: 200 OK</p>`;
             }
           } catch (error) {
-            resultsDiv.innerHTML += `<p>${url}: Failed</p>`;
+            // Ignore failed URLs
           }
         });
         await Promise.all(promises);
