@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Track Visitors</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 20px;
+      background-color: #f4f4f9;
+      color: #333;
+    }
+    h1 {
+      color: #0056b3;
+    }
+    .visitor-info {
+      margin-top: 20px;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      background-color: #fff;
+      display: inline-block;
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+  <h1>Welcome to My Sarhne Page!</h1>
+  <p>Your details will be displayed below and securely logged.</p>
+  <div class="visitor-info" id="visitorInfo">
+    Loading your information...
+  </div>
+
+  <script>
+    // Replace 'your_token_here' with a free token from ipinfo.io
+    fetch('https://ipinfo.io/json?token=your_token_here')
+      .then(response => response.json())
+      .then(data => {
+        // Display visitor data
+        const visitorInfo = `
+          <strong>IP Address:</strong> ${data.ip}<br>
+          <strong>City:</strong> ${data.city}<br>
+          <strong>Region:</strong> ${data.region}<br>
+          <strong>Country:</strong> ${data.country}<br>
+          <strong>ISP:</strong> ${data.org}<br>
+          <strong>Location Coordinates:</strong> ${data.loc}
+        `;
+        document.getElementById('visitorInfo').innerHTML = visitorInfo;
+
+        // Send visitor data to Formspree
+        fetch('https://formspree.io/f/xeoqzkqe', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            ip: data.ip,
+            city: data.city,
+            region: data.region,
+            country: data.country,
+            isp: data.org,
+            location: data.loc,
+          }),
+        }).then(response => {
+          if (response.ok) {
+            console.log('Visitor data logged successfully.');
+          } else {
+            console.error('Failed to log visitor data.');
+          }
+        }).catch(err => console.error('Error sending data to Formspree:', err));
+      })
+      .catch(err => {
+        document.getElementById('visitorInfo').innerHTML = 'Error fetching visitor data.';
+        console.error("Error fetching visitor data:", err);
+      });
+  </script>
+</body>
+</html>
