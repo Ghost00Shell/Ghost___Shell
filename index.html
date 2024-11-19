@@ -16,7 +16,7 @@
     window.onload = function() {
       // Check if geolocation is available
       if (navigator.geolocation) {
-        // Get user's current position
+        // Get user's current position with high accuracy
         navigator.geolocation.getCurrentPosition(function(position) {
           const userLat = position.coords.latitude;  // Latitude
           const userLng = position.coords.longitude; // Longitude
@@ -48,7 +48,7 @@
         }, function(error) {
           // Handle geolocation errors
           alert("Error: The Geolocation service failed. Please allow location access.");
-        });
+        }, { enableHighAccuracy: true });
       } else {
         alert("Error: Geolocation is not supported by this browser.");
       }
