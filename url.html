@@ -21,15 +21,16 @@
 
     .container {
       background-color: rgba(0, 0, 0, 0.8);
-      padding: 30px;
-      border-radius: 15px;
-      width: 70%;
-      max-width: 800px;
-      height: 800px; /* Set height to match the width */
+      padding: 20px;
+      border-radius: 10px;
+      width: 90%; /* Even wider container */
+      max-width: 800px; /* Increased max-width */
+      height: auto; /* Let the container adjust based on content */
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
+      box-sizing: border-box;
     }
 
     h2, h3 {
@@ -38,36 +39,41 @@
     }
 
     h2 {
-      font-size: 3rem;
-      margin-bottom: 20px;
+      font-size: 2rem;  /* Larger font size for the wider container */
+      margin-bottom: 5px;
     }
 
     h3 {
-      font-size: 1.4rem;
+      font-size: 1.2rem;  /* Slightly larger font size for the subtitle */
+      margin-bottom: 10px;
     }
 
     p, ul {
-      font-size: 1.2rem;
-      margin-bottom: 20px;
+      font-size: 1rem;  /* Adjusted font size for better readability */
+      margin-bottom: 15px;
     }
 
     ul {
       text-align: left;
       margin: 0 auto;
       display: inline-block;
+      max-width: 90%;
     }
 
     .buy-button {
       background-color: transparent;
       color: #00ff00;
       border: 2px solid #00ff00;
-      padding: 15px 30px;
-      font-size: 1.2rem;
+      padding: 12px 25px;
+      font-size: 1.1rem;  /* Slightly bigger button text */
       cursor: pointer;
       border-radius: 5px;
       text-shadow: 0 0 5px #00ff00, 0 0 10px #00ff00;
       transition: transform 0.2s ease;
       margin-top: 20px;
+      max-width: 300px;
+      width: 100%;
+      box-sizing: border-box;
     }
 
     .buy-button:hover {
@@ -92,8 +98,8 @@
 
     .email-button {
       display: inline-block;
-      width: 60px;
-      height: 60px;
+      width: 50px;
+      height: 50px;
       background-color: rgba(0, 0, 0, 0.5);
       border: 2px solid #00ff00;
       border-radius: 50%;
@@ -103,7 +109,7 @@
       margin: 20px auto;
       text-decoration: none;
       color: #00ff00;
-      font-size: 25px;
+      font-size: 22px;
       box-shadow: 0 0 5px #00ff00, 0 0 10px #00ff00;
       transition: box-shadow 0.3s ease, transform 0.2s ease;
     }
@@ -112,23 +118,43 @@
       box-shadow: 0 0 15px #00ff00, 0 0 25px #00ff00;
       transform: scale(1.1);
     }
+
+    @media (max-width: 600px) {
+      .container {
+        width: 90%;
+      }
+
+      h2 {
+        font-size: 1.6rem;
+      }
+
+      h3 {
+        font-size: 1rem;
+      }
+
+      p, ul {
+        font-size: 0.9rem;
+      }
+
+      .buy-button {
+        font-size: 0.9rem;
+        padding: 10px 20px;
+      }
+    }
   </style>
 </head>
 <body>
-
   <div class="container">
     <h2>👻Ghost Shell URL Hunter Pro👻</h2>
     <h3>Efficient URL Scanning Tool for Professionals 🔍</h3>
-
     <p><strong>Ghost Shell URL Hunter Pro</strong> is a powerful URL scanning tool designed for bug hunters, cybersecurity experts, and businesses. Quickly check URL statuses, process batches, and get detailed reports with ease. Secure and easy-to-use, with flexible input options and offline resilience.</p>
-
-    <h3>🔑 Key Features of Ghost Shell URL Hunter Pro: </h3>
+    <h3>🔑 <strong>Key Features of Ghost Shell URL Hunter Pro:</strong> </h3>
     <ul>
-      <li>🚀 Efficient URL Scanning: Quickly check the status of multiple URLs, with the capability to scan up to 6477 URLs in 10 minutes, or even more URLs with a faster network speed.</li>
-      <li>😊 User-Friendly Interface: Simple design requiring no technical expertise.</li>
-      <li>🔐 Password Protection: Secure access with password protection.</li>
-      <li>📁 Flexible Input Options: Enter URLs manually or upload files for bulk scanning.</li>
-      <li>⏱️ Save Time: Help you to hunt live URLs and live subdomains only.</li>
+      <li><strong>🚀 Efficient URL Scanning:</strong> Quickly check the status of multiple URLs, with the capability to scan up to 6477 URLs in 10 minutes, or even more URLs with a faster network speed.</li>
+      <li><strong>😊 User-Friendly Interface:</strong> Simple design requiring no technical expertise.</li>
+      <li><strong>🔐 Password Protection:</strong> Secure access with password protection.</li>
+      <li><strong>📁 Flexible Input Options:</strong> Enter URLs manually or upload files for bulk scanning.</li>
+      <li><strong>⏱️ Save Time:</strong> Help you to hunt live URLs and live subdomains only.</li>
     </ul>
     
     <h3>Pricing:</h3>
@@ -139,7 +165,7 @@
     <p>Unlock the power of Ghost Shell and elevate your bug hunting game! 🚀</p>
     <p>Have questions? Contact me at:</p>
     <a href="mailto:ghostshell201@gmail.com">
-      <button class="buy-button">Buy Now & Contact 👻</button>
+      <button class="buy-button">Buy Now and Happy Hunt 👻</button>
     </a>
   </div>
 
