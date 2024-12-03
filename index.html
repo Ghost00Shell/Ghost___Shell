@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>👨‍💻Ghost Shell URL Hunter Pro Tool👨‍💻</title>
+  <title>👨‍💻Ghost Shell Tools👨‍💻</title>
   <style>
     body {
       background: url('https://gotphp.com/back.jpg') no-repeat center center fixed;
@@ -15,7 +15,6 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
       margin: 0;
     }
 
@@ -23,8 +22,8 @@
       background-color: rgba(0, 0, 0, 0.8);
       padding: 20px;
       border-radius: 10px;
-      width: 90%;
-      max-width: 800px;
+      width: 100%;
+      max-width: 1000px;
       height: auto;
       display: flex;
       flex-direction: column;
@@ -33,153 +32,149 @@
       box-sizing: border-box;
     }
 
-    h2, h3 {
+    h2 {
       color: #00ff00;
       text-shadow: 0 0 1px #00ff00, 0 0 2px #00ff00;
+      font-size: 1.5rem;
+      margin-bottom: 20px;
     }
 
-    h2 {
-      font-size: 2rem;
-      margin-bottom: 2px;
-      overflow-wrap: break-word;
-      word-break: break-word;
-    }
-
-    h3 {
-      font-size: 1.2rem;
-      margin-bottom: 2px;
-    }
-
-    p, ul {
-      font-size: 1rem;
-      margin-bottom: 2px;
-    }
-
-    ul {
-      text-align: left;
-      margin: 0 auto;
-      display: inline-block;
-      max-width: 90%;
-    }
-
-    .buy-button {
-      background-color: transparent;
-      color: #00ff00;
-      border: 2px solid #00ff00;
-      padding: 12px 25px;
-      font-size: 1.1rem;
-      cursor: pointer;
-      border-radius: 5px;
-      transition: transform 0.2s ease;
-      margin-top: 5px;
-      max-width: 300px;
+    .card-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      gap: 20px;
       width: 100%;
+      margin-top: 20px;
+    }
+
+    .card {
+      background-color: rgba(0, 0, 0, 0.9);
+      border: 2px solid #00ff00;
+      border-radius: 10px;
+      width: 250px;
+      margin: 10px;
+      padding: 20px;
+      text-align: center;
+      transition: transform 0.2s ease;
+      box-shadow: 0 0 5px #00ff00;
       box-sizing: border-box;
     }
-    .buy-button:hover {
-      transform: scale(1.1);
-      background-color: rgba(0, 0, 0, 0.8);
+
+    .card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 15px #00ff00;
     }
 
-    .contact-info {
-      font-size: 1rem;
-      color: #ffcc00;
-      margin-top: 30px;
+    .card img {
+      width: 100%;
+      height: auto;
+      border-bottom: 1px solid #00ff00;
+      margin-bottom: 15px;
+      border-radius: 10px 10px 0 0;
     }
 
-    .contact-info a {
-      color: #ffcc00;
-      text-decoration: none;
-    }
-
-    .contact-info a:hover {
-      text-decoration: underline;
-    }
-
-    .email-button {
-      display: inline-block;
-      width: 50px;
-      height: 50px;
-      background-color: rgba(0, 0, 0, 0.5);
-      border: 2px solid #00ff00;
-      border-radius: 50%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin: 20px auto;
-      text-decoration: none;
+    .card h3 {
       color: #00ff00;
-      font-size: 22px;
-      box-shadow: 0 0 1px #00ff00, 0 0 2px #00ff00;
-      transition: box-shadow 0.3s ease, transform 0.2s ease;
+      margin-bottom: 10px;
     }
 
-    .email-button:hover {
-      box-shadow: 0 0 1px #00ff00, 0 0 2px #00ff00;
-      transform: scale(1.1);
+    .card p {
+      color: #fff;
     }
 
-    iframe {
-      margin-top: 20px;
-      width: 300px;
-      height: 35px;
-      border: none;
+    @media (max-width: 900px) {
+      .card {
+        width: 45%;
+      }
     }
 
     @media (max-width: 600px) {
-      .container {
-        width: 90%;
+      .card {
+        width: 100%;
       }
+    }
 
-      h2 {
-        font-size: 2rem;
-      }
+   .buy-button {
+  background-color: transparent; /* No background color */
+  color: #00ff00; /* Green text color */
+  border: 2px solid #00ff00; /* Green border */
+  padding: 10px 20px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-top: 20px;
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transition for both background and zoom */
+}
 
-      h3 {
-        font-size: 1.2rem;
-      }
+.buy-button:hover {
+  background-color: rgba(0, 0, 0, 0.6); /* Black transparent background on hover */
+  transform: scale(1.1); /* Zoom effect on hover */
+}
 
-      p, ul {
-        font-size: 0.9rem;
-      }
 
-      .buy-button {
-        font-size: 0.9rem;
-        padding: 10px 20px;
-      }
+    .highlight-yellow {
+      color: yellow;
+      font-weight: bold;
     }
   </style>
 </head>
 <body>
-
   <div class="container">
-    <h2>👻Ghost Shell URL Hunter Pro Tool👻</h2>
-    <h3>👨‍💻For Pentesters, Bug Hunters🔍</h3>
-
-    <p><strong>Ghost Shell URL Hunter Pro</strong><span style="color: yellow"> is a powerful URL scanning tool</span></p>
+    <h2>👻Ghost Shell Tools👻</h2>
+    <div class="card-container">
+      <div class="card">
+        <img src="ur.png" alt="URL Hunter">
+        <h3>URL Hunter</h3>
+        <p>Efficient URL scanning tool for pentesters and bug hunters.</p>
+      </div>
+      <div class="card">
+        <img src="du.png" alt="Dork Hunter">
+        <h3>Dork Hunter</h3>
+        <p>Find vulnerable URLs using advanced search techniques.</p>
+      </div>
+      <div class="card">
+        <img src="subu.png" alt="Sub Hunter">
+        <h3>Sub Hunter</h3>
+        <p>Discover live subdomains quickly and efficiently.</p>
+      </div>
+      <div class="card">
+        <img src="jsu.png" alt="JS Hunter">
+        <h3>JS Hunter</h3>
+        <p>Analyze and scan JavaScript files for vulnerabilities.</p>
+      </div>
+    </div>
+    
+    <p><strong>Ghost Shell Tools Pro</strong><span style="color: yellow;"> is a powerful suite of scanning and hunting tools for security experts and pentesters.</span></p>
 
     <h3>🔑 <strong>Key Features:</strong></h3>
-<ul>
-  <li><strong style="color: yellow">🚀 Efficient URL Scanning:</strong> Quickly check the status of multiple URLs, with the capability to scan up to 10,000 URLs in just 20 minutes! To get a better scan, split your files into sizes of 200 kilobytes each, or even more URLs with a faster network speed.</li>
-  <li><strong style="color: yellow">⏱️ Save Time:</strong> Focus on live URLs and subdomains only.</li>
-  <li><strong style="color: yellow">💸 Price:</strong> $20 for lifetime access and unlimited URLs/scan.</li>
-</ul>
+    <ul>
+      <li><strong style="color: yellow;">🚀 Efficient URL Scanning:</strong> Quickly check and scan multiple URLs, with the ability to handle large quantities in a short time. Optimize your scans by splitting files into smaller sizes for faster processing.</li>
+      <li><strong style="color: yellow;">👨‍💻 User-Friendly Interface:</strong> Simple and intuitive design for both Windows 32-bit and 64-bit versions, featuring a clean Graphical User Interface (GUI), ideal for users of all skill levels.</li>
+      <li><strong style="color: yellow;">🔐 Secure Access:</strong> Ensure the privacy and security of your data with password protection.</li>
+      <li><strong style="color: yellow;">📁 Flexible Input Options:</strong> Manually enter URLs or upload files for bulk scanning to suit your needs.</li>
+      <li><strong style="color: yellow;">⏱️ Time-Saving:</strong> Focus on hunting live URLs and subdomains, reducing time spent on irrelevant or inactive links.</li>
+    </ul>
 
-<h3>Price:</h3>
-<ul>
-  <li><p><strong>👨‍💻 Pro:</strong> $20 (Unlimited URLs/scan, Lifetime Access) - <span style="color: yellow;"><strong>Get the tool now!</strong></span></p></li>
-  <li><p>👨‍💻 Unlock the power of Ghost Shell and elevate your bug hunting game! 🚀</p></li>
-</ul>
-<a href="Ghost Shell URL Hunter Tool Teaser.mp4" download="Ghost_Shell_URL_Hunter_Tool_Teaser.mp4">
-  <button class="buy-button">Watch the teaser video for the tool</button>
-</a>
-<h3>My IBAN number for payment is:</h3>
-<p style="color: yellow;">EG270004608200007003510006841</p>
-<span style="color: yellow"><p><strong>Please send the payment to this IBAN number and let me know once it's completed to gain lifetime access to the tool.</strong></span></p>
+    <h3>Pricing:</h3>
+    <ul>
+<li>
+  <p><strong><span style="color: yellow;">👨‍💻Pro: $10</span></strong> (Unlimited URLs/scan, Priority Support, Lifetime Access)</p>
+</li>
+      <li><p><strong><span class="highlight-yellow">$10 for any tool to assist new bug hunters</span></strong> in the field. <span class="highlight-yellow"><strong>Get the tool now!</strong></span></p></li>
+    </ul>
 
-<a href="mailto:ghostshell201@gmail.com?subject=Ghost Shell URL Hunter Pro Tool Purchase&body=You would like to purchase the Ghost Shell URL Hunter Pro Tool. My IBAN number is: EG270004608200007003510006841. Thank you for your interest in Ghost Shell URL Hunter Pro! We appreciate your support.">
-  <button class="buy-button">Buy Now and Happy Hunt🙂</button>
-</a>
+    <h3>Payment Information:</h3>
+    <p><strong>IBAN Number:</strong></p>
+    <p style="color: yellow;">EG270004608200007003510006841</p>
+
+    <span style="color: yellow;">
+      <p><strong>Please send the payment to the IBAN above and contact us once the payment is complete to gain lifetime access to the tool.</strong></p>
+    </span>
+
+    <a href="mailto:ghostshell201@gmail.com?subject=Ghost Shell Tools Pro Purchase&body=You would like to purchase the Ghost Shell Tools Pro. My IBAN number is: EG270004608200007003510006841. Thank you for your interest in Ghost Shell Tools! We appreciate your support.">
+      <button class="buy-button">Buy Now and Happy Hunting!🙂</button>
+    </a>
   </div>
 </body>
 </html>
