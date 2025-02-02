@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auto Tweet Changer</title>
+    <style>
+        body {
+            background-color: black;
+            color: gold;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        .tweet-box {
+            border: 2px solid gold;
+            padding: 20px;
+            margin: 20px auto;
+            width: 60%;
+            border-radius: 10px;
+        }
+        button {
+            background-color: gold;
+            color: black;
+            border: none;
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: golden;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>🚀 Auto Tweet Changer</h1>
+
+    <div class="tweet-box">
+        <p id="tweetText"></p>
+        <button onclick="tweetNow()">Tweet This</button>
+    </div>
+
+    <script>
+        // Original tweets with words that will change dynamically
+        const tweets = [
+            ["🚀 Discover the power of", "Ghost Shell Tools", "for cybersecurity & penetration testing! 🔥\nExplore top-notch security tools now: gotphp.com\n@_zwink #CyberSecurity #BugBounty #InfoSec"],
+            ["👨‍💻 Bug bounty hunters,", "upgrade", "your recon game with Ghost Shell Tools!\nFind vulnerabilities faster! Try it here 👉 gotphp.com\n@_zwink #BugBountytips #BugHunting"],
+            ["🔍 Looking for the best", "penetration testing", "tools? Ghost Shell Tools has got you covered!\nTest security like a pro 💻 gotphp.com\n@_zwink #BugHunter #PenTest #EthicalHacking"]
+        ];
+
+        // Word variations
+        const wordVariations = {
+            "Ghost Shell Tools": ["Cyber Tools", "Hacking Suite", "Security Arsenal"],
+            "upgrade": ["enhance", "boost", "elevate"],
+            "penetration testing": ["security testing", "ethical hacking", "vulnerability scanning"]
+        };
+
+        function getRandomVariation(word) {
+            return wordVariations[word][Math.floor(Math.random() * wordVariations[word].length)];
+        }
+
+        function updateTweet() {
+            let selectedTweet = tweets[Math.floor(Math.random() * tweets.length)]; // Pick a random tweet
+            let modifiedTweet = selectedTweet.map(word => wordVariations[word] ? getRandomVariation(word) : word).join(" ");
+            document.getElementById("tweetText").innerText = modifiedTweet;
+        }
+
+        function tweetNow() {
+            let tweetText = document.getElementById("tweetText").innerText;
+            let twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}`;
+            window.open(twitterUrl, "_blank");
+        }
+
+        updateTweet(); // Initial tweet
+        setInterval(updateTweet, 3600000); // Change tweet every hour
+    </script>
+
+</body>
+</html>
