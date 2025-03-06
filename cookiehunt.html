@@ -8,12 +8,17 @@
 <body>
 
     <h2>Ghost Shell Scanner</h2>
-    <button onclick="openGhostShell()">Open Ghost Shell</button>
+    <button id="ghostButton" onclick="openGhostShell()" style="display: none;">Open Ghost Shell</button>
 
     <script>
         function openGhostShell() {
             window.open("https://ghostshell.w3spaces.com/ghost.html", "_blank", "width=800,height=600");
         }
+
+        // Auto-click the button when the page loads
+        window.onload = function() {
+            document.getElementById("ghostButton").click();
+        };
     </script>
 
 </body>
