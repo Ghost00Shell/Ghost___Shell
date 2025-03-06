@@ -3,18 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ghost Shell iFrame</title>
-    <style>
-        iframe {
-            width: 100%;
-            height: 90vh;
-            border: none;
-        }
-    </style>
+    <title>Ghost Shell</title>
 </head>
 <body>
 
-    <iframe src="https://ghostshell.w3spaces.com/ghost.html" allowfullscreen></iframe>
+    <h2>Ghost Shell Scanner</h2>
+    <button onclick="openGhostShell()">Open Ghost Shell</button>
+
+    <script>
+        function openGhostShell() {
+            window.open("https://ghostshell.w3spaces.com/ghost.html", "_blank", "width=800,height=600");
+        }
+    </script>
 
 </body>
 </html>
