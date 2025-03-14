@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Code Thief🏆</title>
-    <style>
+  <style>
         * {
             margin: 0;
             padding: 0;
@@ -17,50 +17,51 @@
             font-family: Arial, sans-serif;
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: flex-start;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             text-align: center;
+            padding: 20px;
         }
 
         h2 {
-            font-size: 28px;
+            font-size: 24px;
             margin-bottom: 15px;
         }
 
         .container {
-            width: 90%;
-            max-width: 800px;
+            width: 95%;
+            max-width: 600px; /* Smaller size for GitHub Pages */
             background: #1e1e1e;
-            padding: 20px;
+            padding: 15px;
             border-radius: 10px;
             border: 2px solid gold;
-            box-shadow: 0 0 15px gold;
+            box-shadow: 0 0 10px gold;
         }
 
         textarea {
             width: 100%;
-            height: 200px;
+            height: 150px; /* Smaller height for better fit */
             background-color: #222;
             color: gold;
             border: 2px solid gold;
             padding: 10px;
             font-family: monospace;
-            font-size: 16px;
-            border-radius: 10px;
+            font-size: 14px;
+            border-radius: 8px;
             margin-top: 10px;
-            resize: none;
+            resize: vertical;
         }
 
         button {
             background-color: gold;
             color: black;
             border: none;
-            padding: 12px 24px;
-            font-size: 16px;
+            padding: 10px;
+            font-size: 14px;
             font-weight: bold;
             cursor: pointer;
-            border-radius: 8px;
+            border-radius: 6px;
             margin-top: 10px;
             transition: 0.3s;
             width: 100%;
@@ -72,16 +73,38 @@
 
         iframe {
             width: 100%;
-            height: 300px;
+            height: 200px; /* Adjusted for smaller screens */
             border: 2px solid gold;
-            border-radius: 10px;
+            border-radius: 8px;
             background-color: white;
             margin-top: 10px;
+        }
+
+        @media (max-width: 500px) {
+            .container {
+                width: 100%;
+                max-width: 95%;
+                padding: 10px;
+            }
+
+            textarea {
+                height: 120px;
+                font-size: 12px;
+            }
+
+            button {
+                font-size: 12px;
+                padding: 8px;
+            }
+
+            iframe {
+                height: 180px;
+            }
         }
     </style>
 </head>
 <body>
-    <h2>👽ExploitPad🕵️</h2> <!-- Now properly centered above the container -->
+    <h2>👽 ExploitPad 🕵️</h2>
     <div class="container">
         <textarea id="code" placeholder="Write your HTML, CSS, or JavaScript here..."></textarea>
         <button onclick="runCode()">▶ Run Code</button>
