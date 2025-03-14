@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Code Editor</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin: 20px; }
+        textarea { width: 90%; height: 200px; margin-top: 10px; font-family: monospace; }
+        iframe { width: 90%; height: 300px; border: 1px solid #ccc; margin-top: 10px; }
+        button { padding: 10px 20px; font-size: 16px; margin-top: 10px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h2>Live Code Editor</h2>
+    <textarea id="code" placeholder="Write HTML, CSS, or JavaScript here..."></textarea>
+    <br>
+    <button onclick="runCode()">Run</button>
+    <iframe id="output"></iframe>
+
+    <script>
+        function runCode() {
+            let code = document.getElementById("code").value;
+            let outputFrame = document.getElementById("output").contentWindow.document;
+            outputFrame.open();
+            outputFrame.write(code);
+            outputFrame.close();
+        }
+    </script>
+</body>
+</html>
