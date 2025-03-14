@@ -16,10 +16,10 @@
             color: gold;
             font-family: Arial, sans-serif;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            flex-direction: column;
             text-align: center;
         }
 
@@ -81,7 +81,7 @@
     </style>
 </head>
 <body>
-    <h2>⚡ Live Code Editor ⚡</h2>
+    <h2>⚡ Live Code Editor ⚡</h2> <!-- Now properly centered above the container -->
     <div class="container">
         <textarea id="code" placeholder="Write your HTML, CSS, or JavaScript here..."></textarea>
         <button onclick="runCode()">▶ Run Code</button>
