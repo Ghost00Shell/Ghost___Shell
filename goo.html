@@ -86,18 +86,18 @@
         #openAll { border-color: #ffd700; }
         #openAll:hover { background: #ffd700; }
         
-        .notes-container {
-            margin-top: 20px;
-            padding: 15px;
+.notes-container {
+            margin-top: 15px; /* Reduced from 20px */
+            padding: 10px; /* Reduced from 15px */
             background: rgba(255, 255, 255, 0.1);
             border-radius: 5px;
-            max-width: 600px;
+            max-width: 400px; /* Reduced from 600px */
             text-align: left;
         }
         .notes-container p {
             color: #ffd700;
-            margin: 5px 0;
-            font-size: 0.9em;
+            margin: 3px 0; /* Reduced from 5px */
+            font-size: 0.75em; /* Reduced from 0.9em */
         }
 
         @media (max-width: 600px) {
@@ -115,8 +115,11 @@
                 font-size: 0.9em;
             }
             .notes-container {
-                margin: 10px;
+                margin: 5px; /* Reduced from 10px */
+                max-width: 100%; /* Adjusted for responsiveness */
             }
+        }
+    </style>
         }
     </style>
 </head>
