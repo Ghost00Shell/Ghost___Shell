@@ -21,11 +21,11 @@
         h1 {
             font-size: 2.5em;
             margin-bottom: 20px;
-            background: linear-gradient(45deg, #ff00ff, #00ffff, #ff4500, #ffd700, #32cd32); /* Multi-color gradient */
+            background: linear-gradient(45deg, #ff00ff, #00ffff, #ff4500, #ffd700, #32cd32);
             -webkit-background-clip: text;
             background-clip: text;
             color: gold;
-            text-shadow: 1px 1px 3px #000, 0 0 5px rgba(255, 255, 255, 0.5); /* Subtle glow */
+            text-shadow: 1px 1px 3px #000, 0 0 5px rgba(255, 255, 255, 0.5);
         }
         input {
             padding: 10px;
@@ -42,7 +42,7 @@
         h2 {
             font-size: 1em;
             margin-bottom: 20px;
-            background: linear-gradient(45deg, #ff00ff, #00ffff, #ff4500, #ffd700, #32cd32); /* Multi-color gradient */
+            background: linear-gradient(45deg, #ff00ff, #00ffff, #ff4500, #ffd700, #32cd32);
             -webkit-background-clip: text;
             background-clip: text;
             color: gold;
@@ -68,24 +68,38 @@
         button:hover {
             color: #000;
         }
-        /* Unique colors for each button */
-        #duckduckgo { border-color: #ff4500; } /* Orange */
+        /* Unique(colors for each button */
+        #duckduckgo { border-color: #ff4500; }
         #duckduckgo:hover { background: #ff4500; }
-        #wayback { border-color: #00ced1; } /* Turquoise */
+        #wayback { border-color: #00ced1; }
         #wayback:hover { background: #00ced1; }
-        #waybackScript { border-color: #1e90ff; } /* Dodger Blue */
+        #waybackScript { border-color: #1e90ff; }
         #waybackScript:hover { background: #1e90ff; }
-        #google { border-color: #32cd32; } /* Lime Green */
+        #google { border-color: #32cd32; }
         #google:hover { background: #32cd32; }
-        #shodan { border-color: #ff00ff; } /* Magenta */
+        #shodan { border-color: #ff00ff; }
         #shodan:hover { background: #ff00ff; }
-        #github { border-color: #9400d3; } /* Dark Violet */
+        #github { border-color: #9400d3; }
         #github:hover { background: #9400d3; }
-        #virustotal { border-color: #00ff7f; } /* Spring Green */
+        #virustotal { border-color: #00ff7f; }
         #virustotal:hover { background: #00ff7f; }
-        #openAll { border-color: #ffd700; } /* Gold */
+        #openAll { border-color: #ffd700; }
         #openAll:hover { background: #ffd700; }
         
+        .notes-container {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            max-width: 600px;
+            text-align: left;
+        }
+        .notes-container p {
+            color: #ffd700;
+            margin: 5px 0;
+            font-size: 0.9em;
+        }
+
         @media (max-width: 600px) {
             h1 {
                 font-size: 1.8em;
@@ -99,6 +113,9 @@
             button {
                 padding: 12px;
                 font-size: 0.9em;
+            }
+            .notes-container {
+                margin: 10px;
             }
         }
     </style>
@@ -118,8 +135,20 @@
             <button id="virustotal" onclick="searchVirusTotal()">🛡️ VirusTotal</button>
             <button id="openAll" onclick="openAll()">🚀 Open All</button>
         </div>
-    </div>
+        <div class="notes-container">
+            <p>1-Add target scope domains and subdomains in Burp, then refresh. Click through and explore all features, then start a scan using both crawl and audit for the targets. Use all relevant Burp extensions and send the targets to those extensions for further analysis.</p>
+			<p>2-Use the Burp HTML issue report to track and verify everything during the hunt.</p>
+            <p>3-Manually hunt for areas and vulnerabilities that others often overlook, such as logic flaws, by analyzing Burp Suite requests and responses.</p>
+            <p>4-Use a bookmarklet script while browsing sites to quickly identify endpoints, directories, and other interesting files.</p>
+            <p>5-Spend more time on each target over several days, thoroughly checking everything—endpoints, directories, files, and other interesting elements. Archive anything notable. If you find something you don't recognize on a domain, search for it on Google, Medium, HackerOne, GitHub, and other platforms to learn more and identify potential exploits related to it.</p>
+            <p>6-</p>
+            <p>7-</p>
+            <p>8-</p>
+            <p>9-</p>
+            <p>10-</p>
 
+        </div>
+    </div>
     <script>
         function getDomain() {
             const input = document.getElementById('domainInput').value.trim();
