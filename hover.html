@@ -1,9 +1,25 @@
 <!DOCTYPE html>
 <html>
   <body>
-    <h2>Hover to open popup</h2>
-    <div onmouseover="window.open('https://evil.com');" style="width:200px; height:100px; background:#f0f0f0; text-align:center; padding-top:40px;">
-      Hover me
+    <p>Click anywhere. Then move your mouse slowly across the page — a popup appears without any further action.</p>
+
+    <div id="trap" style="width:100vw; height:100vh; position:absolute; top:0; left:0;">
+      <div id="trigger" style="position:absolute; top:40%; left:40%; width:200px; height:150px; background:transparent;"></div>
     </div>
+
+    <script>
+      let gestureArmed = false;
+
+      document.body.addEventListener('click', () => {
+        gestureArmed = true;
+      });
+
+      document.getElementById('trigger').addEventListener('mouseenter', () => {
+        if (gestureArmed) {
+          window.open('https://evil.com', '_blank');
+          gestureArmed = false;
+        }
+      });
+    </script>
   </body>
 </html>
