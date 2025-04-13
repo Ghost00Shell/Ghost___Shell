@@ -68,7 +68,7 @@
         button:hover {
             color: #000;
         }
-        /* Unique(colors for each button */
+        /* Unique button colors */
         #duckduckgo { border-color: #ff4500; }
         #duckduckgo:hover { background: #ff4500; }
         #wayback { border-color: #00ced1; }
@@ -83,21 +83,23 @@
         #github:hover { background: #9400d3; }
         #virustotal { border-color: #00ff7f; }
         #virustotal:hover { background: #00ff7f; }
+        #crtsh { border-color: #87ceeb; }
+        #crtsh:hover { background: #87ceeb; }
         #openAll { border-color: #ffd700; }
         #openAll:hover { background: #ffd700; }
-        
-.notes-container {
-            margin-top: 15px; /* Reduced from 20px */
-            padding: 10px; /* Reduced from 15px */
+
+        .notes-container {
+            margin-top: 15px;
+            padding: 10px;
             background: rgba(255, 255, 255, 0.1);
             border-radius: 5px;
-            max-width: 600px; /* Reduced from 600px */
+            max-width: 600px;
             text-align: left;
         }
         .notes-container p {
             color: #ffd700;
-            margin: 3px 0; /* Reduced from 5px */
-            font-size: 0.75em; /* Reduced from 0.9em */
+            margin: 3px 0;
+            font-size: 0.75em;
         }
 
         @media (max-width: 600px) {
@@ -115,11 +117,9 @@
                 font-size: 0.9em;
             }
             .notes-container {
-                margin: 5px; /* Reduced from 10px */
-                max-width: 100%; /* Adjusted for responsiveness */
+                margin: 5px;
+                max-width: 100%;
             }
-        }
-    </style>
         }
     </style>
 </head>
@@ -136,11 +136,12 @@
             <button id="shodan" onclick="searchShodan()">🌐 Shodan Leaks</button>
             <button id="github" onclick="searchGitHub()">🐙 GitHub Leaks</button>
             <button id="virustotal" onclick="searchVirusTotal()">🛡️ VirusTotal</button>
+            <button id="crtsh" onclick="searchCrtSh()">📄 crt.sh Certs</button>
             <button id="openAll" onclick="openAll()">🚀 Open All</button>
         </div>
         <div class="notes-container">
             <p>1-Add target scope domains and subdomains in Burp, then refresh. Click through and explore all features, then start a scan using both crawl and audit for the targets. Use all relevant Burp extensions and send the targets to those extensions for further analysis.</p>
-			<p>2-Use the Burp HTML issue report to track and verify everything during the hunt.</p>
+            <p>2-Use the Burp HTML issue report to track and verify everything during the hunt.</p>
             <p>3-Manually hunt for areas and vulnerabilities that others often overlook, such as logic flaws, by analyzing Burp Suite requests and responses.</p>
             <p>4-Use a bookmarklet script while browsing sites to quickly identify endpoints, directories, and other interesting files.</p>
             <p>5-Spend more time on each target over several days, thoroughly checking everything—endpoints, directories, files, and other interesting elements. Archive anything notable. If you find something you don't recognize on a domain, search for it on Google, Medium, HackerOne, GitHub, and other platforms to learn more and identify potential exploits related to it.</p>
@@ -209,6 +210,13 @@
             }
         }
 
+        function searchCrtSh() {
+            const domain = getDomain();
+            if (domain) {
+                window.open(`https://crt.sh/?q=${encodeURIComponent(domain)}`, '_blank');
+            }
+        }
+
         function openAll() {
             const domain = getDomain();
             if (domain) {
@@ -219,6 +227,7 @@
                 searchShodan();
                 searchGitHub();
                 searchVirusTotal();
+                searchCrtSh();
             }
         }
     </script>
