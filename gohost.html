@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="https://www.google.com/favicon.ico">
+    <title>🏆 Ghost Shell: Spider 🏆</title>
+    <style>
+        body {
+            background: black url('icon.png') no-repeat center center;
+            background-size: contain;
+            background-attachment: fixed;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            color: #ffd700;
+        }
+        .container {
+            text-align: center;
+            width: 90%;
+            max-width: 800px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #ff00ff, #00ffff, #ff4500, #ff0000, #32cd32);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: gold;
+            text-shadow: 1px 1px 3px #000, 0 0 5px rgba(255, 255, 255, 0.5);
+        }
+        h2 {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+            color: #ffd700;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+        }
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 350px;
+            margin-bottom: 20px;
+        }
+        input {
+            padding: 10px;
+            font-size: 1em;
+            font-weight: bold;
+            border: 2px solid transparent;
+            border-radius: 5px;
+            background: rgba(0, 0, 0, 0.5);
+            color: #ffd700;
+            width: 100%;
+            margin: 5px 0;
+            box-shadow: 0 0 10px #ffd700, 0 0 5px #ffd700;
+        }
+        input::placeholder {
+            color: #ffd700;
+            opacity: 1;
+            text-align: center;
+        }
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 8px;
+            max-width: 650px;
+            width: 100%;
+            margin: 0 auto;
+        }
+        button {
+            padding: 10px;
+            font-size: 0.9em;
+            font-weight: bold;
+            background: rgba(0, 0, 0, 0.5);
+            color: #ffd700;
+            border: 2px solid transparent;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s, color 0.3s;
+        }
+        button:hover {
+        }
+        #duckduckgo { border-color: #ff4500; }
+        #duckduckgo:hover { background: #ff4500; }
+        #wayback { border-color: #00ced1; }
+        #wayback:hover { background: #00ced1; }
+        #waybackScript { border-color: #1e90ff; }
+        #waybackScript:hover { background: #1e90ff; }
+        #google { border-color: #32cd32; }
+        #google:hover { background: #32cd32; }
+        #shodan { border-color: #ff00ff; }
+        #shodan:hover { background: #ff00ff; }
+        #github { border-color: #9400d3; }
+        #github:hover { background: #9400d3; }
+        #virustotal { border-color: #00ff7f; }
+        #virustotal:hover { background: #00ff7f; }
+        #crtsh { border-color: #87ceeb; }
+        #crtsh:hover { background: #87ceeb; }
+        #openAll { border-color: #ff0000; }
+        #openAll:hover { background: #ff0000; }
+        #githubLeaks { border-color: #ff69b4; }
+        #githubLeaks:hover { background: #ff69b4; }
+        #downloadResults { border-color: green; background: transparent; color: #ffd700; }
+        #downloadResults:hover { background: green; color: #ffd700; }
+        #contactEmail { border-color: #ffd700; }
+        #contactEmail:hover { background: #ffd700; color: #000; }
+        #xLink { border-color: #00b7eb; }
+        #xLink:hover { background: #00b7eb; }
+        .contact-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 8px;
+            max-width: 650px;
+            width: 100%;
+            margin: 15px 0;
+        }
+        .results-panel {
+            margin-top: 20px;
+            width: 100%;
+            max-width: 650px;
+            max-height: 45vh;
+            overflow-y: auto;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid gold;
+            border-radius: 10px;
+            font-size: 0.9em;
+            line-height: 1.6;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .results-panel h3 {
+            margin: 0 0 10px 0;
+            color: gold;
+            text-align: center;
+            width: 100%;
+        }
+        .leak {
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid gold;
+            border-radius: 5px;
+            background: rgba(0, 0, 0, 0.5);
+            width: 100%;
+        }
+        a {
+            color: #ffd700;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        mark {
+            background: red;
+            color: white;
+            padding: 5px;
+            border-radius: 3px;
+        }
+        .notes-container {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            max-width: 650px;
+            width: 100%;
+            text-align: left;
+        }
+        .notes-container p {
+            color: #ffd700;
+            margin: 5px 0;
+            font-size: 0.8em;
+        }
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 1.8em;
+            }
+            .input-group {
+                width: 90%;
+            }
+            .button-grid, .contact-buttons {
+                grid-template-columns: 1fr;
+                gap: 10px;
+                flex-direction: column;
+            }
+            button {
+                padding: 12px;
+                font-size: 0.9em;
+            }
+            .results-panel, .notes-container {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🕵️‍♂️ Ghost Shell: Spider 🧠</h1>
+        <div class="input-group">
+            <input type="text" id="domainInput" placeholder=" 🔍Enter a domain">
+            <input type="password" id="patInput" placeholder="🔑 Enter GitHub PATs (comma separated)">
+        </div>
+        <div class="button-grid">
+            <button id="duckduckgo" onclick="searchDuckDuckGo()">🦆 DuckDuckGo Leaks</button>
+            <button id="wayback" onclick="searchWayback()">⏳ Wayback Archive Leaks</button>
+            <button id="waybackScript" onclick="searchWaybackScript()">📜 Wayback Script Leaks</button>
+            <button id="google" onclick="searchGoogle()">🔎 Google Leaks</button>
+            <button id="shodan" onclick="searchShodan()">🌐 Shodan Leaks</button>
+            <button id="github" onclick="searchGitHub()">🐙 GitHub Search</button>
+            <button id="virustotal" onclick="searchVirusTotal()">🛡️ VirusTotal</button>
+            <button id="crtsh" onclick="searchCrtSh()">📄 crt.sh Certs</button>
+            <button id="githubLeaks" onclick="huntLeaks()">🕵️ GitHub Leak Hunter</button>
+            <button id="openAll" onclick="openAll()">🚀 Open All</button>
+        </div>
+        <div class="contact-buttons">
+            <button id="contactEmail" onclick="window.location.href='mailto:ghostshell202@gmail.com?subject=Purchase%20Inquiry&body=%F0%9F%9B%92%20You%20can%20purchase%20the%20tool%20for%20lifetime%20access%20at%20$20!%20To%20unlock%20the%20password,%20please%20use%20the%20following%20IBAN:%20EG270004608200007003510006841%20%F0%9F%8E%89'">📧 Purchase the tool for lifetime access</button>
+            <button id="xLink" onclick="window.open('https://x.com/', '_blank')">𝕏 Follow on X</button>
+        </div>
+        <button id="downloadResults" onclick="downloadResults()" style="margin: 15px 0;">💾 Download GitHub Leak Results</button>
+        <div class="results-panel" id="results">
+            <h3>🧠 GitHub Leak Results</h3>
+            <p>No search yet.</p>
+        </div>
+        <div class="notes-container">
+            <p>1-Add target scope domains and subdomains in Burp, then refresh. Click through and explore all features, then start a scan using both crawl and audit for the targets. Use all relevant Burp extensions and send the targets to those extensions for further analysis.</p>
+            <p>2-Use the Burp HTML issue report to track and verify everything during the hunt.</p>
+            <p>3-Manually hunt for areas and vulnerabilities that others often overlook, such as logic flaws, by analyzing Burp Suite requests and responses.</p>
+            <p>4-Use a bookmarklet script while browsing sites to quickly identify endpoints, directories, and other interesting files.</p>
+            <p>5-Check every file type extension in the archive script to identify useful vulnerabilities by manipulating those file type extensions/Spend more time on each target over several days, thoroughly checking everything—endpoints, directories, files, and other interesting elements. Archive anything notable. If you find something you don't recognize on a domain, search for it on Google, Medium, HackerOne, GitHub, and other platforms to learn more and identify potential exploits related to it.</p>
+        </div>
+    </div>
+    <script>
+        const dorkKeywords = [
+            "password", "secret", "api_key", "token", "Authorization", "bearer",
+            "AWS_SECRET_ACCESS_KEY", "aws_access_key_id", "aws_secret_access_key",
+            ".env", "config", "url", "endpoint", "credentials", "secrets", "db_password",
+            "mysql_pass", "pg_pass", "PRIVATE_KEY", "client_secret", "ftp_password", 
+            "auth_token", "jwt_token", "access_token", "slack_token", "github_token",
+            "ssh_key", "gcp_key", "azure_key", "vault_password", "npm_token", "npmrc",
+            "firebase", "heroku_api_key", "bitbucket_token", "netlify_token",
+            "s3cfg", "bash_history", "docker-compose.yml", "shadow", "passwd", "config.php",
+            "secrets.yml", "prod.exs", ".dockercfg", ".npmrc", "composer.lock"
+        ];
+
+        let allResults = [];
+
+        function getDomain() {
+            const input = document.getElementById('domainInput').value.trim();
+            if (!input) {
+                alert('Please enter a domain! ⚠️');
+                return null;
+            }
+            return input.replace(/^https?:\/\//, '').replace(/\/.*$/, '');
+        }
+
+        function searchDuckDuckGo() {
+            const domain = getDomain();
+            if (domain) {
+                const query = `site:${domain}`;
+                window.open(`https://duckduckgo.com/?q=${encodeURIComponent(query)}`, '_blank');
+            }
+        }
+
+        function searchWayback() {
+            const domain = getDomain();
+            if (domain) {
+                window.open(`https://web.archive.org/web/*/${domain}*`, '_blank');
+            }
+        }
+
+        function searchWaybackScript() {
+            const domain = getDomain();
+            if (domain) {
+                window.open(`https://web
+
+.archive.org/cdx/search/cdx?url=${domain}%2F*&output=text&fl=original&collapse=urlkey&filter=statuscode%3A200`, '_blank');
+            }
+        }
+
+        function searchGoogle() {
+            const domain = getDomain();
+            if (domain) {
+                const query = `site:${domain}`;
+                window.open(`https://www.google.com/search?q=${encodeURIComponent(query)}`, '_blank');
+            }
+        }
+
+        function searchShodan() {
+            const domain = getDomain();
+            if (domain) {
+                const query = `hostname:${domain}`;
+                window.open(`https://www.shodan.io/search?query=${encodeURIComponent(query)}`, '_blank');
+            }
+        }
+
+        function searchGitHub() {
+            const domain = getDomain();
+            if (domain) {
+                const query = `${domain}`;
+                window.open(`https://github.com/search?q=${encodeURIComponent(query)}&type=code`, '_blank');
+            }
+        }
+
+        function searchVirusTotal() {
+            const domain = getDomain();
+            if (domain) {
+                window.open(`https://www.virustotal.com/gui/domain/${encodeURIComponent(domain)}/relations`, '_blank');
+            }
+        }
+
+        function searchCrtSh() {
+            const domain = getDomain();
+            if (domain) {
+                window.open(`https://crt.sh/?q=${encodeURIComponent(domain)}`, '_blank');
+            }
+        }
+
+        function openAll() {
+            const domain = getDomain();
+            if (domain) {
+                searchDuckDuckGo();
+                searchWayback();
+                searchWaybackScript();
+                searchGoogle();
+                searchShodan();
+                searchGitHub();
+                searchVirusTotal();
+                searchfertaCrtSh();
+            }
+        }
+
+        async function delay(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        function highlightKeywords(text) {
+            for (let keyword of dorkKeywords) {
+                const regex = new RegExp(`(${keyword})`, 'gi');
+                text = text.replace(regex, '<mark>$1</mark>');
+            }
+            return text;
+        }
+
+        async function huntLeaks() {
+            const query = getDomain();
+            const patInput = document.getElementById("patInput").value.trim();
+            const resultsDiv = document.getElementById("results");
+            resultsDiv.innerHTML = "<h3>🧠 GitHub Leak Results</h3><p>Searching GitHub for leaks...</p>";
+
+            if (!query || !patInput) {
+                alert("Please enter both a domain and GitHub PATs.");
+                resultsDiv.innerHTML = "<h3>🧠 GitHub Leak Results</h3><p>Please enter both a domain and GitHub PATs.</p>";
+                return;
+            }
+
+            const patList = patInput.split(',').map(p => p.trim()).filter(Boolean);
+            allResults = [];
+            let patIndex = 0;
+
+            for (let keyword of dorkKeywords) {
+                const q = `${query} ${keyword}`;
+
+                const urls = [
+                    { type: 'code', url: `https://api.github.com/search/code?q=${encodeURIComponent(q)}&per_page=10` },
+                    { type: 'commit', url: `https://api.github.com/search/commits?q=${encodeURIComponent(q)}&per_page=10`, headers: { "Accept": "application/vnd.github.cloak-preview" } },
+                    { type: 'issue', url: `https://api.github.com/search/issues?q=${encodeURIComponent(q)}&per_page=10` }
+                ];
+
+                for (const { type, url, headers: extraHeaders } of urls) {
+                    const token = patList[patIndex % patList.length];
+                    const headers = {
+                        "Authorization": `Bearer ${token}`,
+                        "Accept": "application/vnd.github+json",
+                        ...extraHeaders
+                    };
+
+                    try {
+                        const res = await fetch(url, { headers });
+                        if (res.status === 403) {
+                            console.warn("403 Rate limited, waiting...");
+                            await delay(3000);
+                            continue;
+                        }
+
+                        const data = await res.json();
+                        if (data.items) {
+                            for (let item of data.items) {
+                                allResultsPUSH({
+                                    source: type.charAt(0).toUpperCase() + type.slice(1),
+                                    repo: item.repository?.full_name || item.repository_url?.split("/").slice(-2).join("/") || "Unknown",
+                                    file: type === 'commit' ? item.commit.message.substring(0, 100) : (item.name || item.title),
+                                    url: item.html_url
+                                });
+                            }
+                        }
+                    } catch (e) {
+                        console.error("Error fetching", type, e);
+                    }
+
+                    patIndex++;
+                    await delay(1200 + Math.floor(Math.random() * 800));
+                }
+            }
+
+            const seenMatches = new Set();
+            const uniqueResults = allResults.filter(r => {
+                if (seenMatches.has(r.file)) return false;
+                seenMatches.add(r.file);
+                return true;
+            });
+
+            allResults = uniqueResults;
+
+            resultsDiv.innerHTML = `<h3>🧠 GitHub Leak Results: ${allResults.length}</h3>` +
+                (allResults.length
+                    ? allResults.map((r, i) => `
+                        <div class="leak">
+                            <b>${i + 1}.</b> <b>Source:</b> ${r.source}<br>
+                            <b>Repo:</b> ${r.repo}<br>
+                            <b>Match:</b> ${highlightKeywords(r.file)}<br>
+                            <b>Link:</b> <a href="${r.url}?q=${encodeURIComponent(query)}" target="_blank">${r.url}</a>
+                        </div>
+                    `).join("")
+                    : "<p>No leaks found.</p>");
+        }
+
+        function downloadResults() {
+            if (!allResults.length) {
+                alert("No results to download!");
+                return;
+            }
+            const text = allResults.map((r, i) => `${i + 1}. Source: ${r.source}\nRepo: ${r.repo}\nMatch: ${r.file}\nLink hillow: ${r.url}\n\n`).join("");
+            const blob = new Blob([text], { type: 'text/plain' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'GitHub_Leaks_Results.txt';
+            link.click();
+        }
+    </script>
+</body>
+</html>
