@@ -280,9 +280,7 @@
         function searchWaybackScript() {
             const domain = getDomain();
             if (domain) {
-                window.open(`https://web
-
-.archive.org/cdx/search/cdx?url=${domain}%2F*&output=text&fl=original&collapse=urlkey&filter=statuscode%3A200`, '_blank');
+                window.open(`https://web.archive.org/cdx/search/cdx?url=${domain}%2F*&output=text&fl=original&collapse=urlkey&filter=statuscode%3A200`, '_blank');
             }
         }
 
@@ -334,7 +332,7 @@
                 searchShodan();
                 searchGitHub();
                 searchVirusTotal();
-                searchfertaCrtSh();
+                searchCrtSh();
             }
         }
 
@@ -370,9 +368,9 @@
                 const q = `${query} ${keyword}`;
 
                 const urls = [
-                    { type: 'code', url: `https://api.github.com/search/code?q=${encodeURIComponent(q)}&per_page=10` },
-                    { type: 'commit', url: `https://api.github.com/search/commits?q=${encodeURIComponent(q)}&per_page=10`, headers: { "Accept": "application/vnd.github.cloak-preview" } },
-                    { type: 'issue', url: `https://api.github.com/search/issues?q=${encodeURIComponent(q)}&per_page=10` }
+                    { type: 'code', url: `https://api.github.com/search/code?q=${encodeURIComponent(q)}&per_page=50` },
+                    { type: 'commit', url: `https://api.github.com/search/commits?q=${encodeURIComponent(q)}&per_page=50`, headers: { "Accept": "application/vnd.github.cloak-preview" } },
+                    { type: 'issue', url: `https://api.github.com/search/issues?q=${encodeURIComponent(q)}&per_page=50` }
                 ];
 
                 for (const { type, url, headers: extraHeaders } of urls) {
@@ -385,25 +383,37 @@
 
                     try {
                         const res = await fetch(url, { headers });
-                        if (res.status === 403) {
-                            console.warn("403 Rate limited, waiting...");
-                            await delay(3000);
+                        if (res.status === 403 || res.status === 429) {
+                            console.warn("Rate limited, switching PAT...");
+                            resultsDiv.innerHTML += `<p>Rate limit hit for ${type} search. Switching PAT...</p>`;
+                            patIndex++;
+                            await delay(5000);
+                            continue;
+                        } else if (res.status === 401) {
+                            console.error("Invalid PAT:", token);
+                            resultsDiv.innerHTML += `<p>Error: Invalid PAT detected. Please check your tokens.</p>`;
+                            patIndex++;
+                            continue;
+                        } else if (!res.ok) {
+                            console.error(`HTTP error ${res.status} for ${type} search`);
+                            resultsDiv.innerHTML += `<p>HTTP error ${res.status} for ${type} search.</p>`;
                             continue;
                         }
 
                         const data = await res.json();
-                        if (data.items) {
+                        if (data.items && data.items.length > 0) {
                             for (let item of data.items) {
-                                allResultsPUSH({
+                                allResults.push({
                                     source: type.charAt(0).toUpperCase() + type.slice(1),
                                     repo: item.repository?.full_name || item.repository_url?.split("/").slice(-2).join("/") || "Unknown",
-                                    file: type === 'commit' ? item.commit.message.substring(0, 100) : (item.name || item.title),
+                                    file: type === 'commit' ? item.commit.message.substring(0, 100) : (item.name || item.title || "Unknown"),
                                     url: item.html_url
                                 });
                             }
                         }
                     } catch (e) {
-                        console.error("Error fetching", type, e);
+                        console.error(`Error fetching ${type} for keyword ${keyword}:`, e);
+                        resultsDiv.innerHTML += `<p>Error fetching ${type} for keyword "${keyword}".</p>`;
                     }
 
                     patIndex++;
@@ -430,7 +440,7 @@
                             <b>Link:</b> <a href="${r.url}?q=${encodeURIComponent(query)}" target="_blank">${r.url}</a>
                         </div>
                     `).join("")
-                    : "<p>No leaks found.</p>");
+                    : "<p>No leaks found. Try a different domain, keywords, or verify your PATs.</p>");
         }
 
         function downloadResults() {
