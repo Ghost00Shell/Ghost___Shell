@@ -1,6 +1,6 @@
 %PDF-1.4
 1 0 obj
-<< /Type /Catalog /Pages 2 0 R >>
+<< /Type /Catalog /Pages 2 0 R /AcroForm << /Fields [9 0 R] >> >>
 endobj
 2 0 obj
 << /Type /Pages /Kids [3 0 R] /Count 1 >>
@@ -14,7 +14,7 @@ stream
 BT
 /F1 12 Tf
 100 700 Td
-(Click the link below to test alert) Tj
+(Click the button below to test alert) Tj
 ET
 endstream
 endobj
@@ -28,20 +28,20 @@ endobj
 << /Type /FontDescriptor /FontName /Helvetica /Flags 32 /FontBBox [-166 -225 1000 931] /ItalicAngle 0 /Ascent 770 /Descent -230 /CapHeight 717 /StemV 88 >>
 endobj
 9 0 obj
-<< /Type /Annot /Subtype /Link /Rect [100 650 300 700] /Border [0 0 3] /A << /Type /Action /S /JavaScript /JS (app.alert("Click Test Successful - May 29, 2025", 3);) >> >>
+<< /Type /Annot /Subtype /Widget /FT /Btn /T (Test Button) /Rect [100 650 300 700] /F 4 /BS << /W 2 /S /B >> /A << /Type /Action /S /JavaScript /JS (app.alert("Button Test Successful - May 29, 2025", 3);) >> >>
 endobj
 xref
 0 10
 0000000000 65535 f 
 0000000010 00000 n 
-0000000059 00000 n 
-0000000107 00000 n 
-0000000177 00000 n 
-0000000249 00000 n 
-0000000287 00000 n 
-0000000399 00000 n 
+0000000071 00000 n 
+0000000119 00000 n 
+0000000205 00000 n 
+0000000266 00000 n 
+0000000304 00000 n 
+0000000416 00000 n 
 0000000000 65535 f 
-0000000480 00000 n 
+0000000500 00000 n 
 trailer
 << /Size 10 /Root 1 0 R >>
 startxref
