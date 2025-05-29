@@ -1,22 +1,20 @@
 %PDF-1.4
 1 0 obj
-<< /Type /Catalog /Pages 2 0 R /AcroForm << /Fields [9 0 R] >> /OpenAction 9 0 R >>
+<< /Type /Catalog /Pages 2 0 R /Names << /JavaScript 10 0 R >> >>
 endobj
 2 0 obj
 << /Type /Pages /Kids [3 0 R] /Count 1 >>
 endobj
 3 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R /Resources 5 0 R /Annots [9 0 R] >>
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R /Resources 5 0 R >>
 endobj
 4 0 obj
-<< /Length 70 >>
+<< /Length 44 >>
 stream
 BT
 /F1 12 Tf
 100 700 Td
-(Click the button or wait for auto alert) Tj
-100 680 Td
-(Button is labeled "Test") Tj
+(Waiting for auto alert) Tj
 ET
 endstream
 endobj
@@ -29,23 +27,28 @@ endobj
 7 0 obj
 << /Type /FontDescriptor /FontName /Helvetica /Flags 32 /FontBBox [-166 -225 1000 931] /ItalicAngle 0 /Ascent 770 /Descent -230 /CapHeight 717 /StemV 88 >>
 endobj
-9 0 obj
-<< /Type /Annot /Subtype /Widget /FT /Btn /T (Test Button) /Rect [100 600 300 650] /F 4 /BS << /W 3 /S /B >> /A << /Type /Action /S /JavaScript /JS (app.alert("Button Test Successful - May 29, 2025", 3);) >> >>
+10 0 obj
+<< /Names [(EmbeddedScript) 11 0 R] >>
+endobj
+11 0 obj
+<< /S /JavaScript /JS (app.alert("Document-Level Test - May 29, 2025", 3);) >>
 endobj
 xref
-0 10
+0 12
 0000000000 65535 f 
 0000000010 00000 n 
-0000000071 00000 n 
-0000000119 00000 n 
-0000000210 00000 n 
-0000000271 00000 n 
-0000000309 00000 n 
-0000000421 00000 n 
+0000000065 00000 n 
+0000000113 00000 n 
+0000000183 00000 n 
+0000000244 00000 n 
+0000000282 00000 n 
+0000000394 00000 n 
 0000000000 65535 f 
-0000000500 00000 n 
+0000000000 65535 f 
+0000000480 00000 n 
+0000000515 00000 n 
 trailer
-<< /Size 10 /Root 1 0 R >>
+<< /Size 12 /Root 1 0 R >>
 startxref
-570
+580
 %%EOF
