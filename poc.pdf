@@ -1,6 +1,6 @@
 %PDF-1.4
 1 0 obj
-<< /Type /Catalog /Pages 2 0 R /Names << /JavaScript 10 0 R >> >>
+<< /Type /Catalog /Pages 2 0 R /Names << /JavaScript 10 0 R >> /OpenAction 11 0 R >>
 endobj
 2 0 obj
 << /Type /Pages /Kids [3 0 R] /Count 1 >>
@@ -28,7 +28,7 @@ endobj
 << /Type /FontDescriptor /FontName /Helvetica /Flags 32 /FontBBox [-166 -225 1000 931] /ItalicAngle 0 /Ascent 770 /Descent -230 /CapHeight 717 /StemV 88 >>
 endobj
 10 0 obj
-<< /Names [(MyScript) 11 0 R] >>
+<< /Names [(EmbeddedScript) 11 0 R] >>
 endobj
 11 0 obj
 << /S /JavaScript /JS (app.alert("Document-Level Test - May 29, 2025", 3);) >>
@@ -37,18 +37,18 @@ xref
 0 12
 0000000000 65535 f 
 0000000010 00000 n 
-0000000065 00000 n 
-0000000113 00000 n 
-0000000183 00000 n 
-0000000244 00000 n 
-0000000282 00000 n 
-0000000394 00000 n 
+0000000079 00000 n 
+0000000127 00000 n 
+0000000197 00000 n 
+0000000258 00000 n 
+0000000296 00000 n 
+0000000408 00000 n 
 0000000000 65535 f 
 0000000000 65535 f 
-0000000480 00000 n 
-0000000515 00000 n 
+0000000494 00000 n 
+0000000529 00000 n 
 trailer
 << /Size 12 /Root 1 0 R >>
 startxref
-580
+594
 %%EOF
