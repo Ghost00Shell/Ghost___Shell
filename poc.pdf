@@ -1,20 +1,22 @@
 %PDF-1.4
 1 0 obj
-<< /Type /Catalog /Pages 2 0 R /AcroForm << /Fields [9 0 R] >> >>
+<< /Type /Catalog /Pages 2 0 R /AcroForm << /Fields [10 0 R] >> >>
 endobj
 2 0 obj
 << /Type /Pages /Kids [3 0 R] /Count 1 >>
 endobj
 3 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R /Resources 5 0 R /Annots [9 0 R] >>
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R /Resources 5 0 R /Annots [9 0 R 10 0 R] >>
 endobj
 4 0 obj
-<< /Length 55 >>
+<< /Length 70 >>
 stream
 BT
 /F1 12 Tf
 100 700 Td
-(Click the button below to test alert) Tj
+(Click the link or button below to test alert) Tj
+100 680 Td
+(Link should appear below; Button is labeled "Test") Tj
 ET
 endstream
 endobj
@@ -28,22 +30,26 @@ endobj
 << /Type /FontDescriptor /FontName /Helvetica /Flags 32 /FontBBox [-166 -225 1000 931] /ItalicAngle 0 /Ascent 770 /Descent -230 /CapHeight 717 /StemV 88 >>
 endobj
 9 0 obj
-<< /Type /Annot /Subtype /Widget /FT /Btn /T (Test Button) /Rect [100 650 300 700] /F 4 /BS << /W 2 /S /B >> /A << /Type /Action /S /JavaScript /JS (app.alert("Button Test Successful - May 29, 2025", 3);) >> >>
+<< /Type /Annot /Subtype /Link /Rect [100 600 350 650] /Border [0 0 5] /Contents (Click Me Link) /A << /Type /Action /S /JavaScript /JS (app.alert("Link Test Successful - May 29, 2025", 3);) >> >>
+endobj
+10 0 obj
+<< /Type /Annot /Subtype /Widget /FT /Btn /T (Test Button) /Rect [100 550 300 600] /F 4 /BS << /W 3 /S /B >> /A << /Type /Action /S /JavaScript /JS (app.alert("Button Test Successful - May 29, 2025", 3);) >> >>
 endobj
 xref
-0 10
+0 11
 0000000000 65535 f 
 0000000010 00000 n 
 0000000071 00000 n 
 0000000119 00000 n 
-0000000205 00000 n 
-0000000266 00000 n 
-0000000304 00000 n 
-0000000416 00000 n 
+0000000210 00000 n 
+0000000271 00000 n 
+0000000309 00000 n 
+0000000421 00000 n 
 0000000000 65535 f 
-0000000500 00000 n 
+0000000505 00000 n 
+0000000600 00000 n 
 trailer
-<< /Size 10 /Root 1 0 R >>
+<< /Size 11 /Root 1 0 R >>
 startxref
-570
+610
 %%EOF
