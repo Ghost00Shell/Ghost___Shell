@@ -1,9 +1,49 @@
+%PDF-1.4
 1 0 obj
-<< /Type /Catalog /Pages 2 0 R /Names << /JavaScript 10 0 R >> >>
+<< /Type /Catalog /Pages 2 0 R >>
 endobj
-10 0 obj
-<< /Names [(MyScript) 11 0 R] >>
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
 endobj
-11 0 obj
-<< /S /JavaScript /JS (app.alert("XSS Test Successful!");) >>
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R /Resources 5 0 R /Annots [9 0 R] >>
 endobj
+4 0 obj
+<< /Length 55 >>
+stream
+BT
+/F1 12 Tf
+100 700 Td
+(Click the link below to test XSS) Tj
+ET
+endstream
+endobj
+5 0 obj
+<< /Font << /F1 6 0 R >> >>
+endobj
+6 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /FontDescriptor 7 0 R >>
+endobj
+7 0 obj
+<< /Type /FontDescriptor /FontName /Helvetica /Flags 32 /FontBBox [-166 -225 1000 931] /ItalicAngle 0 /Ascent 770 /Descent -230 /CapHeight 717 /StemV 88 >>
+endobj
+9 0 obj
+<< /Type /Annot /Subtype /Link /Rect [100 650 200 680] /Border [0 0 1] /A << /Type /Action /S /URI /URI (javascript:alert('XSS Test Successful!')) >> >>
+endobj
+xref
+0 10
+0000000000 65535 f 
+0000000010 00000 n 
+0000000059 00000 n 
+0000000107 00000 n 
+0000000177 00000 n 
+0000000249 00000 n 
+0000000287 00000 n 
+0000000399 00000 n 
+0000000000 65535 f 
+0000000480 00000 n 
+trailer
+<< /Size 10 /Root 1 0 R >>
+startxref
+570
+%%EOF
