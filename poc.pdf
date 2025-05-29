@@ -28,7 +28,7 @@ endobj
 << /Type /FontDescriptor /FontName /Helvetica /Flags 32 /FontBBox [-166 -225 1000 931] /ItalicAngle 0 /Ascent 770 /Descent -230 /CapHeight 717 /StemV 88 >>
 endobj
 10 0 obj
-<< /Names [(EmbeddedScript) 11 0 R] >>
+<< /Names [(MyScript) 11 0 R] >>
 endobj
 11 0 obj
 << /S /JavaScript /JS (app.alert("Document-Level Test - May 29, 2025", 3);) >>
