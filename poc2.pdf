@@ -1,27 +1,79 @@
 %PDF-1.4
-1 0 obj << /Type /Catalog /Pages 2 0 R /Resources 5 0 R /OpenAction 8 0 R >> endobj
-2 0 obj << /Type /Pages /Kids [3 0 R] /Count 1 >> endobj
-3 0 obj << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R /Resources 5 0 R >> endobj
-4 0 obj << /Length 68 >> stream
-BT /F1 12 Tf 100 700 Td (CVE-2024-4367 Snyk PoC) Tj 100 650 Td (Open Action Exploit) Tj ET
-endstream endobj
-5 0 obj << /Font << /F1 6 0 R >> >> endobj
-6 0 obj << /Type /Font /Subtype /Type1 /BaseFont /Helvetica /FontDescriptor 7 0 R >> endobj
-7 0 obj << /Type /FontDescriptor /FontName /Helvetica /Flags 32 /FontBBox [-166 -225 1000 931] /ItalicAngle 0 /Ascent 770 /Descent -230 /CapHeight 717 /StemV 88 >> endobj
-8 0 obj << /S /JavaScript /JS (app.alert('Snyk PoC: CVE-2024-4367 Executed at 2025-05-30T20:03:00EEST!');) >> endobj
+%
+2 0 obj
+<<
+/Kids[3 0 R]
+/Type/Pages
+/Count 1
+>>
+endobj
+3 0 obj
+<<
+/Type/Page
+/Resources 4 0 R
+/Contents 6 0 R
+/Parent 2 0 R
+/MediaBox[0 0 595.2756 841.8898]
+>>
+endobj
+4 0 obj
+<<
+/Font<<
+  /F1 5 0 R
+>>
+>>
+endobj
+5 0 obj
+<<
+/Type/Font
+/BaseFont/Helvetica % Use a standard font to avoid font file issues
+/Subtype/Type1
+/Encoding/WinAnsiEncoding
+>>
+endobj
+6 0 obj
+<<
+/Length 70
+>>
+stream
+BT
+  50 500 Td
+  /F1 50 Tf
+  (AbCdEf) Tj
+ET
+endstream
+endobj
+7 0 obj
+<<
+/Type /Action
+/S /JavaScript
+/JS (app.alert\("foobar"\);)
+>>
+endobj
+1 0 obj
+<<
+/Pages 2 0 R
+/Type/Catalog
+/OpenAction 7 0 R
+>>
+endobj
+
 xref
-0 9
+0 8
 0000000000 65535 f 
-0000000010 00000 n 
-0000000075 00000 n 
-0000000132 00000 n 
-0000000193 00000 n 
-0000000275 00000 n 
-0000000313 00000 n 
-0000000425 00000 n 
-0000000537 00000 n 
+0000000150 00000 n 
+0000000015 00000 n 
+0000000055 00000 n 
+0000000120 00000 n 
+0000000180 00000 n 
+0000000220 00000 n 
+0000000300 00000 n 
 trailer
-<< /Size 9 /Root 1 0 R >>
+<<
+/ID[(w4f) (w4f)]
+/Root 1 0 R
+/Size 8
+>>
 startxref
-589
+400
 %%EOF
