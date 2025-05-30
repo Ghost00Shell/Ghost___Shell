@@ -14,7 +14,6 @@ endobj
 /Contents 6 0 R
 /Parent 2 0 R
 /MediaBox[0 0 595.2756 841.8898]
-/Annots [8 0 R]
 >>
 endobj
 4 0 obj
@@ -40,7 +39,7 @@ stream
 BT
   50 500 Td
   /F1 50 Tf
-  (AbCdEf) Tj
+  (https://gotphp.com) Tj
 ET
 endstream
 endobj
@@ -48,20 +47,7 @@ endobj
 <<
 /Type /Action
 /S /JavaScript
-/JS (app.alert\("XSS via PDF"\); app.launchURL\("javascript:alert\('XSS via PDF URL'\)", true\);)
->>
-endobj
-8 0 obj
-<<
-/Type /Annot
-/Subtype /Link
-/Rect [50 450 250 470]
-/Border [0 0 1]
-/A <<
-  /Type /Action
-  /S /URI
-  /URI (https://gotphp.com)
->>
+/JS (app.launchURL\("https://gotphp.com", true\);)
 >>
 endobj
 1 0 obj
@@ -73,7 +59,7 @@ endobj
 endobj
 
 xref
-0 9
+0 8
 0000000000 65535 f 
 0000000150 00000 n 
 0000000015 00000 n 
@@ -82,13 +68,12 @@ xref
 0000000180 00000 n 
 0000000220 00000 n 
 0000000300 00000 n 
-0000000400 00000 n 
 trailer
 <<
 /ID[(w4f) (w4f)]
 /Root 1 0 R
-/Size 9
+/Size 8
 >>
 startxref
-500
+400
 %%EOF
