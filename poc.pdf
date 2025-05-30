@@ -26,7 +26,7 @@ endobj
 /BaseFont/PAXEKO+SourceSansPro-Bold
 /LastChar 102
 /Encoding/WinAnsiEncoding
-/FontMatrix [0.1 0 0 0.1 0 0] % Removed the console.log injection
+/FontMatrix [0.1 0 0 0.1 0 0] % Corrected to a valid 6-element matrix
 /Subtype/Type1
 /FirstChar 65
 /FontDescriptor 9 0 R
@@ -87,7 +87,7 @@ endobj
 /Subtype/Type2
 >>
 stream
-
+% Placeholder for font data (replace with actual font stream if available)
 endstream
 endobj
 7 0 obj
@@ -122,23 +122,23 @@ endobj
 >>
 >>
 endobj
-11 0 obj % New object for JavaScript action
+11 0 obj
 <<
 /Type /Action
 /S /JavaScript
-/JS (app.alert\("XSS Test"\);)
+/JS (app.alert\("foobar"\);)
 >>
 endobj
 1 0 obj
 <<
 /Pages 2 0 R
 /Type/Catalog
-/OpenAction 11 0 R % Updated to reference the JavaScript action
+/OpenAction 11 0 R
 >>
 endobj
 
 xref
-0 12 % Updated to include the new object
+0 12
 0000000000 65535 f 
 0000002260 00000 n 
 0000000522 00000 n 
@@ -150,13 +150,13 @@ xref
 0000000015 00000 n 
 0000000577 00000 n 
 0000001085 00000 n 
-0000002400 00000 n % Offset for new object (approximated)
+0000002400 00000 n 
 trailer
 <<
 /ID[(w4f) (w4f)]
 /Root 1 0 R
-/Size 12 % Updated size
+/Size 12
 >>
 startxref
-2450 % Updated startxref (approximated)
+2450
 %%EOF
