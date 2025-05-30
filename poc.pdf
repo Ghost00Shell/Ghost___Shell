@@ -10,7 +10,7 @@ endstream endobj
 7 0 obj << /Type /FontDescriptor /FontName /FooBarFont /Flags 32 /FontBBox [-100 -100 600 800] /ItalicAngle 0 /Ascent 800 /Descent -200 /CapHeight 700 /StemV 80 /FontFile 8 0 R >> endobj
 8 0 obj << /Length 167 >> stream
 %!PS-AdobeFont-1.0: FooBarFont 001.000
-%%Title: FooBarFont
+%%Title: FooBarPoint
 %%Creator: Grok
 /FontInfo 5 dict dup begin
   /FullName (FooBarFont) def
