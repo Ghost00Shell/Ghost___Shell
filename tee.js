@@ -1,1 +1,1 @@
-alert('xss Test');
+alert('Test');
