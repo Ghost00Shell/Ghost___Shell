@@ -1,4 +1,6 @@
-<script src="https://www.gstatic.com/external_hosted/pdfjs_v3/pdf.min.js"></script>
+<html>
+  <body>
+    <script src="https://www.gstatic.com/external_hosted/pdfjs_v3/pdf.min.js"></script>
 <script>
   const url = 'https://gotphp.com/poc.pdf';
   pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://www.gstatic.com/external_hosted/pdfjs_v3/pdf.worker.min.js';
@@ -17,3 +19,5 @@
     });
   }).catch(err => console.error('Error loading PDF:', err));
 </script>
+  </body>
+</html>
