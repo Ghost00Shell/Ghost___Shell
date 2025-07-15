@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>PDF.js XSS Test</title>
+  <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js"></script>
+</head>
+<body>
+  <h1>Malicious PDF Title Below</h1>
+  <div id="titleBox"></div>
+  <canvas id="the-canvas"></canvas>
+
+  <script>
+    const url = new URLSearchParams(location.search).get("file");
+
+    const loadingTask = pdfjsLib.getDocument(url);
+    loadingTask.promise.then(function(pdf) {
+      pdf.getMetadata().then(function(meta) {
+        // ⚠️ VULNERABLE: innerHTML with unescaped content
+        document.getElementById("titleBox").innerHTML = meta.info.Title;
+      });
+
+      pdf.getPage(1).then(function(page) {
+        const scale = 1.5;
+        const viewport = page.getViewport({ scale: scale });
+
+        const canvas = document.getElementById('the-canvas');
+        const context = canvas.getContext('2d');
+        canvas.height = viewport.height;
+        canvas.width = viewport.width;
+
+        const renderContext = {
+          canvasContext: context,
+          viewport: viewport
+        };
+        page.render(renderContext);
+      });
+    });
+  </script>
+</body>
+</html>
