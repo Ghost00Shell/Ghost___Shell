@@ -1,1 +1,19 @@
 /Title (<img src=x onerror=alert(1)>)
+/Author (<script>alert(1)</script>)
+/Subject (<img src=x onerror=alert(1)>)
+<meta name="author" content="<script>alert(1)</script>">
+<span id="authorField">...</span>
+``>
+
+---
+
+### ✅ Final Fix Advice
+
+- Sanitize all metadata fields before using in the DOM.
+- Set a **strong CSP**:
+  ```http
+  Content-Security-Policy:
+    default-src 'self';
+    script-src 'self'; 
+    object-src 'none';
+    base-uri 'none';
