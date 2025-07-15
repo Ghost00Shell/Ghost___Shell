@@ -2,39 +2,39 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>PDF.js XSS Test</title>
+  <title>Vulnerable PDF.js Viewer</title>
   <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js"></script>
+  <style>
+    body { font-family: sans-serif; padding: 2rem; }
+    #titleBox { color: red; font-weight: bold; }
+  </style>
 </head>
 <body>
-  <h1>Malicious PDF Title Below</h1>
+  <h2>PDF Metadata Title Rendered Below (XSS PoC)</h2>
   <div id="titleBox"></div>
   <canvas id="the-canvas"></canvas>
 
   <script>
     const url = new URLSearchParams(location.search).get("file");
 
-    const loadingTask = pdfjsLib.getDocument(url);
-    loadingTask.promise.then(function(pdf) {
-      pdf.getMetadata().then(function(meta) {
-        // ⚠️ VULNERABLE: innerHTML with unescaped content
-        document.getElementById("titleBox").innerHTML = meta.info.Title;
+    pdfjsLib.getDocument(url).promise.then(function (pdf) {
+      pdf.getMetadata().then(function (metadata) {
+        // ⚠️ VULNERABLE: using innerHTML with untrusted PDF metadata
+        document.getElementById("titleBox").innerHTML = metadata.info.Title;
       });
 
-      pdf.getPage(1).then(function(page) {
+      // Render the first page
+      pdf.getPage(1).then(function (page) {
         const scale = 1.5;
         const viewport = page.getViewport({ scale: scale });
 
-        const canvas = document.getElementById('the-canvas');
+        const canvas = document.getElementById("the-canvas");
         const context = canvas.getContext('2d');
         canvas.height = viewport.height;
         canvas.width = viewport.width;
 
-        const renderContext = {
-          canvasContext: context,
-          viewport: viewport
-        };
-        page.render(renderContext);
+        page.render({ canvasContext: context, viewport: viewport });
       });
     });
   </script>
