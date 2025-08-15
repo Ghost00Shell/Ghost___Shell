@@ -1,4 +1,4 @@
-%PDF-1.5
+%PDF-1.4
 1 0 obj
 << /Type /Catalog /Pages 2 0 R >>
 endobj
@@ -11,37 +11,41 @@ endobj
    /MediaBox [0 0 612 792]
    /Annots [4 0 R]
    /Contents 5 0 R
-   /Resources << >>
+   /Resources << /Font << /F1 6 0 R >> >> 
 >>
 endobj
 4 0 obj
 << /Type /Annot
-   /Subtype /Link
-   /Rect [100 700 200 720]
-   /A << /S /URI /URI (javascript:alert('XSS')) >>
-   /Border [0 0 0]
+   /Subtype /Text
+   /Rect [100 600 260 640]
+   /Contents (<div>TEST &lt;img src=x onerror=console.log('img')&gt;</div>)
+   /Name /Comment
 >>
 endobj
 5 0 obj
-<< /Length 44 >>
+<< /Length 62 >>
 stream
 BT
 /F1 12 Tf
-100 705 Td
-(Link Here) Tj
+72 720 Td
+(Benign annotation test) Tj
 ET
 endstream
 endobj
+6 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
 xref
-0 6
+0 7
 0000000000 65535 f 
 0000000010 00000 n 
-0000000061 00000 n 
-0000000115 00000 n 
-0000000274 00000 n 
-0000000398 00000 n 
+0000000060 00000 n 
+0000000120 00000 n 
+0000000286 00000 n 
+0000000437 00000 n 
+0000000560 00000 n 
 trailer
-<< /Size 6 /Root 1 0 R >>
+<< /Size 7 /Root 1 0 R >>
 startxref
-490
+660
 %%EOF
