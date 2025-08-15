@@ -32,7 +32,7 @@
             margin-bottom: 20px;
             background: linear-gradient(45deg, #ff00ff, #00ffff, #ff4500, #ff0000, #32cd32);
             -webkit-background-clip: text;
-            background-clip: text禁止使用X11;
+            background-clip: text;
             color: gold;
             text-shadow: 1px 1px 3px #000, 0 0 5px rgba(255, 255, 255, 0.5);
         }
@@ -104,10 +104,12 @@
         #virustotal:hover { background: #00ff7f; }
         #crtsh { border-color: #87ceeb; }
         #crtsh:hover { background: #87ceeb; }
-        #openAll { border-color: #ff0000; }
-        #openAll:hover { background: #ff0000; }
+        #whois { border-color: #ff1493; }
+        #whois:hover { background: #ff1493; }
         #githubLeaks { border-color: #ff69b4; }
         #githubLeaks:hover { background: #ff69b4; }
+        #openAll { border-color: #ff0000; }
+        #openAll:hover { background: #ff0000; }
         #downloadResults { border-color: green; background: transparent; color: #ffd700; }
         #downloadResults:hover { background: green; color: #ffd700; }
         #contactEmail { border-color: #ffd700; }
@@ -218,6 +220,7 @@
             <button id="github" onclick="searchGitHub()">🐙 GitHub Search</button>
             <button id="virustotal" onclick="searchVirusTotal()">🛡️ VirusTotal</button>
             <button id="crtsh" onclick="searchCrtSh()">📄 crt.sh Certs</button>
+            <button id="whois" onclick="searchWhois()">🔍 WHOIS Lookup</button>
             <button id="githubLeaks" onclick="huntLeaks()">🕵️ GitHub Leak Hunter</button>
             <button id="openAll" onclick="openAll()">🚀 Open All</button>
         </div>
@@ -329,6 +332,13 @@
             }
         }
 
+        function searchWhois() {
+            const domain = getDomain();
+            if (domain) {
+                window.open(`https://who.is/dns/${encodeURIComponent(domain)}`, '_blank');
+            }
+        }
+
         function openAll() {
             const domain = getDomain();
             if (domain) {
@@ -340,6 +350,7 @@
                 searchGitHub();
                 searchVirusTotal();
                 searchCrtSh();
+                searchWhois();
             }
         }
 
