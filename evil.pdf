@@ -1,181 +1,116 @@
-%PDF-1.4
-%âãÏÓ
-
+pdf_bytes = b"""%PDF-1.4
 1 0 obj
-<<
-  /Type /Catalog
-  /Pages 2 0 R
->>
+<< /Type /Catalog /Pages 2 0 R >>
 endobj
-
 2 0 obj
-<<
-  /Type /Pages
-  /Kids [3 0 R]
-  /Count 1
->>
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
 endobj
-
 3 0 obj
-<<
-  /Type /Page
-  /Parent 2 0 R
-  /MediaBox [0 0 612 792]
-  /Contents 4 0 R
-  /Annots [5 0 R 6 0 R 9 0 R]
-  /Resources << /Font << /F1 8 0 R >> >>
->>
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R /Resources << /Font << /F1 5 0 R >> >> >>
 endobj
-
 4 0 obj
-<< /Length 44 >>
+<< /Length 62 >>
 stream
 BT
-/F1 24 Tf
-100 700 Td
-(XSS Font Crash PoC) Tj
+  /F1 24 Tf
+  72 700 Td
+  (Hello Trusted Types) Tj
 ET
 endstream
 endobj
-
 5 0 obj
-<<
-  /Type /Annot
-  /Subtype /Link
-  /Rect [100 600 200 620]
-  /Border [0 0 0]
-  /A <<
-    /S /URI
-    /URI (javascript:alert('jsXSS'))
-  >>
->>
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
 endobj
-
-6 0 obj
-<<
-  /Type /Annot
-  /Subtype /Link
-  /Rect [100 550 200 570]
-  /Border [0 0 0]
-  /A <<
-    /S /URI
-    /URI (vbscript:msgbox("vbscriptXSS"))
-  >>
->>
-endobj
-
-7 0 obj
-<< /Length 100 >>
-stream
-/CIDInit /ProcSet findresource begin
-12 dict begin
-begincmap
-/CIDSystemInfo << /Registry (Adobe) /Ordering (UCS) /Supplement 0 >> def
-/CMapName /Adobe-Identity-UCS def
-/CMapType 2 def
-1 begincodespacerange
-<00> <ff>
-endcodespacerange
-100 beginbfchar
-<00> <0041>
-<01> <0042>
-<02> <0043>
-% Fuzzing garbage below:
-<03> <ZZZZ>
-<04> <GGGG>
-<05> <0000>
-endbfchar
-endcmap
-CMapName currentdict /CMap defineresource pop
-end
-end
-endstream
-endobj
-
-8 0 obj
-<<
-  /Type /Font
-  /Subtype /Type0
-  /BaseFont /Helvetica
-  /Encoding /Identity-H
-  /DescendantFonts [10 0 R]
-  /ToUnicode 7 0 R
->>
-endobj
-
-9 0 obj
-<<
-  /Type /Annot
-  /Subtype /Link
-  /Rect [100 500 200 520]
-  /Border [0 0 0]
-  /A <<
-    /S /URI
-    /URI (data:text/html,<svg/onload=alert(999)>)
-  >>
->>
-endobj
-
-10 0 obj
-<<
-  /Type /Font
-  /Subtype /CIDFontType2
-  /BaseFont /Helvetica
-  /CIDSystemInfo <<
-    /Registry (Adobe)
-    /Ordering (Identity)
-    /Supplement 0
-  >>
-  /FontDescriptor 11 0 R
-  /W [0 [600]]
->>
-endobj
-
-11 0 obj
-<<
-  /Type /FontDescriptor
-  /FontName /Helvetica
-  /Flags 32
-  /FontBBox [0 0 0 0]
-  /ItalicAngle 0
-  /Ascent 0
-  /Descent 0
-  /CapHeight 0
-  /StemV 0
->>
-endobj
-
-12 0 obj
-<<
-  /Title (<img src=x onerror=alert(`metaXSS`)>)
-  /Author (<svg/onload=alert(1)>)
-  /Subject (<script>alert("subjectXSS")</script>)
-  /Keywords ("xss"><script>alert('kw')</script>)
-  /Producer (Crash+XSS)
->>
-endobj
-
 xref
-0 13
+0 6
 0000000000 65535 f 
 0000000010 00000 n 
-0000000076 00000 n 
-0000000136 00000 n 
-0000000264 00000 n 
-0000000371 00000 n 
-0000000488 00000 n 
-0000000604 00000 n 
-0000000852 00000 n 
-0000001020 00000 n 
-0000001145 00000 n 
-0000001286 00000 n 
-0000001386 00000 n 
+0000000061 00000 n 
+0000000116 00000 n 
+0000000247 00000 n 
+0000000367 00000 n 
 trailer
-<<
-  /Size 13
-  /Root 1 0 R
-  /Info 12 0 R
->>
+<< /Size 6 /Root 1 0 R >>
 startxref
-1490
+467
 %%EOF
+"""
+
+out_dir = Path("/mnt/data/tt-pdfjs-poc")
+out_dir.mkdir(parents=True, exist_ok=True)
+pdf_path = out_dir / "sample.pdf"
+pdf_path.write_bytes(pdf_bytes)
+
+# 2) HTML PoC that expects pdf.min.js and pdf.worker.min.js to be placed next to it.
+html = """<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>PDF.js + Trusted Types PoC (No Bypass)</title>
+  <!-- Strict CSP with Trusted Types -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; connect-src 'self' blob:; worker-src 'self' blob:; script-src 'self'; require-trusted-types-for 'script'; trusted-types pdfjs">
+  <style>
+    html, body { height: 100%; margin: 0; font-family: system-ui, sans-serif; }
+    header { padding: 12px 16px; border-bottom: 1px solid #ddd; }
+    #viewer { height: calc(100% - 58px); display: grid; place-items: center; background: #fafafa; }
+    canvas { box-shadow: 0 10px 30px rgba(0,0,0,.1); border-radius: 12px; }
+    code { background:#f1f1f1; padding:2px 6px; border-radius:6px; }
+  </style>
+</head>
+<body>
+  <header>
+    <strong>PDF.js + Trusted Types PoC</strong>
+    <span style="opacity:.7;margin-left:8px;">(enforced TT, no bypass)</span>
+  </header>
+  <div id="viewer"></div>
+
+  <!-- Place your self-hosted PDF.js files alongside this HTML:
+       - pdf.min.js
+       - pdf.worker.min.js
+       This PoC keeps script-src 'self' and uses a TT policy named 'pdfjs'.
+  -->
+  <script src="./pdf.min.js"></script>
+  <script>
+    // Create the Trusted Types policy required by our CSP
+    const ttPolicy = trustedTypes.createPolicy('pdfjs', {
+      createScriptURL: (url) => {
+        // Optional: add allowlist check here
+        // if (url !== './pdf.worker.min.js') throw new TypeError('Blocked by TT policy');
+        return url;
+      }
+    });
+
+    // Tell PDF.js to load its worker using a TrustedScriptURL
+    pdfjsLib.GlobalWorkerOptions.workerSrc = ttPolicy.createScriptURL('./pdf.worker.min.js');
+
+    // Render the first page of ./sample.pdf into a canvas
+    (async () => {
+      const loadingTask = pdfjsLib.getDocument('./sample.pdf');
+      const pdf = await loadingTask.promise;
+      const page = await pdf.getPage(1);
+      const viewport = page.getViewport({ scale: 1.25 });
+
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      canvas.width = Math.floor(viewport.width);
+      canvas.height = Math.floor(viewport.height);
+      document.getElementById('viewer').appendChild(canvas);
+
+      await page.render({ canvasContext: ctx, viewport }).promise;
+      console.log('Rendered page 1 with Trusted Types enforced.');
+    })().catch((err) => {
+      console.error('Viewer error:', err);
+      const msg = document.createElement('div');
+      msg.textContent = 'Error: ' + err;
+      document.getElementById('viewer').appendChild(msg);
+    });
+  </script>
+</body>
+</html>
+"""
+html_path = out_dir / "viewer.html"
+html_path.write_text(html, encoding="utf-8")
+
+print(f"Created: {pdf_path}")
+print(f"Created: {html_path}")
+print("Next steps:\n1) Download both files.\n2) Put 'pdf.min.js' and 'pdf.worker.min.js' from your PDF.js build in the same folder.\n3) Serve the folder over HTTP (e.g., `python -m http.server 8000`) and open http://localhost:8000/viewer.html\n4) DevTools should show no TrustedScriptURL warnings; CSP+TT is satisfied.")
