@@ -1,0 +1,1194 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https:; connect-src 'self' https:; frame-src 'none'; object-src 'none';">
+    <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=()">
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+    <title>Advanced Bug Hunting Toolkit - Recon</title>
+    <link rel="icon" type="image/x-icon" href="Advanced%20Bug%20Hunting%20Toolkit%20-%20Recon_files/spider.png">
+    <link rel="stylesheet" href="Advanced%20Bug%20Hunting%20Toolkit%20-%20Recon_files/all.min.css">
+    <link href="Advanced%20Bug%20Hunting%20Toolkit%20-%20Recon_files/boxicons.min.css" rel="stylesheet">
+    <link href="Advanced%20Bug%20Hunting%20Toolkit%20-%20Recon_files/css2_003.css" rel="stylesheet">
+    <link href="Advanced%20Bug%20Hunting%20Toolkit%20-%20Recon_files/css2.css" rel="stylesheet">
+    <link href="Advanced%20Bug%20Hunting%20Toolkit%20-%20Recon_files/css2_002.css" rel="stylesheet">
+    <style>
+        /* Root Variables for Green Cyber Theme */
+        :root {
+            --primary: #00dc82; /* Neon green */
+            --secondary: #00ffaa; /* Brighter green for accents */
+            --dark: #0a0a0a; /* Darker base */
+            --darker: #000000; /* Pure black */
+            --light: #66ff99; /* Light green for text */
+            --border: #1a3c34; /* Dark green for borders */
+            --btn-border: #1a3c34; /* Border for buttons */
+            --btn-hover: #1a4d3a; /* Hover background */
+            --accent: #00cc66; /* Darker green for buttons */
+            --accent-hover: #00ffaa; /* Brighter green for hover */
+            --danger: #ff3333; /* Red for errors */
+            --link: #00cccc; /* Cyan for links */
+            --font-primary: 'Orbitron', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            --font-mono: 'JetBrains Mono', 'Courier New', Courier, monospace;
+            --transition-speed: 0.3s;
+        }
+
+        [data-theme="light"] {
+            --dark: #1a1a1a;
+            --darker: #121212;
+            --light: #99ffbb;
+            --border: #2a4a44;
+            --btn-border: #2a4a44;
+            --btn-hover: #2a5a54;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-primary) !important;
+            background: linear-gradient(135deg, var(--dark) 0%, var(--darker) 100%);
+            color: var(--light);
+            line-height: 1.6;
+            transition: background-color var(--transition-speed), color var(--transition-speed);
+            position: relative;
+            overflow-x: hidden;
+            z-index: 0;
+            min-height: 100vh;
+        }
+
+        /* Cyber Grid Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(to right, rgba(0, 220, 130, 0.1) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0, 220, 130, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: -2;
+            animation: gridAnimation 60s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes gridAnimation {
+            0% { transform: perspective(500px) rotateX(5deg) translateZ(0) translateY(0); }
+            100% { transform: perspective(500px) rotateX(5deg) translateZ(0) translateY(50px); }
+        }
+
+        /* Matrix Rain Effect */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(0, 220, 130, 0.1) 2px,
+                rgba(0, 220, 130, 0.1) 4px
+            );
+            opacity: 0.3;
+            animation: matrix-rain 10s linear infinite;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        @keyframes matrix-rain {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100%); }
+        }
+
+        /* Navbar */
+        .navbar {
+            background: var(--darker) !important;
+            border-bottom: 1px solid var(--border);
+            padding: 0.75rem;
+            box-shadow: 0 0 15px rgba(0, 220, 130, 0.3);
+            transition: background-color var(--transition-speed);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .navbar-logo {
+            display: flex;
+            align-items: center;
+            padding-top: 4px;
+        }
+
+        .navbar-logo img {
+            width: 32px;
+            height: 32px;
+            filter: drop-shadow(0 0 8px var(--primary));
+            transition: transform 0.3s ease;
+            margin-bottom: 2px;
+        }
+
+        .navbar-logo img:hover {
+            transform: scale(1.1);
+        }
+
+        .navbar-brand-content {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding-top: 2px;
+        }
+
+        .navbar-title {
+            color: var(--primary);
+            font-size: 1.2rem;
+            margin: 0;
+            text-shadow: 0 0 5px var(--primary);
+        }
+
+        .domain-input-container {
+            flex: 1;
+            max-width: 600px;
+            margin: 0 2rem;
+        }
+
+        .input-group {
+            display: flex;
+            align-items: center;
+            background: var(--dark);
+            border-radius: 8px;
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border);
+            transition: all var(--transition-speed);
+        }
+
+        .input-group:hover {
+            border-color: var(--primary);
+            box-shadow: 0 0 10px rgba(0, 220, 130, 0.3);
+        }
+
+        .input-group input {
+            background: none;
+            border: none;
+            color: var(--light);
+            width: 100%;
+            padding: 0.5rem;
+            outline: none;
+            font-family: var(--font-mono);
+        }
+
+        .input-group input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .search-icon {
+            width: 16px;
+            height: 16px;
+            fill: var(--primary);
+        }
+
+        /* Cards */
+        .card {
+            height: 400px !important;
+            display: flex;
+            flex-direction: column;
+            background: var(--darker);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            transition: all var(--transition-speed);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            margin-bottom: 1rem;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 220, 130, 0.3);
+            border-color: var(--primary);
+        }
+
+        .card-body {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 1rem;
+            overflow-y: auto;
+        }
+
+        .card-title {
+            color: var(--primary);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 5px var(--primary);
+            flex-shrink: 0;
+        }
+
+        .tool-icon {
+            width: 16px;
+            height: 16px;
+            fill: var(--primary);
+        }
+
+        /* Buttons */
+        .btn-tool {
+            color: var(--light);
+            background: var(--dark);
+            border: 1px solid var(--btn-border);
+            padding: 0.5rem 1rem;
+            margin: 0.25rem 0;
+            border-radius: 6px;
+            transition: all var(--transition-speed);
+            width: 100%;
+            text-align: left;
+            font-family: var(--font-primary);
+            font-size: 0.9rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .btn-tool:hover {
+            background: var(--btn-hover);
+            color: var(--primary);
+            border-color: var(--primary);
+            transform: translateX(5px);
+            box-shadow: 0 0 10px rgba(0, 220, 130, 0.2);
+        }
+
+        /* Status badge */
+        .status-badge {
+            background: rgba(0, 220, 130, 0.1);
+            color: var(--primary);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            transition: all var(--transition-speed);
+            margin-left: 0.5rem;
+            flex-shrink: 0;
+        }
+
+        .btn-tool:hover .status-badge {
+            background: var(--primary);
+            color: var(--dark);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1400px;
+            margin: 6rem auto 2rem;
+            padding: 0 1.5rem;
+        }
+
+        /* Update the grid layout */
+        .row {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1rem;
+            padding: 1rem;
+        }
+
+        /* Footer */
+        .terminal-footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            padding: 1rem;
+            background: var(--darker);
+            border-top: 1px solid var(--border);
+            text-align: center;
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            color: var(--light);
+        }
+
+        .footer-info {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .footer-info a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: all var(--transition-speed);
+        }
+
+        .footer-info a:hover {
+            text-shadow: 0 0 5px var(--primary);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .row {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .row {
+                grid-width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card {
+            animation: fadeIn 0.5s ease-out forwards;
+            animation-delay: calc(var(--animation-order) * 0.1s);
+            opacity: 0;
+        }
+
+        /* Scrollable Tool Actions */
+        .tool-actions {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 5px;
+            margin-top: 0.5rem;
+            max-height: calc(400px - 4rem);
+        }
+
+        /* Scrollbar styling */
+        .tool-actions::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .tool-actions::-webkit-scrollbar-track {
+            background: var(--darker);
+            border-radius: 3px;
+        }
+
+        .tool-actions::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 3px;
+            opacity: 0.5;
+        }
+
+        .tool-actions::-webkit-scrollbar-thumb:hover {
+            background: var(--secondary);
+        }
+
+        .help-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .help-content {
+            background: var(--darker);
+            padding: 2rem;
+            border-radius: 8px;
+            border: 1px solid var(--primary);
+            max-width: 500px;
+            color: var(--light);
+        }
+
+        .help-content h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .help-content button {
+            background: var(--primary);
+            color: var(--darker);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            margin-top: 1rem;
+            cursor: pointer;
+        }
+
+        .help-content button:hover {
+            background: var(--accent-hover);
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-content">
+            <div class="navbar-brand-content">
+                <div class="navbar-logo">
+                    <img src="Advanced%20Bug%20Hunting%20Toolkit%20-%20Recon_files/spider.png" alt="Recon Tools Logo">
+                </div>
+                <h1 class="navbar-title">Advanced Recon Tools</h1>
+            </div>
+            <div class="domain-input-container">
+                <div class="input-group">
+                    <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"></path>
+                    </svg>
+                    <input type="text" id="targetDomain" placeholder="Enter domain to recon...">
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container py-3">
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
+            <!-- Subdomain Enumeration -->
+            <div class="col">
+                <div class="card h-100 animate-on-scroll" style="--animation-order: 0;">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <i class="fas fa-sitemap"></i>
+                            Subdomain Enumeration
+                        </h5>
+                        <div class="tool-actions">
+                            <button class="btn-tool" onclick="subdomainDork('https://crt.sh/?q=%.example.com')">
+                                crt.sh <span class="status-badge">Active</span>
+                            </button>
+                            <button class="btn-tool" onclick="subdomainDork('https://dorki.attaxa.com/search?q=site:example.com')">
+                                dorki.attaxa.com <span class="status-badge">Active</span>
+                            </button>
+                            <button class="btn-tool" onclick="subdomainDork('https://securitytrails.com/list/apex_domain/example.com')">
+                                SecurityTrails <span class="status-badge">Active</span>
+                            </button>
+                            <button class="btn-tool" onclick="subdomainDork('https://www.vedbex.com/subdomain-finder/example.com')">
+                                vedbex.com <span class="status-badge">Active</span>
+                            </button>
+                            <button class="btn-tool" onclick="subdomainDork('https://viewdns.info/reverseip/?host=example.com&amp;t=1')">
+                                viewdns.info <span class="status-badge">Active</span>
+                            </button>
+                            <button class="btn-tool" onclick="subdomainDork('https://google.com/search?q=site:*.example.com')">
+                                *.google <span class="status-badge">Active</span>
+                            </button>
+                            <button class="btn-tool" onclick="subdomainDork('https://search.censys.io/search?resource=hosts&amp;sort=RELEVANCE&amp;per_page=25&amp;virtual_hosts=EXCLUDE&amp;q=example.com')">
+                                search.censys.io <span class="status-badge">Active</span>
+                            </button>
+                            <button class="btn-tool" onclick="subdomainDork('https://www.shodan.io/search?query=example.com')">
+                                shodan.io <span class="status-badge">Active</span>
+                            </button>
+                            <button class="btn-tool" onclick="subdomainDork('https://www.bing.com/search?q=domain:example.com')">
+                                Bing <span class="status-badge">Active</span>
+                            </button>
+                            <button class="btn-tool" onclick="subdomainDork('https://web.archive.org/cdx/search/cdx?url=*.example.com/*&amp;collapse=urlkey&amp;output=text&amp;fl=original')">
+                                web-archive secret <span class="status-badge">Active</span>
+                            </button>
+                            <button class="btn-tool" onclick="subdomainDork('https://www.virustotal.com/gui/domain/example.com/relations')">
+                                VirusTotal <span class="status-badge">Active</span>
+                            </button>
+                            <button class="btn-tool" onclick="subdomainDork('https://dnsdumpster.com/?target=example.com')">
+                                DNSdumpster <span class="status-badge">Active</span>
+                            </button>
+                            <button class="btn-tool" onclick="subdomainDork('https://hackertarget.com/subdomain-finder/?domain=example.com')">
+                                HackerTarget <span class="status-badge">Active</span>
+                            </button>
+                            <button class="btn-tool" onclick="subdomainDork('https://sitereport.netcraft.com/?url=example.com')">
+                                Netcraft <span class="status-badge">Active</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Secret -->
+            <div class="col">
+                <div class="card h-100 animate-on-scroll" style="--animation-order: 1;">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <i class="fas fa-key"></i>
+                            Secret Discovery
+                        </h5>
+                        <div class="tool-actions">
+                            <button class="btn-tool" onclick="subdomainDork('https://web.archive.org/cdx/search/cdx?url=*.example.com/*&amp;collapse=urlkey&amp;output=text&amp;fl=original&amp;filter=original:.*\\.(xls|xml|xlsx|json|pdf|sql|doc|docx|pptx|txt|git|zip|tar\\.gz|tgz|bak|7z|rar|log|cache|secret|db|backup|yml|gz|config|csv|yaml|md|md5|exe|dll|bin|ini|bat|sh|tar|deb|rpm|iso|img|env|apk|msi|dmg|tmp|crt|pem|key|pub|asc)$')">
+                                web.archive.org (Sensitive Files) <span class="status-badge">Active</span>
+                            </button>
+                            <button class="btn-tool" onclick="subdomainDork('https://web.archive.org/cdx/search/cdx?url=*.example.com/*&amp;collapse=urlkey&amp;output=text&amp;fl=original')">
+                                web.archive.org (All URLs) <span class="status-badge">Active</span>
+                            </button>
+                            <button class="btn-tool" onclick="subdomainDork('https://otx.alienvault.com/api/v1/indicators/hostname/example.com/url_list?limit=500&amp;page=1')">
+                                AlienVault OTX URL List <span class="status-badge">Active</span>
+                            </button>
+                            <button class="btn-tool" onclick="subdomainDork('https://web.archive.org/cdx/search/cdx?url=*.example.com/*&amp;collapse=urlkey&amp;output=text&amp;fl=original&amp;filter=original:.*\.js$')">
+                                JS FILES <span class="status-badge">Active</span>
+                            </button>
+                            <button class="btn-tool" onclick="subdomainDork('https://gist.github.com/search?q=example.com+apikey&amp;type=gists')">
+                                GitHub Gists API Keys <span class="status-badge">Active</span>
+                            </button>
+                            <button class="btn-tool" onclick="secretsDork('site:example.com (password OR secret OR credential OR token OR apikey OR api_key OR client_secret) ext:env OR ext:yml OR ext:yaml OR ext:txt OR ext:log')">
+                                Config Secrets <span class="status-badge">Active</span>
+                            </button>
+                            <button class="btn-tool" onclick="secretsDork('site:example.com inurl:jenkins OR inurl:.git OR inurl:.env OR inurl:id_rsa OR inurl:id_dsa')">
+                                Development Secrets <span class="status-badge">Active</span>
+                            </button>
+                            <button class="btn-tool" onclick="secretsDork('site:example.com (authorization:Bearer OR authorization:Basic OR authorization:AWS) ext:log OR ext:txt OR ext:env')">
+                                Authorization Tokens <span class="status-badge">Active</span>
+                            </button>
+                            <button class="btn-tool" onclick="subdomainDork('https://web.archive.org/cdx/search/cdx?url=*.example.com/*&amp;collapse=urlkey&amp;output=text&amp;fl=original&amp;filter=original:.*\.env$')">
+                                .ENV <span class="status-badge">Active</span>
+                            </button>
+                            <button class="btn-tool" onclick="subdomainDork('https://www.shodan.io/search?query=Ssl.cert.subject.CN:%22example.com%22+200')">
+                                SSL Certificate CN Search <span class="status-badge">Active</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Passive Reconnaissance -->
+            <div class="col">
+                <div class="card h-100 animate-on-scroll" style="--animation-order: 2;">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <i class="fas fa-search"></i>
+                            Passive Reconnaissance
+                        </h5>
+                        <div class="tool-actions">
+                            <button class="btn-tool" onclick="whoisLookup()">
+                                WHOIS Lookup <span class="status-badge">Active</span>
+                            </button>
+                            <button class="btn-tool" onclick="dnsInfo()">
+                                DNS Information <span class="status-badge">Active</span>
+                            </button>
+                            <button class="btn-tool" onclick="checkSSL()">
+                                SSL Certificate Info <span class="status-badge">Active</span>
+                            </button>
+                            <button class="btn-tool" onclick="reverseIP()">
+                                Reverse IP Lookup <span class="status-badge">Active</span>
+                            </button>
+                            <button class="btn-tool" onclick="asnLookup()">
+                                ASN Lookup <span class="status-badge">Active</span>
+                            </button>
+                            <button class="btn-tool" onclick="robotsTxt()">
+                                Robots.txt Analysis <span class="status-badge">Active</span>
+                            </button>
+                            <button class="btn-tool" onclick="urlDork('https://www.virustotal.com/gui/domain/example.com/urls')">
+                                VirusTotal URLs <span class="status-badge">Active</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- S3 Bucket Enumeration -->
+            <div class="col">
+                <div class="card h-100 animate-on-scroll" style="--animation-order: 3;">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <i class="fas fa-cloud"></i>
+                            S3 Bucket Enumeration
+                        </h5>
+                        <div class="tool-actions">
+                            <button class="btn-tool" onclick="s3Dork('site:s3.amazonaws.com example.com')">
+                                AWS S3 Buckets <span class="status-badge">Active</span>
+                            </button>
+                            <button class="btn-tool" onclick="s3Dork('site:storage.googleapis.com example.com')">
+                                Google Cloud Storage <span class="status-badge">Active</span>
+                            </button>
+                            <button class="btn-tool" onclick="s3Dork('site:blob.core.windows.net example.com')">
+                                Azure Blob Storage <span class="status-badge">Active</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Technology Detection -->
+            <div class="col">
+                <div class="card h-100 animate-on-scroll" style="--animation-order: 4;">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <i class="fas fa-code"></i>
+                            Technology Detection
+                        </h5>
+                        <div class="tool-actions">
+                            <button class="btn-tool" onclick="gitDork('https://builtwith.com/example.com')">
+                                builtwith.com <span class="status-badge">Active</span>
+                            </button>
+                            <button class="btn-tool" onclick="gitDork('https://webtechsurvey.com/website/example.com')">
+                                webtechsurvey.com <span class="status-badge">Active</span>
+                            </button>
+                            <button class="btn-tool" onclick="gitDork('https://w3techs.com/sites/info/example.com')">
+                                w3techs.com <span class="status-badge">Active</span>
+                            </button>
+                            <button class="btn-tool" onclick="techDork('https://whatcms.org/?s=example.com')">
+                                whatcms.org <span class="status-badge">Active</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Port Scanning -->
+            <div class="col">
+                <div class="card h-100 animate-on-scroll" style="--animation-order: 5;">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <i class="fas fa-network-wired"></i>
+                            Port Scanning
+                        </h5>
+                        <div class="tool-actions">
+                            <button class="btn-tool" onclick="portDork('https://viewdns.info/portscan/?host=example.com')">
+                                viewdns.info <span class="status-badge">Active</span>
+                            </button>
+                            <button class="btn-tool" onclick="portDork('https://dnschecker.org/port-scanner.php?query=example.com&amp;ptype=server')">
+                                dnschecker.org <span class="status-badge">Active</span>
+                            </button>
+                            <button class="btn-tool" onclick="portDork('https://web-check.xyz/check/example.com')">
+                                web-check.xyz <span class="status-badge">Active</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- URL Collection -->
+            <div class="col">
+                <div class="card h-100 animate-on-scroll" style="--animation-order: 6;">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <i class="fas fa-link"></i>
+                            URL Collection
+                        </h5>
+                        <div class="tool-actions">
+                            <button class="btn-tool" onclick="urlDork('https://web.archive.org/cdx/search/cdx?url=*.example.com/*&amp;output=txt&amp;collapse=urlkey&amp;fl=original&amp;page=/')">
+                                web.archive.org <span class="status-badge">Active</span>
+                            </button>
+                            <button class="btn-tool" onclick="urlDork('https://urlscan.io/api/v1/search/?q=example.com&amp;size=10000')">
+                                urlscan.io <span class="status-badge">Active</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CMS Dorking -->
+            <div class="col">
+                <div class="card h-100 animate-on-scroll" style="--animation-order: 7;">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <i class="fas fa-wordpress"></i>
+                            CMS Dorking
+                        </h5>
+                        <div class="tool-actions">
+                            <button class="btn-tool" onclick="cmsDork('site:example.com inurl:(wp-content/plugins OR wp-admin) ext:php')">
+                                <span>WP Juicy Extensions</span>
+                                <span class="status-badge">Active</span>
+                            </button>
+                            <button class="btn-tool" onclick="cmsDork('site:example.com filetype:sql intext:wp_users phpmyadmin')">
+                                <span>WP Users</span>
+                                <span class="status-badge">Active</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Directory Traversal -->
+            <div class="col">
+                <div class="card h-100 animate-on-scroll" style="--animation-order: 8;">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <i class="fas fa-folder-open"></i>
+                            Directory Traversal
+                        </h5>
+                        <div class="tool-actions">
+                            <button class="btn-tool" onclick="directoryDork('site:example.com intitle:index.of')">
+                                Directory Listing <span class="status-badge">Active</span>
+                            </button>
+                            <button class="btn-tool" onclick="directoryDork('site:example.com filetype:log')">
+                                Log Files <span class="status-badge">Active</span>
+                            </button>
+                            <button class="btn-tool" onclick="directoryDork('site:example.com filetype:conf OR filetype:config')">
+                                Config Files <span class="status-badge">Active</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Vulnerability Search -->
+            <div class="col">
+                <div class="card h-100 animate-on-scroll animated" style="--animation-order: 9;">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <i class="fas fa-bug"></i>
+                            Vulnerability Search
+                        </h5>
+                        <div class="tool-actions">
+                            <button class="btn-tool" onclick="vulnDork('site:exploit-db.com example.com')">
+                                Exploit-DB <span class="status-badge">Active</span>
+                            </button>
+                            <button class="btn-tool" onclick="vulnDork('site:nvd.nist.gov example.com')">
+                                NVD Database <span class="status-badge">Active</span>
+                            </button>
+                            <button class="btn-tool" onclick="vulnDork('site:packetstormsecurity.com example.com')">
+                                PacketStorm <span class="status-badge">Active</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Code & Document Search -->
+            <div class="col">
+                <div class="card h-100 animate-on-scroll animated" style="--animation-order: 10;">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <svg class="tool-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                <path d="M12 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM5 4h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1zm-.5 2.5A.5.5 0 0 1 5 6h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5zM5 8h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1zm0 2h3a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1z"></path>
+                            </svg>
+                            Code &amp; Document Search
+                        </h5>
+                        <div class="mt-2">
+                            <button class="btn-tool" onclick="codeDork('site:pastebin.com example.com')">
+                                <span>Pastebin Entries</span>
+                                <span class="status-badge">Active</span>
+                            </button>
+                            <button class="btn-tool" onclick="codeDork('site:example.com ext:(doc OR docx OR odt OR pdf OR rtf OR sxw OR psw OR ppt OR pptx OR pps OR csv)')">
+                                <span>Documents</span>
+                                <span class="status-badge">Active</span>
+                            </button>
+                            <button class="btn-tool" onclick="codeDork('site:(github.com OR gitlab.com) example.com')">
+                                <span>GitHub/GitLab Code</span>
+                                <span class="status-badge">Active</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- API Endpoints -->
+            <div class="col">
+                <div class="card h-100 animate-on-scroll animated" style="--animation-order: 11;">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <svg class="tool-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                <path d="M2.114 8.063V7.9c1.005-.102 1.497-.615 1.497-1.6V4.503c0-1.094.39-1.538 1.354-1.538h.273V2h-.376C3.25 2 2.49 2.759 2.49 4.352v1.524c0 1.094-.376 1.456-1.49 1.456v1.299c1.114 0 1.49.362 1.49 1.456v1.524c0 1.593.759 2.352 2.372 2.352h.376v-.964h-.273c-.964 0-1.354-.444-1.354-1.538V9.663c0-.984-.492-1.497-1.497-1.6zM13.886 7.9v.163c-1.005.103-1.497.616-1.497 1.6v1.798c0 1.094-.39 1.538-1.354 1.538h-.273v.964h.376c1.613 0 2.372-.759 2.372-2.352v-1.524c0-1.094.376-1.456 1.49-1.456V7.332c-1.114 0-1.49-.362-1.49-1.456V4.352C13.51 2.759 12.75 2 11.138 2h-.376v.964h.273c.964 0 1.354.444 1.354 1.538V6.3c0 .984.492 1.497 1.497 1.6z"></path>
+                            </svg>
+                            API Endpoints
+                        </h5>
+                        <div class="mt-2">
+                            <button class="btn-tool" onclick="apiDork('site:example.com (inurl:api OR inurl:apis OR inurl:graphql OR inurl:swagger OR inurl:v1 OR inurl:v2 OR inurl:v3) (filetype:json OR filetype:yaml OR filetype:xml)')">
+                                <span>API Documentation</span>
+                                <span class="status-badge">Active</span>
+                            </button>
+                            <button class="btn-tool" onclick="apiDork('site:example.com inurl:(swagger-ui OR swagger.json OR api-docs OR openapi.json)')">
+                                <span>Swagger/OpenAPI</span>
+                                <span class="status-badge">Active</span>
+                            </button>
+                            <button class="btn-tool" onclick="apiDork('site:example.com inurl:(graphql OR graphiql OR hasura)')">
+                                <span>GraphQL Endpoints</span>
+                                <span class="status-badge">Active</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cloud Assets -->
+            <div class="col">
+                <div class="card h-100 animate-on-scroll animated" style="--animation-order: 12;">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <svg class="tool-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                <path d="M4.406 3.342A5.53 5.53 0 0 1 8 2c2.69 0 4.923 2 5.166 4.579C14.758 6.804 16 8.137 16 9.773 16 11.569 14.502 13 12.687 13H3.781C1.708 13 0 11.366 0 9.318c0-1.763 1.266-3.223 2.942-3.593.143-.863.698-1.723 1.464-2.383z"></path>
+                            </svg>
+                            Cloud Assets
+                        </h5>
+                        <div class="mt-2">
+                            <button class="btn-tool" onclick="cloudDork('site:s3.amazonaws.com example.com')">
+                                <span>AWS S3 Buckets</span>
+                                <span class="status-badge">Active</span>
+                            </button>
+                            <button class="btn-tool" onclick="cloudDork('site:storage.googleapis.com example.com')">
+                                <span>Google Cloud Storage</span>
+                                <span class="status-badge">Active</span>
+                            </button>
+                            <button class="btn-tool" onclick="cloudDork('site:azurewebsites.net example.com')">
+                                <span>Azure Websites</span>
+                                <span class="status-badge">Active</span>
+                            </button>
+                            <button class="btn-tool" onclick="cloudDork('site:example.com (inurl:amazonaws.com OR inurl:digitaloceanspaces.com OR inurl:blob.core.windows.net)')">
+                                <span>Cloud Storage URLs</span>
+                                <span class="status-badge">Active</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Development Assets -->
+            <div class="col">
+                <div class="card h-100 animate-on-scroll animated" style="--animation-order: 13;">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <svg class="tool-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"></path>
+                                <path d="M6.854 4.646a.5.5 0 0 1 0 .708L4.207 8l2.647 2.646a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 0 1 .708 0zm2.292 0a.5.5 0 0 0 0 .708L11.793 8l-2.647 2.646a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708 0z"></path>
+                            </svg>
+                            Development Assets
+                        </h5>
+                        <div class="mt-2">
+                            <button class="btn-tool" onclick="devDork('site:example.com inurl:(.git OR .svn OR .hg OR .bzr)')">
+                                <span>Version Control</span>
+                                <span class="status-badge">Active</span>
+                            </button>
+                            <button class="btn-tool" onclick="devDork('site:example.com inurl:(jenkins OR gitlab OR bitbucket OR jira OR confluence)')">
+                                <span>Dev Tools</span>
+                                <span class="status-badge">Active</span>
+                            </button>
+                            <button class="btn-tool" onclick="devDork('site:example.com ext:(php OR py OR rb OR java OR js OR ts OR go OR sh OR pl OR asp OR aspx) inurl:(test OR dev OR staging)')">
+                                <span>Dev Scripts</span>
+                                <span class="status-badge">Active</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="terminal-footer">
+        <div class="footer-info">
+            <span>© 2025 Advanced Bug Hunting Toolkit</span>
+            <span>|</span>
+            <a href="https://lostsec.xyz/final.html">Back to Main</a>
+        </div>
+    </footer>
+
+    <script>
+    // Keep only the original functions from index.html
+    class ReconTools {
+        constructor() {
+            this.validateDomain = this.validateDomain.bind(this);
+            this.initializeEventListeners();
+        }
+
+        initializeEventListeners() {
+            document.addEventListener('DOMContentLoaded', () => {
+                this.setupDomainInput();
+            });
+        }
+
+        setupDomainInput() {
+            const input = document.getElementById('targetDomain');
+            if (input) {
+                input.addEventListener('input', () => {
+                    this.validateDomain(input.value);
+                });
+            }
+        }
+
+        validateDomain(domain) {
+            if (!domain) {
+                this.showError('Please enter a domain');
+                return false;
+            }
+
+            const pattern = /^(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}$/;
+            if (!pattern.test(domain)) {
+                this.showError('Please enter a valid domain');
+                return false;
+            }
+
+            return true;
+        }
+
+        getDomain() {
+            const domain = document.getElementById('targetDomain')?.value.trim();
+            if (!domain) {
+                this.showError('Please enter a domain');
+                return null;
+            }
+            return this.sanitizeDomain(domain);
+        }
+
+        sanitizeDomain(domain) {
+            return domain.replace(/^https?:\/\//, '').replace(/\/$/, '');
+        }
+
+        showError(message) {
+            this.removeExistingErrors();
+
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'alert alert-danger error-message';
+            errorDiv.style.cssText = `
+                position: fixed;
+                top: 80px;
+                left: 50%;
+                transform: translateX(-50%);
+                z-index: 1050;
+                padding: 12px 20px;
+                border-radius: 6px;
+                background: var(--danger);
+                color: white;
+                font-weight: 500;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+                opacity: 0;
+                transition: opacity 0.3s ease;
+            `;
+            
+            errorDiv.textContent = message;
+            document.body.appendChild(errorDiv);
+
+            setTimeout(() => {
+                errorDiv.style.opacity = '1';
+            }, 10);
+
+            setTimeout(() => {
+                errorDiv.style.opacity = '0';
+                setTimeout(() => {
+                    if (errorDiv.parentNode) {
+                        errorDiv.remove();
+                    }
+                }, 300);
+            }, 3000);
+        }
+
+        removeExistingErrors() {
+            const existingErrors = document.querySelectorAll('.error-message');
+            existingErrors.forEach(error => error.remove());
+        }
+
+        executeToolSearch(url, toolName) {
+            const domain = this.getDomain();
+            if (!domain) return;
+            
+            try {
+                const finalUrl = url.replace(/example\.com/g, domain);
+                window.open(finalUrl, '_blank');
+            } catch (error) {
+                this.showError(`Failed to execute ${toolName}: ${error.message}`);
+            }
+        }
+    }
+
+    const reconTools = new ReconTools();
+
+    // Original functions from index.html
+    function subdomainDork(url) {
+        const domain = document.getElementById('targetDomain').value;
+        if (domain) {
+            window.open(url.replace('example.com', domain), '_blank');
+        } else {
+            alert('Please enter a domain!');
+        }
+    }
+
+    function gitDork(url) {
+        const domain = document.getElementById('targetDomain').value;
+        if (domain) {
+            window.open(url.replace('example.com', domain), '_blank');
+        } else {
+            alert('Please enter a domain!');
+        }
+    }
+
+    function techDork(url) {
+        const domain = document.getElementById('targetDomain').value;
+        if (domain) {
+            window.open(url.replace('example.com', domain), '_blank');
+        } else {
+            alert('Please enter a domain!');
+        }
+    }
+
+    function portDork(url) {
+        const domain = document.getElementById('targetDomain').value;
+        if (domain) {
+            window.open(url.replace('example.com', domain), '_blank');
+        } else {
+            alert('Please enter a domain!');
+        }
+    }
+
+    function urlDork(url) {
+        const domain = document.getElementById('targetDomain').value;
+        if (domain) {
+            window.open(url.replace('example.com', domain), '_blank');
+        } else {
+            alert('Please enter a domain!');
+        }
+    }
+
+    function cmsDork(query) {
+        const domain = document.getElementById('targetDomain').value;
+        if (domain) {
+            window.open(`https://www.google.com/search?q=${query.replace('example.com', domain)}`, '_blank');
+        } else {
+            alert('Please enter a domain!');
+        }
+    }
+
+    function directoryDork(query) {
+        const domain = document.getElementById('targetDomain').value;
+        if (domain) {
+            window.open(`https://www.google.com/search?q=${query.replace('example.com', domain)}`, '_blank');
+        } else {
+            alert('Please enter a domain!');
+        }
+    }
+
+    function vulnDork(query) {
+        const domain = document.getElementById('targetDomain').value;
+        if (domain) {
+            window.open(`https://www.google.com/search?q=${query.replace('example.com', domain)}`, '_blank');
+        } else {
+            alert('Please enter a domain!');
+        }
+    }
+
+    function s3Dork(query) {
+        const domain = document.getElementById('targetDomain').value;
+        if (domain) {
+            window.open(`https://www.google.com/search?q=${query.replace('example.com', domain)}`, '_blank');
+        } else {
+            alert('Please enter a domain!');
+        }
+    }
+
+    function whoisLookup() {
+        const domain = document.getElementById('targetDomain').value;
+        if (domain) {
+            window.open(`https://whois.domaintools.com/${domain}`, '_blank');
+        } else {
+            alert('Please enter a domain!');
+        }
+    }
+
+    function dnsInfo() {
+        const domain = document.getElementById('targetDomain').value;
+        if (domain) {
+            window.open(`https://dnsdumpster.com/?q=${domain}`, '_blank');
+        } else {
+            alert('Please enter a domain!');
+        }
+    }
+
+    function checkSSL() {
+        const domain = document.getElementById('targetDomain').value;
+        if (domain) {
+            window.open(`https://www.ssllabs.com/ssltest/analyze.html?d=${domain}`, '_blank');
+        } else {
+            alert('Please enter a domain!');
+        }
+    }
+
+    function reverseIP() {
+        const domain = document.getElementById('targetDomain').value;
+        if (domain) {
+            window.open(`https://viewdns.info/reverseip/?host=${domain}&t=1`, '_blank');
+        } else {
+            alert('Please enter a domain!');
+        }
+    }
+
+    function asnLookup() {
+        const domain = document.getElementById('targetDomain').value;
+        if (domain) {
+            window.open(`https://bgp.he.net/search?search%5Bsearch%5D=${domain}&commit=Search`, '_blank');
+        } else {
+            alert('Please enter a domain!');
+        }
+    }
+
+    function robotsTxt() {
+        const domain = document.getElementById('targetDomain').value;
+        if (domain) {
+            window.open(`https://${domain}/robots.txt`, '_blank');
+        } else {
+            alert('Please enter a domain!');
+        }
+    }
+
+    function codeDork(query) {
+        const domain = document.getElementById('targetDomain').value;
+        if (domain) {
+            window.open(`https://www.google.com/search?q=${query.replace('example.com', domain)}`, '_blank');
+        } else {
+            alert('Please enter a domain!');
+        }
+    }
+
+    function apiDork(query) {
+        const domain = document.getElementById('targetDomain').value;
+        if (domain) {
+            window.open(`https://www.google.com/search?q=${query.replace('example.com', domain)}`, '_blank');
+        } else {
+            alert('Please enter a domain!');
+        }
+    }
+
+    function cloudDork(query) {
+        const domain = document.getElementById('targetDomain').value;
+        if (domain) {
+            window.open(`https://www.google.com/search?q=${query.replace('example.com', domain)}`, '_blank');
+        } else {
+            alert('Please enter a domain!');
+        }
+    }
+
+    function devDork(query) {
+        const domain = document.getElementById('targetDomain').value;
+        if (domain) {
+            window.open(`https://www.google.com/search?q=${query.replace('example.com', domain)}`, '_blank');
+        } else {
+            alert('Please enter a domain!');
+        }
+    }
+
+    // Initialize animations
+    document.addEventListener('DOMContentLoaded', function() {
+        const cards = document.querySelectorAll('.card');
+        cards.forEach((card, index) => {
+            card.classList.add('animate-on-scroll');
+            card.style.setProperty('--animation-order', index);
+        });
+
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animated');
+                    }
+                });
+            },
+            { threshold: 0.1 }
+        );
+
+        cards.forEach((card) => observer.observe(card));
+    });
+    </script>
+
+ </body></html>
