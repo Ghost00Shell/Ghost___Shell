@@ -1,1 +1,55 @@
-<h1>Test..</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Centered Buttons</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;  /* horizontal center */
+      align-items: center;      /* vertical center */
+      background: #000;         /* pure black background */
+      font-family: Arial, sans-serif;
+    }
+    .buttons {
+      display: flex;
+      gap: 30px; /* space between buttons */
+    }
+    .buttons a {
+      padding: 20px 50px;          /* large button */
+      border-radius: 25px;         /* pill style */
+      font-size: 20px;
+      font-weight: bold;
+      text-decoration: none;
+      display: inline-block;
+      border: 2px solid;
+      transition: 0.2s;
+    }
+    .buttons a:hover {
+      transform: scale(1.05);
+      opacity: 0.9;
+    }
+
+    .gorecon {
+      border-color: #16a34a;
+      color: #16a34a;
+      background-color: rgba(22, 163, 74, 0.15); /* pale green */
+    }
+    .gorecon2 {
+      border-color: #dc2626;
+      color: #dc2626;
+      background-color: rgba(220, 38, 38, 0.15); /* pale red */
+    }
+  </style>
+</head>
+<body>
+
+  <div class="buttons">
+    <a href="https://gotphp.com/gorecon" class="gorecon">gorecon</a>
+    <a href="https://gotphp.com/gorecon2" class="gorecon2">gorecon2</a>
+  </div>
+
+</body>
+</html>
