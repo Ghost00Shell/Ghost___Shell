@@ -201,6 +201,12 @@
             .results-panel, .notes-container {
                 max-width: 100%;
             }
+            #githubRegexReplace {
+    border-color: #ff6347; /* or any color */
+}
+#githubRegexReplace:hover {
+    background: #ff6347;
+}
         }
     </style>
 </head>
@@ -222,7 +228,7 @@
             <button id="crtsh" onclick="searchCrtSh()">📄 crt.sh Certs</button>
             <button id="whois" onclick="searchWhois()">🔍 WHOIS Lookup</button>
             <button id="githubLeaks" onclick="huntLeaks()">🕵️ GitHub Leak Hunter</button>
-            <button id="githubRegexCustom" onclick="searchGitHubCustomRegex()">🧪 GitHub Regex Replace</button>
+            <button id="githubRegexReplace" onclick="searchGitHubRegexReplace()">🧪 GitHub Regex Replace</button>
             <button id="openAll" onclick="openAll()">🚀 Open All</button>
         </div>
         <div class="contact-buttons">
@@ -479,32 +485,34 @@
             link.download = 'GitHub_Leaks_Results.txt';
             link.click();
         }
-        function searchGitHubCustomRegex() {
+function searchGitHubRegexReplace() {
     const domain = getDomain();
     if (!domain) return;
 
-    // Extract last part of the domain (e.g., "mil", "gov", "com")
-    const parts = domain.split('.');
-    const tld = parts.pop(); // last part (e.g., "mil")
-    const pattern = `[a-z]+\\.[a-z]+\\.${tld}/`;
+    // Escape dots in the domain for regex (e.g., example.com => example\.com)
+    const escapedDomain = domain.replace(/\./g, '\\.');
 
-    // Create GitHub regex search URL
+    // Replace 'test' in the base regex with the input domain
+    const pattern = `/[a-z]+\\.[a-z]+\\.${escapedDomain}\\//`;
+
+    // GitHub regex search URL
     const githubUrl = `https://github.com/search?q=${encodeURIComponent(pattern)}&type=code&patterntype=regex`;
 
-    // Open GitHub search in new tab
+    // Open GitHub search
     window.open(githubUrl, '_blank');
 
-    // Optionally, show in results panel
+    // Add result preview in results panel
     const resultsDiv = document.getElementById('results');
     resultsDiv.innerHTML = `
-        <h3>🧪 GitHub Custom Regex</h3>
+        <h3>🔁 GitHub Regex Replace</h3>
         <div class="leak">
             <b>Input:</b> ${domain}<br>
-            <b>Generated Regex:</b> <code>${pattern}</code><br>
+            <b>Regex Used:</b> <code>${pattern}</code><br>
             <b>GitHub Search:</b> <a href="${githubUrl}" target="_blank">${githubUrl}</a>
         </div>
     ` + resultsDiv.innerHTML;
 }
+
 
     </script>
 </body>
