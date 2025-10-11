@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Credential Sanitizer — Preserve Endpoints + URL Toggle</title>
+<style>
+  :root{
+    --bg:#071227;
+    --muted:#93a2b8;
+    --accent:#7dd3fc;
+    --green:#00ff00;
+    --red:#ff2e2e;
+    --gold:#ffd700;
+  }
+  html,body{
+    height:100%;margin:0;
+    font-family:Inter,system-ui,Arial;
+    background:linear-gradient(180deg,#041025 0%,#071227 100%);
+    color:#fff;
+  }
+  .wrap{
+    max-width:1100px;margin:20px auto;padding:18px;
+    border-radius:12px;
+    background:rgba(255,255,255,0.03);
+    box-shadow:0 6px 30px rgba(0,0,0,0.5);
+  }
+  h1{
+    text-align:center;margin:0 0 8px;font-size:22px;
+    background:linear-gradient(90deg,var(--gold),var(--red),var(--green));
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+  }
+  p.lead{text-align:center;color:var(--muted);margin:0 0 14px}
+  .container{display:flex;flex-wrap:wrap;gap:18px}
+  textarea, pre{
+    width:100%;min-height:320px;
+    background:#071126;
+    color:var(--green);
+    border:1px solid rgba(255,255,255,0.12);
+    border-radius:10px;
+    padding:14px;font-family:monospace;font-size:13px;
+    resize:vertical;box-sizing:border-box;
+    transition:0.3s;
+    overflow:auto;white-space:pre-wrap;
+  }
+  @media(min-width:900px){textarea, pre{width:calc(50% - 9px)}}
+  pre#output{color:var(--gold);} /* fallback */
+  textarea:focus{
+    outline:none;
+    border-color:var(--gold);
+    box-shadow:0 0 10px var(--accent);
+  }
+  .controls{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+  button{
+    border:none;color:#fff;
+    padding:10px 14px;border-radius:8px;
+    cursor:pointer;font-weight:700;
+  }
+  #sanitize{background:#00b300;}
+  #clear{background:#cc0000;}
+  #paste{background:#ffcc00;color:#000;}
+  #copy{background:#00bfff;}
+  #download{background:#9933ff;}
+  .opts{
+    display:flex;flex-direction:column;gap:6px;
+    margin-top:14px;padding:10px;
+    background:rgba(255,255,255,0.02);
+    border-radius:8px;
+  }
+  input[type="checkbox"]{accent-color:var(--green);transform:scale(1.2);}
+  label{font-size:14px;color:var(--gold)}
+  .footer{text-align:center;color:var(--muted);margin-top:14px;font-size:13px}
+  .counts {
+    color: #00ff00;
+    font-weight: 700;
+    text-shadow: 0 0 6px #00ff00;
+  }
+
+  /* output classes */
+  pre#output .method { color: var(--green); font-weight: 900; }
+  pre#output .header-key { font-weight: 900; }
+  pre#output .redacted { color: var(--gold); font-weight: 900; text-shadow: 0 0 6px var(--gold); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Credential Sanitizer — Preserve Endpoints</h1>
+  <p class="lead">Redacts credentials & tokens but preserves HTTP methods, paths, endpoints and parameter names.</p>
+
+  <div class="container">
+    <textarea id="input" placeholder="Paste code or plain text here..."></textarea>
+    <pre id="output" placeholder="Sanitized output..." readonly></pre>
+  </div>
+
+  <div class="controls">
+    <button id="sanitize">Sanitize</button>
+    <button id="clear">Clear</button>
+    <button id="paste">Paste</button>
+    <button id="copy">Copy Output</button>
+    <button id="download">Download .txt</button>
+  </div>
+
+  <div class="opts">
+    <label><input type="checkbox" id="opt-urls" checked> Remove full URLs (outside preserved method paths)</label>
+    <label><input type="checkbox" id="opt-provider" checked> Provider token prefixes (xoxb_, ghp_, sk_live_, AKIA...)</label>
+    <label><input type="checkbox" id="opt-generic" checked> Generic tokens (JWTs, long secrets)</label>
+    <label><input type="checkbox" id="opt-kv" checked> Key=value / key: value / "key": "value" redaction (values only)</label>
+  </div>
+
+  <div class="footer">Removed: <span id="removed" class="counts">0</span></div>
+</div>
+
+<script>
+(function(){
+  const inEl = document.getElementById('input');
+  const outEl = document.getElementById('output');
+  const removedEl = document.getElementById('removed');
+
+  function escapeHtml(t){ return String(t).replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[ch])); }
+
+  // provider/prefix patterns
+  const prefixPatterns=[
+    {re:/\bxox[bp]-[A-Za-z0-9-_.]{6,}/gi,tag:'SLACK'},
+    {re:/\bghp_[A-Za-z0-9_]{6,}/gi,tag:'GITHUB'},
+    {re:/\bglpat-[A-Za-z0-9]{6,}/gi,tag:'GITLAB'},
+    {re:/\bsk_live_[A-Za-z0-9]{6,}/gi,tag:'STRIPE'},
+    {re:/\bsk_test_[A-Za-z0-9]{6,}/gi,tag:'STRIPE'},
+    {re:/\bAKIA[0-9A-Z]{8,}\b/g,tag:'AWS'},
+    {re:/\btoken\s+[A-Za-z0-9._-]{6,}/gi,tag:'TOKEN'},
+    {re:/\bBearer\s+[A-Za-z0-9\-_.=]+/gi,tag:'BEARER'},
+    {re:/Authorization:\s*["']?([A-Za-z0-9\-_.=]+)["']?/gi,tag:'AUTH'}
+  ];
+
+  // core regexes
+  const RE = {
+    method_path: /(^|\n)(\s*)(GET|POST|PUT|DELETE|HEAD|OPTIONS|TRACE|PATCH)\s+([^\s\n\r]+)/gi,
+    query_param_value: /([?&])([^=&#\s]+)=([^&#\s]*)/g,
+    basic_auth: /https?:\/\/([^\/\s:]+):([^\/\s@]+)@/gi,
+    url_with_query: /https?:\/\/[^\s"'<>?#]+\?([^\s"'<>#]*)/gi,
+    url_no_query: /https?:\/\/[^\s"'<>]+/gi,
+    key_assignment: /\b([A-Za-z0-9_.-]{2,60})\b(\s*[:=]\s*)(["']?)([^"'`;\n\r,}]{1,500})\3/gi,
+    jwt: /\b[A-Za-z0-9-_]{10,}\.[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+\b/g,
+    long_secret: /\b[A-Za-z0-9+/=_\-.]{40,}\b/g,
+    email: /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b/g
+  };
+
+  // helper: redact query params inside path or query-string and count removals
+  function redactQueryValues(str, counter){
+    return str.replace(RE.query_param_value, (m, sep, name, val) => {
+      if(val && val.length > 0) counter.count++;
+      return `${sep}${name}=[REDACTED]`;
+    });
+  }
+
+  function sanitizeRaw(input, opts){
+    let text = input || '';
+    let removed = 0;
+    if(!text) return { text:'', removed:0 };
+
+    // 1) redact query params in recognized "METHOD path" lines first (preserve method + path)
+    text = text.replace(RE.method_path, (m, preNl, ws, method, path) => {
+      const newPath = redactQueryValues(path, { count: 0 }); // this counts internally if needed
+      // now count actual param occurrences (we must increment removed for each)
+      newPath.replace(RE.query_param_value, (mm, s, n, v) => { if(v && v.length>0) removed++; return mm; });
+      // also ensure any leftover raw ?a=b in path replaced
+      const finalPath = newPath.replace(RE.query_param_value, (mm, s, n, v)=> `${s}${n}=[REDACTED]`);
+      return preNl + ws + method + ' ' + finalPath;
+    });
+
+    // 2) URLs: basic auth, url-with-query, url-no-query
+    if(opts.urls){
+      // basic auth (user:pass@)
+      text = text.replace(RE.basic_auth, ()=>{ removed++; return 'https://[REDACTED_BASIC_AUTH@]'; });
+
+      // urls with query - redact each param value and count
+      text = text.replace(RE.url_with_query, (m) => {
+        // capture query part after ?
+        const qIndex = m.indexOf('?');
+        if(qIndex < 0) { removed++; return '[REDACTED_URL]'; }
+        const b = m.slice(0, qIndex);
+        const q = m.slice(qIndex + 1);
+        const rq = q.replace(RE.query_param_value, (mm, sep, name, val) => { if(val && val.length>0) removed++; return sep + name + '=[REDACTED]'; });
+        return b + '?' + rq;
+      });
+
+      // plain urls without query
+      text = text.replace(RE.url_no_query, ()=>{ removed++; return '[REDACTED_URL]'; });
+    }
+
+    // 3) Key assignments (json/headers) -> redact values unless value looks like a path/URL (keep those)
+    if(opts.kv){
+      text = text.replace(RE.key_assignment, (match, key, sep, q, val) => {
+        // If value looks like a URL or contains a slash, leave alone
+        if(/^\s*https?:\/\//i.test(val) || /\/{1,}/.test(val)) return match;
+        // also if value is short token-like and we already handle prefixes, it's fine to redact
+        removed++;
+        return `${key}${sep}${q || ''}[REDACTED]${q || ''}`;
+      });
+    }
+
+    // 4) Prefix/provider-based tokens
+    if(opts.prefixes){
+      prefixPatterns.forEach(it=>{
+        text = text.replace(it.re, (m)=>{ removed++; return `[REDACTED_${it.tag}]`; });
+      });
+    }
+
+    // 5) Generic tokens
+    if(opts.generic){
+      text = text.replace(RE.jwt, ()=>{ removed++; return '[REDACTED_JWT]'; });
+      text = text.replace(RE.long_secret, (m)=>{ if(m.indexOf('/')>=0) return m; removed++; return '[REDACTED_LONG]'; });
+    }
+
+    // 6) Email
+    text = text.replace(RE.email, ()=>{ removed++; return '[REDACTED_EMAIL]'; });
+
+    // 7) Host/Origin/Referer header values redaction when URLs option is on (common host leak)
+    if(opts.urls){
+      text = text.replace(/(^|\n)(\s*)(Host|Origin|Referer)\s*:\s*([^\n\r]+)/gi, (m, pre, ws, key, val) => {
+        removed++; return `${pre}${ws}${key}: [REDACTED_URL]`;
+      });
+    }
+
+    // 8) final pass: any remaining query param values (in arbitrary text) if urls option enabled
+    if(opts.urls){
+      text = text.replace(RE.query_param_value, (m, sep, name, val) => {
+        if(val && val.length>0) removed++;
+        return `${sep}${name}=[REDACTED]`;
+      });
+    }
+
+    return { text, removed };
+  }
+
+  function getOpts(){
+    return {
+      urls: document.getElementById('opt-urls').checked,
+      prefixes: document.getElementById('opt-provider').checked,
+      generic: document.getElementById('opt-generic').checked,
+      kv: document.getElementById('opt-kv').checked
+    };
+  }
+
+  // color persistence
+const palette = ["#00FF00", "#FFFF00", "#FF0000", "#00BFFF", "#00FFFF"];
+  const headerColorMap = {};
+  let paletteIndex = 0;
+  function getHeaderColor(key){
+    const k = String(key).toLowerCase();
+    if(headerColorMap[k]) return headerColorMap[k];
+    const c = palette[paletteIndex % palette.length];
+    headerColorMap[k] = c;
+    paletteIndex++;
+    return c;
+  }
+
+  // placeholders map to safely inject HTML after escaping
+  let phCounter = 0;
+  let phMap = {};
+  function resetPlaceholders(){ phCounter = 0; phMap = {}; }
+  function makePH(html){
+    const ph = `__PH_${Date.now().toString(36)}_${phCounter}__`;
+    phMap[ph] = html;
+    phCounter++;
+    return ph;
+  }
+
+  // colorize sanitized output using placeholders, then escape whole text, then restore HTML
+  function colorizeSanitized(redactedText){
+    resetPlaceholders();
+    let working = redactedText;
+
+    // 1) Methods at line starts -> placeholder with method span
+    working = working.replace(/(^|\n)(\s*)(GET|POST|PUT|DELETE|PATCH|HEAD|OPTIONS|TRACE)\b/ig,
+      (m, pre, ws, method) => `${pre}${ws}${makePH(`<span class="method">${escapeHtml(method)}</span>`)}`);
+
+    // 2) Header keys (quoted or unquoted) at line start or after newline/whitespace
+    // capture: lead (start/newline), whitespace, optional quote, key, same optional quote, separator (colon + spaces)
+    working = working.replace(/(^|\n)(\s*)(["']?)([A-Za-z0-9\-\._]{1,200})\3(\s*:\s*)/g, (m, lead, ws, q, key, sep) => {
+      const color = getHeaderColor(key);
+      const keyHtml = `<span class="header-key" style="color:${color};">${escapeHtml(key)}</span>`;
+      return `${lead}${ws}${q || ''}${makePH(keyHtml)}${q || ''}${sep}`;
+    });
+
+    // 3) Redacted tokens -> placeholder with redacted span
+    working = working.replace(/\[REDACTED_[A-Z0-9_]+\]/g, m => makePH(`<span class="redacted">${escapeHtml(m)}</span>`));
+
+    // 4) Authorization lines with inline tokens (ensure they show redacted span if present)
+    // e.g. Authorization: Bearer abc...  -> will already be [REDACTED_BE...], but keep as extra safety
+    working = working.replace(/(Authorization\s*:\s*)(["']?)[A-Za-z0-9\-_.=\[\]]+\2/ig, (m, pfx) => `${pfx}${makePH('<span class="redacted">[REDACTED]</span>')}`);
+
+    // Escape everything (safe), placeholders will remain (they contain only letters/numbers/_)
+    let escaped = escapeHtml(working);
+
+    // Replace placeholders back with their HTML (unescaped)
+    for(const ph in phMap){
+      // placeholders are plain ascii; replace exact token
+      escaped = escaped.split(ph).join(phMap[ph]);
+    }
+
+    return escaped;
+  }
+
+  document.getElementById('sanitize').addEventListener('click', ()=>{
+    const input = inEl.value;
+    const opts = getOpts();
+    const result = sanitizeRaw(input, opts);
+    // update counter
+    removedEl.textContent = result.removed;
+    // colorize and render
+    outEl.innerHTML = colorizeSanitized(result.text);
+  });
+
+  document.getElementById('clear').addEventListener('click', ()=>{
+    inEl.value = '';
+    outEl.innerHTML = '';
+    removedEl.textContent = '0';
+    // reset header colors and placeholders
+    for(const k in headerColorMap) delete headerColorMap[k];
+    paletteIndex = 0;
+    resetPlaceholders();
+  });
+
+  document.getElementById('paste').addEventListener('click', async ()=>{
+    try{ inEl.value = await navigator.clipboard.readText(); } catch(e){ alert('Clipboard denied'); }
+  });
+
+  document.getElementById('copy').addEventListener('click', ()=>{
+    navigator.clipboard.writeText(outEl.innerText).catch(()=>{});
+  });
+
+  document.getElementById('download').addEventListener('click', ()=>{
+    const blob = new Blob([outEl.innerText], { type:'text/plain' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'sanitized.txt';
+    a.click();
+    URL.revokeObjectURL(a.href);
+  });
+})();
+</script>
+</body>
+</html>
