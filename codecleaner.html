@@ -3,7 +3,8 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Credential Sanitizer — Preserve Endpoints + URL Toggle</title>
+<h1 id="title-cleaner">Code Cleaner</h1>
+
 <style>
   :root{
     --bg:#071227;
@@ -25,12 +26,17 @@
     background:rgba(255,255,255,0.03);
     box-shadow:0 6px 30px rgba(0,0,0,0.5);
   }
-  h1{
-    text-align:center;margin:0 0 8px;font-size:22px;
-    background:linear-gradient(90deg,var(--gold),var(--red),var(--green));
-    -webkit-background-clip:text;
-    -webkit-text-fill-color:transparent;
-  }
+h1 {
+  text-align: center;
+  margin: 0 0 8px;
+  font-size: 22px;
+  font-weight: 800;
+  background: linear-gradient(to bottom, #FFFF00 50%, #00FF00 50%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
   p.lead{text-align:center;color:var(--muted);margin:0 0 14px}
   .container{display:flex;flex-wrap:wrap;gap:18px}
   textarea, pre{
@@ -85,8 +91,6 @@
 </head>
 <body>
 <div class="wrap">
-  <h1>Credential Sanitizer — Preserve Endpoints</h1>
-  <p class="lead">Redacts credentials & tokens but preserves HTTP methods, paths, endpoints and parameter names.</p>
 
   <div class="container">
     <textarea id="input" placeholder="Paste code or plain text here..."></textarea>
