@@ -123,6 +123,46 @@ h1 {
 
   function escapeHtml(t){ return String(t).replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[ch])); }
 
+  // ---------- decoding helpers ----------
+  function tryBase64Decode(s){
+    try{
+      const cleaned = String(s).replace(/[\r\n\s]+/g,'');
+      if(!/^[A-Za-z0-9+/=]+$/.test(cleaned)) return null;
+      const dec = atob(cleaned);
+      if(/[\x20-\x7E]{4,}/.test(dec)) return dec;
+    }catch(e){}
+    return null;
+  }
+
+  function decodePercentSequences(text){
+    return text.replace(/%(?:[0-9A-Fa-f]{2})+/g, m => {
+      try{ return decodeURIComponent(m); } catch(e){ return m; }
+    });
+  }
+
+  function decodeLongBase64Tokens(text){
+    return text.replace(/\b([A-Za-z0-9+/=]{40,})\b/g, (m) => {
+      const dec = tryBase64Decode(m);
+      if(!dec) return m;
+      return `${m}\n[DECODED_BASE64_START]\n${dec}\n[DECODED_BASE64_END]`;
+    });
+  }
+
+  function tryDecodeAll(text){
+    if(!text) return text;
+    let t = String(text);
+    t = decodePercentSequences(t);
+    t = t.split('\n').map(line => {
+      if(line.includes('%') || line.includes('+')){
+        try{ return decodeURIComponent(line); } catch(e){ return line; }
+      }
+      return line;
+    }).join('\n');
+    t = decodeLongBase64Tokens(t);
+    return t;
+  }
+  // ---------- end decoding helpers ----------
+
   // provider/prefix patterns
   const prefixPatterns=[
     {re:/\bxox[bp]-[A-Za-z0-9-_.]{6,}/gi,tag:'SLACK'},
@@ -136,7 +176,6 @@ h1 {
     {re:/Authorization:\s*["']?([A-Za-z0-9\-_.=]+)["']?/gi,tag:'AUTH'}
   ];
 
-  // core regexes
   const RE = {
     method_path: /(^|\n)(\s*)(GET|POST|PUT|DELETE|HEAD|OPTIONS|TRACE|PATCH)\s+([^\s\n\r]+)/gi,
     query_param_value: /([?&])([^=&#\s]+)=([^&#\s]*)/g,
@@ -149,7 +188,6 @@ h1 {
     email: /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b/g
   };
 
-  // helper: redact query params inside path or query-string and count removals
   function redactQueryValues(str, counter){
     return str.replace(RE.query_param_value, (m, sep, name, val) => {
       if(val && val.length > 0) counter.count++;
@@ -159,27 +197,20 @@ h1 {
 
   function sanitizeRaw(input, opts){
     let text = input || '';
+    text = tryDecodeAll(text); // 🔹 decode before sanitize
     let removed = 0;
     if(!text) return { text:'', removed:0 };
 
-    // 1) redact query params in recognized "METHOD path" lines first (preserve method + path)
     text = text.replace(RE.method_path, (m, preNl, ws, method, path) => {
-      const newPath = redactQueryValues(path, { count: 0 }); // this counts internally if needed
-      // now count actual param occurrences (we must increment removed for each)
+      const newPath = redactQueryValues(path, { count: 0 });
       newPath.replace(RE.query_param_value, (mm, s, n, v) => { if(v && v.length>0) removed++; return mm; });
-      // also ensure any leftover raw ?a=b in path replaced
       const finalPath = newPath.replace(RE.query_param_value, (mm, s, n, v)=> `${s}${n}=[REDACTED]`);
       return preNl + ws + method + ' ' + finalPath;
     });
 
-    // 2) URLs: basic auth, url-with-query, url-no-query
     if(opts.urls){
-      // basic auth (user:pass@)
       text = text.replace(RE.basic_auth, ()=>{ removed++; return 'https://[REDACTED_BASIC_AUTH@]'; });
-
-      // urls with query - redact each param value and count
       text = text.replace(RE.url_with_query, (m) => {
-        // capture query part after ?
         const qIndex = m.indexOf('?');
         if(qIndex < 0) { removed++; return '[REDACTED_URL]'; }
         const b = m.slice(0, qIndex);
@@ -187,46 +218,36 @@ h1 {
         const rq = q.replace(RE.query_param_value, (mm, sep, name, val) => { if(val && val.length>0) removed++; return sep + name + '=[REDACTED]'; });
         return b + '?' + rq;
       });
-
-      // plain urls without query
       text = text.replace(RE.url_no_query, ()=>{ removed++; return '[REDACTED_URL]'; });
     }
 
-    // 3) Key assignments (json/headers) -> redact values unless value looks like a path/URL (keep those)
     if(opts.kv){
       text = text.replace(RE.key_assignment, (match, key, sep, q, val) => {
-        // If value looks like a URL or contains a slash, leave alone
         if(/^\s*https?:\/\//i.test(val) || /\/{1,}/.test(val)) return match;
-        // also if value is short token-like and we already handle prefixes, it's fine to redact
         removed++;
         return `${key}${sep}${q || ''}[REDACTED]${q || ''}`;
       });
     }
 
-    // 4) Prefix/provider-based tokens
     if(opts.prefixes){
       prefixPatterns.forEach(it=>{
         text = text.replace(it.re, (m)=>{ removed++; return `[REDACTED_${it.tag}]`; });
       });
     }
 
-    // 5) Generic tokens
     if(opts.generic){
       text = text.replace(RE.jwt, ()=>{ removed++; return '[REDACTED_JWT]'; });
       text = text.replace(RE.long_secret, (m)=>{ if(m.indexOf('/')>=0) return m; removed++; return '[REDACTED_LONG]'; });
     }
 
-    // 6) Email
     text = text.replace(RE.email, ()=>{ removed++; return '[REDACTED_EMAIL]'; });
 
-    // 7) Host/Origin/Referer header values redaction when URLs option is on (common host leak)
     if(opts.urls){
       text = text.replace(/(^|\n)(\s*)(Host|Origin|Referer)\s*:\s*([^\n\r]+)/gi, (m, pre, ws, key, val) => {
         removed++; return `${pre}${ws}${key}: [REDACTED_URL]`;
       });
     }
 
-    // 8) final pass: any remaining query param values (in arbitrary text) if urls option enabled
     if(opts.urls){
       text = text.replace(RE.query_param_value, (m, sep, name, val) => {
         if(val && val.length>0) removed++;
@@ -246,8 +267,7 @@ h1 {
     };
   }
 
-  // color persistence
-const palette = ["#00FF00", "#FFFF00", "#FF0000", "#00BFFF", "#00FFFF"];
+  const palette = ["#00FF00", "#FFFF00", "#FF0000", "#00BFFF", "#00FFFF"];
   const headerColorMap = {};
   let paletteIndex = 0;
   function getHeaderColor(key){
@@ -259,7 +279,6 @@ const palette = ["#00FF00", "#FFFF00", "#FF0000", "#00BFFF", "#00FFFF"];
     return c;
   }
 
-  // placeholders map to safely inject HTML after escaping
   let phCounter = 0;
   let phMap = {};
   function resetPlaceholders(){ phCounter = 0; phMap = {}; }
@@ -270,39 +289,20 @@ const palette = ["#00FF00", "#FFFF00", "#FF0000", "#00BFFF", "#00FFFF"];
     return ph;
   }
 
-  // colorize sanitized output using placeholders, then escape whole text, then restore HTML
   function colorizeSanitized(redactedText){
     resetPlaceholders();
     let working = redactedText;
-
-    // 1) Methods at line starts -> placeholder with method span
     working = working.replace(/(^|\n)(\s*)(GET|POST|PUT|DELETE|PATCH|HEAD|OPTIONS|TRACE)\b/ig,
       (m, pre, ws, method) => `${pre}${ws}${makePH(`<span class="method">${escapeHtml(method)}</span>`)}`);
-
-    // 2) Header keys (quoted or unquoted) at line start or after newline/whitespace
-    // capture: lead (start/newline), whitespace, optional quote, key, same optional quote, separator (colon + spaces)
     working = working.replace(/(^|\n)(\s*)(["']?)([A-Za-z0-9\-\._]{1,200})\3(\s*:\s*)/g, (m, lead, ws, q, key, sep) => {
       const color = getHeaderColor(key);
       const keyHtml = `<span class="header-key" style="color:${color};">${escapeHtml(key)}</span>`;
       return `${lead}${ws}${q || ''}${makePH(keyHtml)}${q || ''}${sep}`;
     });
-
-    // 3) Redacted tokens -> placeholder with redacted span
     working = working.replace(/\[REDACTED_[A-Z0-9_]+\]/g, m => makePH(`<span class="redacted">${escapeHtml(m)}</span>`));
-
-    // 4) Authorization lines with inline tokens (ensure they show redacted span if present)
-    // e.g. Authorization: Bearer abc...  -> will already be [REDACTED_BE...], but keep as extra safety
     working = working.replace(/(Authorization\s*:\s*)(["']?)[A-Za-z0-9\-_.=\[\]]+\2/ig, (m, pfx) => `${pfx}${makePH('<span class="redacted">[REDACTED]</span>')}`);
-
-    // Escape everything (safe), placeholders will remain (they contain only letters/numbers/_)
     let escaped = escapeHtml(working);
-
-    // Replace placeholders back with their HTML (unescaped)
-    for(const ph in phMap){
-      // placeholders are plain ascii; replace exact token
-      escaped = escaped.split(ph).join(phMap[ph]);
-    }
-
+    for(const ph in phMap) escaped = escaped.split(ph).join(phMap[ph]);
     return escaped;
   }
 
@@ -310,9 +310,7 @@ const palette = ["#00FF00", "#FFFF00", "#FF0000", "#00BFFF", "#00FFFF"];
     const input = inEl.value;
     const opts = getOpts();
     const result = sanitizeRaw(input, opts);
-    // update counter
     removedEl.textContent = result.removed;
-    // colorize and render
     outEl.innerHTML = colorizeSanitized(result.text);
   });
 
@@ -320,7 +318,6 @@ const palette = ["#00FF00", "#FFFF00", "#FF0000", "#00BFFF", "#00FFFF"];
     inEl.value = '';
     outEl.innerHTML = '';
     removedEl.textContent = '0';
-    // reset header colors and placeholders
     for(const k in headerColorMap) delete headerColorMap[k];
     paletteIndex = 0;
     resetPlaceholders();
@@ -344,5 +341,6 @@ const palette = ["#00FF00", "#FFFF00", "#FF0000", "#00BFFF", "#00FFFF"];
   });
 })();
 </script>
+
 </body>
 </html>
