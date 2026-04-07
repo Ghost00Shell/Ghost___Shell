@@ -304,7 +304,7 @@
         function searchGoogle() {
             const domain = getDomain();
             if (domain) {
-                const query = `site:${domain}`;
+                const query = `site:${domain} inurl:${domain}`;
                 window.open(`https://www.google.com/search?q=${encodeURIComponent(query)}`, '_blank');
             }
         }
