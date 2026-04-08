@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bug Bounty Search Engine</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 50%, #0f172a 100%);
+            min-height: 100vh;
+            color: #fff;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        h1 {
+            font-size: 2.5em;
+            background: linear-gradient(45deg, #00f5ff, #0080ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            color: #94a3b8;
+            font-size: 1.1em;
+        }
+
+        .search-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .search-input-group {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        label {
+            font-size: 1.1em;
+            color: #e2e8f0;
+            font-weight: 500;
+        }
+
+        #target {
+            flex: 1;
+            min-width: 300px;
+            padding: 15px 20px;
+            font-size: 16px;
+            border: 2px solid rgba(0, 245, 255, 0.3);
+            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.3);
+            color: #fff;
+            transition: all 0.3s ease;
+        }
+
+        #target:focus {
+            outline: none;
+            border-color: #00f5ff;
+            box-shadow: 0 0 20px rgba(0, 245, 255, 0.3);
+        }
+
+        #target::placeholder {
+            color: #64748b;
+        }
+
+        .categories {
+            display: grid;
+            gap: 25px;
+        }
+
+        .category {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.3s ease;
+        }
+
+        .category:hover {
+            border-color: rgba(0, 245, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .category-title {
+            font-size: 1.3em;
+            color: #00f5ff;
+            margin-bottom: 15px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .category-title::before {
+            content: '▸';
+            font-size: 1.2em;
+        }
+
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 12px;
+        }
+
+        .search-btn {
+            padding: 14px 20px;
+            font-size: 14px;
+            background: linear-gradient(135deg, rgba(0, 128, 255, 0.1), rgba(0, 245, 255, 0.1));
+            border: 1px solid rgba(0, 245, 255, 0.3);
+            color: #e2e8f0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            text-align: left;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .search-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 245, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .search-btn:hover::before {
+            left: 100%;
+        }
+
+        .search-btn:hover {
+            background: linear-gradient(135deg, rgba(0, 128, 255, 0.2), rgba(0, 245, 255, 0.2));
+            border-color: #00f5ff;
+            transform: translateX(5px);
+            box-shadow: 0 5px 20px rgba(0, 245, 255, 0.2);
+        }
+
+        .search-btn:active {
+            transform: translateX(5px) scale(0.98);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+
+
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2em;
+            color: #00f5ff;
+            font-weight: 700;
+        }
+
+        .stat-label {
+            color: #94a3b8;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .button-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .search-input-group {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            #target {
+                min-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔍 Bug Bounty Search Engine</h1>
+            <p class="subtitle">Advanced reconnaissance toolkit for security researchers</p>
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-number">64</div>
+                    <div class="stat-label">Search Queries</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">10+</div>
+                    <div class="stat-label">Platforms</div>
+                </div>
+            </div>
+        </header>
+
+        <div class="search-section">
+            <div class="search-input-group">
+                <label for="target">Target Domain:</label>
+                <input type="text" id="target" placeholder="example.com">
+            </div>
+        </div>
+
+        <div class="categories">
+            <div class="category">
+                <h2 class="category-title">File & Directory Discovery</h2>
+                <div class="button-grid">
+                    <button class="search-btn" onclick="googleSearch(1)">Directory Listing Vulnerabilities</button>
+                    <button class="search-btn" onclick="googleSearch(2)">Exposed Configuration Files</button>
+                    <button class="search-btn" onclick="googleSearch(3)">Exposed Database Files</button>
+                    <button class="search-btn" onclick="googleSearch(4)">Exposed Log Files</button>
+                    <button class="search-btn" onclick="googleSearch(5)">Backup & Old Files</button>
+                    <button class="search-btn" onclick="googleSearch(8)">Publicly Exposed Documents</button>
+                    <button class="search-btn" onclick="googleSearch(46)">Sensitive conf.php Files</button>
+                    <button class="search-btn" onclick="googleSearch(56)">download.php Files</button>
+                    <button class="search-btn" onclick="googleSearch(60)">users.yml / admin.yml / config.yml</button>
+                    <button class="search-btn" onclick="googleSearch(63)">Index of /etc</button>
+                </div>
+            </div>
+
+            <div class="category">
+                <h2 class="category-title">WordPress & CMS</h2>
+                <div class="button-grid">
+                    <button class="search-btn" onclick="googleSearch(10)">Find WordPress Sites</button>
+                    <button class="search-btn" onclick="googleSearch(20)">Find WordPress #2</button>
+                    <button class="search-btn" onclick="googleSearch(33)">WP Config Backup</button>
+                    <button class="search-btn" onclick="googleSearch(40)">wp-content Juicy Info</button>
+                    <button class="search-btn" onclick="googleSearch(43)">WordPress Juicy File 1</button>
+                    <button class="search-btn" onclick="googleSearch(45)">Vulnerable WP Plugin (Contact Form 7)</button>
+                    <button class="search-btn" onclick="googleSearch(50)">WordPress Juicy File 2</button>
+                    <button class="search-btn" onclick="googleSearch(54)">WordPress Juicy File 3</button>
+                    <button class="search-btn" onclick="googleSearch(58)">WordPress Backup Files</button>
+                    <button class="search-btn" onclick="googleSearch(51)">Drupal Login Pages</button>
+                    <button class="search-btn" onclick="googleSearch(52)">Joomla Database Path</button>
+                </div>
+            </div>
+
+            <div class="category">
+                <h2 class="category-title">Database & SQL</h2>
+                <div class="button-grid">
+                    <button class="search-btn" onclick="googleSearch(7)">SQL Error Messages</button>
+                    <button class="search-btn" onclick="googleSearch(53)">SQL Query Files</button>
+                    <button class="search-btn" onclick="googleSearch(59)">MySQL Configuration Files</button>
+                    <button class="search-btn" onclick="googleSearch(64)">SQL Directories & Databases</button>
+                </div>
+            </div>
+
+            <div class="category">
+                <h2 class="category-title">Authentication & Admin</h2>
+                <div class="button-grid">
+                    <button class="search-btn" onclick="googleSearch(6)">Login Pages</button>
+                    <button class="search-btn" onclick="googleSearch(42)">Admin Portal (admin.aspx)</button>
+                    <button class="search-btn" onclick="googleSearch(48)">Sensitive Admin Backups</button>
+                </div>
+            </div>
+
+            <div class="category">
+                <h2 class="category-title">Vulnerabilities & Exploits</h2>
+                <div class="button-grid">
+                    <button class="search-btn" onclick="googleSearch(9)">phpinfo() Pages</button>
+                    <button class="search-btn" onclick="googleSearch(11)">Finding Backdoors</button>
+                    <button class="search-btn" onclick="googleSearch(12)">Install / Setup Files</button>
+                    <button class="search-btn" onclick="googleSearch(13)">Open Redirects</button>
+                    <button class="search-btn" onclick="googleSearch(14)">Apache STRUTS RCE</button>
+                    <button class="search-btn" onclick="googleSearch(17)">.htaccess Sensitive Files</button>
+                    <button class="search-btn" onclick="googleSearch(22)">Test CrossDomain.xml</button>
+                    <button class="search-btn" onclick="googleSearch(38)">Vulnerable GeoServers</button>
+                    <button class="search-btn" onclick="googleSearch(39)">ArcGIS REST Services</button>
+                    <button class="search-btn" onclick="googleSearch(44)">File Upload Scripts</button>
+                </div>
+            </div>
+
+            <div class="category">
+                <h2 class="category-title">Subdomain & Asset Discovery</h2>
+                <div class="button-grid">
+                    <button class="search-btn" onclick="googleSearch(18)">Find Subdomains</button>
+                    <button class="search-btn" onclick="googleSearch(19)">Find Sub-Subdomains</button>
+                    <button class="search-btn" onclick="googleSearch(30)">Certificate Transparency (crt.sh)</button>
+                    <button class="search-btn" onclick="googleSearch(34)">Censys IPv4 Search</button>
+                    <button class="search-btn" onclick="googleSearch(35)">Censys Domain Search</button>
+                    <button class="search-btn" onclick="googleSearch(36)">Censys Certificates</button>
+                    <button class="search-btn" onclick="googleSearch(37)">SHODAN Search</button>
+                </div>
+            </div>
+
+            <div class="category">
+                <h2 class="category-title">Flash & Media Files</h2>
+                <div class="button-grid">
+                    <button class="search-btn" onclick="googleSearch(24)">Find SWF Files (Google)</button>
+                    <button class="search-btn" onclick="googleSearch(25)">Find MIME-SWF (Yandex)</button>
+                    <button class="search-btn" onclick="googleSearch(26)">SWF Links (Archive)</button>
+                    <button class="search-btn" onclick="googleSearch(27)">MIME-SWF Links (Archive)</button>
+                </div>
+            </div>
+
+            <div class="category">
+                <h2 class="category-title">Archive & Historical Data</h2>
+                <div class="button-grid">
+                    <button class="search-btn" onclick="googleSearch(28)">Web Archive Search #1</button>
+                    <button class="search-btn" onclick="googleSearch(29)">Web Archive Search #2</button>
+                </div>
+            </div>
+
+            <div class="category">
+                <h2 class="category-title">OSINT & Social</h2>
+                <div class="button-grid">
+                    <button class="search-btn" onclick="googleSearch(15)">Pastebin Entries</button>
+                    <button class="search-btn" onclick="googleSearch(16)">LinkedIn Employees</button>
+                    <button class="search-btn" onclick="googleSearch(21)">GitHub Code Search</button>
+                    <button class="search-btn" onclick="googleSearch(23)">ThreatCrowd</button>
+                    <button class="search-btn" onclick="googleSearch(31)">OpenBugBounty</button>
+                    <button class="search-btn" onclick="googleSearch(32)">Reddit Mentions</button>
+                    <button class="search-btn" onclick="googleSearch(49)">GitHub API Keys</button>
+                </div>
+            </div>
+
+            <div class="category">
+                <h2 class="category-title">Configuration & API</h2>
+                <div class="button-grid">
+                    <button class="search-btn" onclick="googleSearch(41)">main.yml Files</button>
+                    <button class="search-btn" onclick="googleSearch(47)">Sharing API Info</button>
+                    <button class="search-btn" onclick="googleSearch(55)">JSON-RPC Files</button>
+                    <button class="search-btn" onclick="googleSearch(57)">jwks-rsa Files</button>
+                    <button class="search-btn" onclick="googleSearch(61)">docker-compose.yml</button>
+                    <button class="search-btn" onclick="googleSearch(62)">pom.xml Files</button>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p style="color: #64748b; font-size: 0.9em;">
+                Always conduct security testing ethically and with proper authorization
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        function googleSearch(type) {
+            const targetDomain = document.getElementById('target').value.trim();
+
+            if (!targetDomain) {
+                alert('⚠️ Please enter a target domain first.');
+                return;
+            }
+
+            let searchQuery = 'site:' + targetDomain;
+            let url = '';
+
+            switch (type) {
+                case 1:
+                    searchQuery += ' intitle:index.of';
+                    break;
+                case 2:
+                    searchQuery += ' ext:xml | ext:conf | ext:cnf | ext:reg | ext:inf | ext:rdp | ext:cfg | ext:txt | ext:ora | ext:ini';
+                    break;
+                case 3:
+                    searchQuery += ' ext:sql | ext:dbf | ext:mdb';
+                    break;
+                case 4:
+                    searchQuery += ' ext:log';
+                    break;
+                case 5:
+                    searchQuery += ' ext:bkf | ext:bkp | ext:bak | ext:old | ext:backup';
+                    break;
+                case 6:
+                    searchQuery += ' inurl:login';
+                    break;
+                case 7:
+                    searchQuery += ' intext:"sql syntax near" | intext:"syntax error has occurred" | intext:"incorrect syntax near" | intext:"unexpected end of SQL command" | intext:"Warning: mysql_connect()" | intext:"Warning: mysql_query()" | intext:"Warning: pg_connect()"';
+                    break;
+                case 8:
+                    searchQuery += ' ext:doc | ext:docx | ext:odt | ext:pdf | ext:rtf | ext:sxw | ext:psw | ext:ppt | ext:pptx | ext:pps | ext:csv';
+                    break;
+                case 9:
+                    searchQuery += ' ext:php intitle:phpinfo "published by the PHP Group"';
+                    break;
+                case 10:
+                    searchQuery += ' inurl:wp- | inurl:wp-content | inurl:plugins | inurl:uploads | inurl:themes | inurl:download';
+                    break;
+                case 11:
+                    searchQuery += ' inurl:shell | inurl:backdoor | inurl:wso | inurl:cmd | shadow | passwd | boot.ini | inurl:backdoor';
+                    break;
+                case 12:
+                    searchQuery += ' inurl:readme | inurl:license | inurl:install | inurl:setup | inurl:config';
+                    break;
+                case 13:
+                    searchQuery += ' inurl:redir | inurl:url | inurl:redirect | inurl:return | inurl:src=http | inurl:r=http';
+                    break;
+                case 14:
+                    searchQuery += ' ext:action | ext:struts | ext:do';
+                    break;
+                case 15:
+                    url = 'https://www.google.com/search?q=' + encodeURIComponent('site:pastebin.com ' + targetDomain);
+                    window.open(url, '_blank');
+                    return;
+                case 16:
+                    url = 'https://www.google.com/search?q=' + encodeURIComponent('site:linkedin.com employees ' + targetDomain);
+                    window.open(url, '_blank');
+                    return;
+                case 17:
+                    url = 'https://www.google.com/search?q=' + encodeURIComponent('inurl:"/phpinfo.php" | inurl:".htaccess" | inurl:"/.git" ' + targetDomain + ' -github');
+                    window.open(url, '_blank');
+                    return;
+                case 18:
+                    url = 'https://www.google.com/search?q=' + encodeURIComponent('site:*.' + targetDomain);
+                    window.open(url, '_blank');
+                    return;
+                case 19:
+                    url = 'https://www.google.com/search?q=' + encodeURIComponent('site:*.*.' + targetDomain);
+                    window.open(url, '_blank');
+                    return;
+                case 20:
+                    url = 'https://www.google.com/search?q=' + encodeURIComponent('inurl:wp-content | inurl:wp-includes ' + targetDomain);
+                    window.open(url, '_blank');
+                    return;
+                case 21:
+                    url = 'https://github.com/search?q=' + encodeURIComponent('"*.' + targetDomain + '"') + '&type=code';
+                    window.open(url, '_blank');
+                    return;
+                case 22:
+                    url = 'http://' + targetDomain + '/crossdomain.xml';
+                    window.open(url, '_blank');
+                    return;
+                case 23:
+                    url = 'http://threatcrowd.org/domain.php?domain=' + targetDomain;
+                    window.open(url, '_blank');
+                    return;
+                case 24:
+                    url = 'https://www.google.com/search?q=' + encodeURIComponent('+inurl:' + targetDomain + ' +ext:swf');
+                    window.open(url, '_blank');
+                    return;
+                case 25:
+                    url = 'https://yandex.com/search/?text=' + encodeURIComponent('site:' + targetDomain + ' mime:swf');
+                    window.open(url, '_blank');
+                    return;
+                case 26:
+                    url = 'https://web.archive.org/cdx/search?url=' + encodeURIComponent(targetDomain) + '/&matchType=domain&collapse=urlkey&output=text&fl=original&filter=urlkey:.*swf&limit=100000';
+                    window.open(url, '_blank');
+                    return;
+                case 27:
+                    url = 'https://web.archive.org/cdx/search?url=' + encodeURIComponent(targetDomain) + '/&matchType=domain&collapse=urlkey&output=text&fl=original&filter=mimetype:application/x-shockwave-flash&limit=100000';
+                    window.open(url, '_blank');
+                    return;
+                case 28:
+                    url = 'https://web.archive.org/web/*/.' + encodeURIComponent(targetDomain);
+                    window.open(url, '_blank');
+                    return;
+                case 29:
+                    url = 'https://web.archive.org/web/*/' + encodeURIComponent(targetDomain) + '/*';
+                    window.open(url, '_blank');
+                    return;
+                case 30:
+                    url = 'https://crt.sh/?q=%25.' + targetDomain;
+                    window.open(url, '_blank');
+                    return;
+                case 31:
+                    url = 'https://www.openbugbounty.org/search/?search=' + encodeURIComponent(targetDomain) + '&type=host';
+                    window.open(url, '_blank');
+                    return;
+                case 32:
+                    url = 'https://www.reddit.com/search/?q=' + encodeURIComponent(targetDomain) + '&sort=new';
+                    window.open(url, '_blank');
+                    return;
+                case 33:
+                    url = 'http://wwwb-dedup.us.archive.org:8083/cdx/search?url=' + encodeURIComponent(targetDomain) + '/&matchType=domain&collapse=digest&output=text&fl=original,timestamp&filter=urlkey:.*wp[-].*&limit=1000000';
+                    window.open(url, '_blank');
+                    return;
+                case 34:
+                    url = 'https://search.censys.io/search?resource=hosts&q=' + targetDomain;
+                    window.open(url, '_blank');
+                    return;
+                case 35:
+                    url = 'https://search.censys.io/search?resource=hosts&q=' + targetDomain;
+                    window.open(url, '_blank');
+                    return;
+                case 36:
+                    url = 'https://search.censys.io/search?resource=certificates&q=' + targetDomain;
+                    window.open(url, '_blank');
+                    return;
+                case 37:
+                    url = 'https://www.shodan.io/search?query=' + targetDomain;
+                    window.open(url, '_blank');
+                    return;
+                case 38:
+                    searchQuery += ' inurl:"/geoserver/ows?service=wfs"';
+                    break;
+                case 39:
+                    searchQuery += ' intext:"ArcGIS REST Services Directory" intitle:"Folder: /"';
+                    break;
+                case 40:
+                    searchQuery += ' inurl:/wp-content/uploads/wpo_wcpdf';
+                    break;
+                case 41:
+                    searchQuery += ' intitle:"index of "main.yml"';
+                    break;
+                case 42:
+                    searchQuery += ' inurl:/admin.aspx';
+                    break;
+                case 43:
+                    searchQuery += ' inurl:/wp-content/uploads/wpo_wcpdf';
+                    break;
+                case 44:
+                    searchQuery += ' inurl:uploadimage.php';
+                    break;
+                case 45:
+                    searchQuery += ' inurl:*/wp-content/plugins/contact-form-7/';
+                    break;
+                case 46:
+                    searchQuery += ' intitle:index.of conf.php';
+                    break;
+                case 47:
+                    searchQuery += ' intitle:"Sharing API Info"';
+                    break;
+                case 48:
+                    searchQuery += ' intitle:"Index of" inurl:/backup/ "admin.zip"';
+                    break;
+                case 49:
+                    searchQuery += ' intitle:"index of" github-api';
+                    break;
+                case 50:
+                    searchQuery += ' inurl:wp-content/uploads/wcpa_uploads';
+                    break;
+                case 51:
+                    searchQuery += ' inurl:user intitle:"Drupal" intext:"Log in" -"powered by"';
+                    break;
+                case 52:
+                    searchQuery += ' inurl:/libraries/joomla/database/';
+                    break;
+                case 53:
+                    searchQuery += ' inurl:"php?sql=select" ext:php';
+                    break;
+                case 54:
+                    searchQuery += ' inurl:"wp-content" intitle:"index.of" intext:wp-config.php';
+                    break;
+                case 55:
+                    searchQuery += ' intext:"index of" inurl:json-rpc';
+                    break;
+                case 56:
+                    searchQuery += ' intitle:"index of" "download.php?file="';
+                    break;
+                case 57:
+                    searchQuery += ' intext:"index of" inurl:jwks-rsa';
+                    break;
+                case 58:
+                    searchQuery += ' inurl:"wp-content" intitle:"index.of" intext:backup';
+                    break;
+                case 59:
+                    searchQuery += ' intitle:index.of conf.mysql';
+                    break;
+                case 60:
+                    searchQuery += ' intitle:"index of" "users.yml" | "admin.yml" | "config.yml"';
+                    break;
+                case 61:
+                    searchQuery += ' intitle:"index of" "docker-compose.yml"';
+                    break;
+                case 62:
+                    searchQuery += ' intext:pom.xml intitle:"index of /"';
+                    break;
+                case 63:
+                    searchQuery += ' intext:"Index of" intext:"/etc"';
+                    break;
+                case 64:
+                    searchQuery += ' "sql" "parent" intitle:index.of -injection';
+                    break;
+                default:
+                    alert('Invalid option.');
+                    return;
+            }
+
+            url = 'https://www.google.com/search?q=' + encodeURIComponent(searchQuery);
+            window.open(url, '_blank');
+        }
+
+        document.getElementById('target').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+            }
+        });
+
+        // Add search history
+        let searchHistory = [];
+        const maxHistory = 5;
+
+        function addToHistory(domain) {
+            if (domain && !searchHistory.includes(domain)) {
+                searchHistory.unshift(domain);
+                if (searchHistory.length > maxHistory) {
+                    searchHistory.pop();
+                }
+                updateHistoryDropdown();
+            }
+        }
+
+        function updateHistoryDropdown() {
+            let existingDropdown = document.getElementById('history-dropdown');
+            if (existingDropdown) {
+                existingDropdown.remove();
+            }
+
+            if (searchHistory.length > 0) {
+                const dropdown = document.createElement('div');
+                dropdown.id = 'history-dropdown';
+                dropdown.style.cssText = `
+                    position: absolute;
+                    background: rgba(0, 0, 0, 0.9);
+                    border: 1px solid rgba(0, 245, 255, 0.3);
+                    border-radius: 8px;
+                    margin-top: 5px;
+                    padding: 10px;
+                    z-index: 1000;
+                    max-width: 400px;
+                `;
+
+                searchHistory.forEach(domain => {
+                    const item = document.createElement('div');
+                    item.textContent = domain;
+                    item.style.cssText = `
+                        padding: 8px 12px;
+                        cursor: pointer;
+                        color: #e2e8f0;
+                        border-radius: 4px;
+                        transition: all 0.2s ease;
+                    `;
+                    item.onmouseover = () => item.style.background = 'rgba(0, 245, 255, 0.2)';
+                    item.onmouseout = () => item.style.background = 'transparent';
+                    item.onclick = () => {
+                        document.getElementById('target').value = domain;
+                        dropdown.remove();
+                    };
+                    dropdown.appendChild(item);
+                });
+
+                const inputGroup = document.querySelector('.search-input-group');
+                inputGroup.style.position = 'relative';
+                inputGroup.appendChild(dropdown);
+            }
+        }
+
+        // Show history on focus
+        document.getElementById('target').addEventListener('focus', function() {
+            if (searchHistory.length > 0) {
+                updateHistoryDropdown();
+            }
+        });
+
+        // Hide history on blur (with delay for click to register)
+        document.getElementById('target').addEventListener('blur', function() {
+            setTimeout(() => {
+                const dropdown = document.getElementById('history-dropdown');
+                if (dropdown) dropdown.remove();
+            }, 200);
+        });
+
+        // Wrap original googleSearch to add history
+        const originalGoogleSearch = googleSearch;
+        window.googleSearch = function(type) {
+            const domain = document.getElementById('target').value.trim();
+            if (domain) {
+                addToHistory(domain);
+            }
+            originalGoogleSearch(type);
+        };
+
+        // Add quick copy button for domain
+        const targetInput = document.getElementById('target');
+        const copyBtn = document.createElement('button');
+        copyBtn.innerHTML = '📋';
+        copyBtn.style.cssText = `
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 245, 255, 0.2);
+            border: 1px solid rgba(0, 245, 255, 0.3);
+            color: #00f5ff;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        `;
+        copyBtn.onmouseover = () => {
+            copyBtn.style.background = 'rgba(0, 245, 255, 0.3)';
+            copyBtn.style.transform = 'translateY(-50%) scale(1.1)';
+        };
+        copyBtn.onmouseout = () => {
+            copyBtn.style.background = 'rgba(0, 245, 255, 0.2)';
+            copyBtn.style.transform = 'translateY(-50%) scale(1)';
+        };
+        copyBtn.onclick = () => {
+            const domain = targetInput.value.trim();
+            if (domain) {
+                navigator.clipboard.writeText(domain).then(() => {
+                    copyBtn.innerHTML = '✓';
+                    setTimeout(() => copyBtn.innerHTML = '📋', 1000);
+                });
+            }
+        };
+
+        const inputGroup = document.querySelector('.search-input-group');
+        inputGroup.style.position = 'relative';
+        const labelAndInput = document.createElement('div');
+        labelAndInput.style.cssText = 'display: flex; align-items: center; gap: 15px; flex: 1; min-width: 300px; position: relative;';
+        const label = inputGroup.querySelector('label');
+        labelAndInput.appendChild(label);
+        labelAndInput.appendChild(targetInput);
+        labelAndInput.appendChild(copyBtn);
+        inputGroup.innerHTML = '';
+        inputGroup.appendChild(labelAndInput);
+
+        // Add keyboard shortcuts info
+        const shortcutsInfo = document.createElement('div');
+        shortcutsInfo.style.cssText = `
+            text-align: center;
+            color: #64748b;
+            font-size: 0.85em;
+            margin-top: 15px;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        `;
+        shortcutsInfo.innerHTML = '💡 <strong>Tip:</strong> Click on the input field to see your search history';
+        document.querySelector('.search-section').appendChild(shortcutsInfo);
+
+        // Add loading animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes pulse {
+                0%, 100% { opacity: 1; }
+                50% { opacity: 0.5; }
+            }
+            .loading {
+                animation: pulse 1.5s ease-in-out infinite;
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
