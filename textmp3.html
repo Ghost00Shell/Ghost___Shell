@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Free Text to MP3 Downloader</title>
+    <title>Fixed MP3 Downloader</title>
     <style>
         :root {
             --primary: #6366f1;
@@ -36,117 +36,73 @@
             border: 1px solid var(--border);
         }
 
-        h1 {
-            margin-top: 0;
-            text-align: center;
-            font-size: 1.5rem;
-            color: var(--primary);
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 0.5rem;
-            color: var(--text-muted);
-            font-size: 0.9rem;
-        }
-
+        h1 { margin-top: 0; text-align: center; color: var(--primary); }
+        
+        label { display: block; margin-bottom: 0.5rem; color: var(--text-muted); font-size: 0.9rem; }
+        
         textarea {
-            width: 100%;
-            height: 120px;
-            background: rgba(0,0,0,0.2);
-            border: 1px solid var(--border);
-            color: var(--text-main);
-            padding: 10px;
-            border-radius: 8px;
-            resize: vertical;
-            font-family: inherit;
+            width: 100%; height: 120px;
+            background: rgba(0,0,0,0.2); border: 1px solid var(--border);
+            color: var(--text-main); padding: 10px; border-radius: 8px;
+            resize: vertical; font-family: inherit;
         }
 
         select {
-            width: 100%;
-            padding: 10px;
-            background: rgba(0,0,0,0.2);
-            border: 1px solid var(--border);
-            color: var(--text-main);
-            border-radius: 8px;
-            cursor: pointer;
+            width: 100%; padding: 10px;
+            background: rgba(0,0,0,0.2); border: 1px solid var(--border);
+            color: var(--text-main); border-radius: 8px;
         }
 
         button {
-            width: 100%;
-            padding: 12px;
-            background: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background 0.2s;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 10px;
+            width: 100%; padding: 12px;
+            background: var(--primary); color: white; border: none;
+            border-radius: 8px; font-weight: bold; cursor: pointer;
+            margin-top: 10px; transition: background 0.2s;
         }
-
-        button:hover {
-            background: #4f46e5;
-        }
-
-        button:disabled {
-            background: var(--border);
-            cursor: not-allowed;
-            opacity: 0.7;
-        }
+        button:hover { background: #4f46e5; }
+        button:disabled { background: var(--border); cursor: not-allowed; }
 
         .spinner {
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255,255,255,0.3);
-            border-radius: 50%;
-            border-top-color: #fff;
-            animation: spin 1s ease-in-out infinite;
-            display: none;
+            display: none; width: 20px; height: 20px;
+            border: 3px solid rgba(255,255,255,0.3); border-radius: 50%;
+            border-top-color: #fff; animation: spin 1s ease-in-out infinite;
+            margin: 0 auto;
         }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        
+        .error-msg { color: #ef4444; font-size: 0.85rem; display: none; margin-top: 10px; text-align: center;}
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h1>MP3 Generator</h1>
+        <h1>MP3 Generator (Fixed)</h1>
         
-        <div class="form-group">
-            <label for="voiceSelect">Select Voice</label>
+        <div style="margin-bottom: 1rem;">
+            <label for="voiceSelect">Select Language</label>
             <select id="voiceSelect">
-                <option value="Brian">Brian (UK Male)</option>
-                <option value="Amy">Amy (UK Female)</option>
-                <option value="Emma">Emma (UK Female)</option>
-                <option value="Russell">Russell (AU Male)</option>
-                <option value="Joey">Joey (US Male)</option>
-                <option value="Justin">Justin (US Male)</option>
-                <option value="Matthew">Matthew (US Male)</option>
-                <option value="Ivy">Ivy (US Child)</option>
-                <option value="Geraint">Geraint (UK Male - Welles)</option>
+                <option value="en">English (US)</option>
+                <option value="en-GB">English (UK)</option>
+                <option value="es">Spanish</option>
+                <option value="fr">French</option>
+                <option value="de">German</option>
+                <option value="it">Italian</option>
+                <option value="ja">Japanese</option>
+                <option value="ko">Korean</option>
             </select>
         </div>
 
-        <div class="form-group">
+        <div>
             <label for="textInput">Enter Text</label>
-            <textarea id="textInput" placeholder="Type what you want to convert to MP3..."></textarea>
+            <textarea id="textInput" placeholder="Type your text here..."></textarea>
         </div>
 
         <button id="downloadBtn">
             <span class="spinner" id="spinner"></span>
             <span id="btnText">Download MP3</span>
         </button>
+        
+        <div id="errorMsg" class="error-msg">Text too long or Network Error. Try shorter text.</div>
     </div>
 
     <script>
@@ -155,59 +111,62 @@
         const voiceSelect = document.getElementById('voiceSelect');
         const spinner = document.getElementById('spinner');
         const btnText = document.getElementById('btnText');
+        const errorMsg = document.getElementById('errorMsg');
 
         downloadBtn.addEventListener('click', async () => {
             const text = textInput.value.trim();
-            const voice = voiceSelect.value;
+            const lang = voiceSelect.value;
+            errorMsg.style.display = 'none';
 
-            if (!text) {
-                alert("Please enter some text first.");
-                return;
-            }
+            if (!text) return alert("Please enter text.");
 
-            // 1. Show Loading State
-            downloadBtn.disabled = true;
-            spinner.style.display = 'block';
-            btnText.textContent = "Generating...";
+            // 1. Show Loading
+            setLoading(true);
 
             try {
-                // 2. Call the StreamElements API
-                // We use encodeURIComponent to handle spaces and special characters
-                const apiUrl = `https://api.streamelements.com/kappa/v2/speech?voice=${voice}&text=${encodeURIComponent(text)}`;
-                
-                // 3. Fetch the audio data as a Blob
-                const response = await fetch(apiUrl);
-                
-                if (!response.ok) throw new Error("Failed to generate audio");
+                // 2. Construct Google Translate Unofficial API URL
+                // client=tw-ob is the magic token for this specific API
+                const googleUrl = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(text)}&tl=${lang}&client=tw-ob`;
+
+                // 3. Use a Proxy (allorigins.win) to bypass CORS errors
+                // We use '/raw' to get the binary audio data directly
+                const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(googleUrl)}`;
+
+                // 4. Fetch the audio
+                const response = await fetch(proxyUrl);
+
+                if (!response.ok) throw new Error("Network response was not ok");
 
                 const blob = await response.blob();
                 
-                // 4. Create a download link
+                // 5. Trigger Download
                 const url = window.URL.createObjectURL(blob);
                 const a = document.createElement('a');
-                a.style.display = 'none';
                 a.href = url;
-                // Generate filename based on first few words
-                const filename = text.split(' ').slice(0, 3).join('_').replace(/[^a-z0-9_]/gi, '') || 'audio';
-                a.download = `${filename}.mp3`;
-                
+                a.download = `audio_${lang}.mp3`;
                 document.body.appendChild(a);
                 a.click();
-                
-                // 5. Cleanup
                 window.URL.revokeObjectURL(url);
                 document.body.removeChild(a);
 
             } catch (error) {
                 console.error(error);
-                alert("Error generating audio. Please check your internet connection.");
+                errorMsg.style.display = 'block';
+                // Fallback: Open in new tab if download fails
+                const googleUrl = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(text)}&tl=${lang}&client=tw-ob`;
+                if(confirm("Auto-download failed. Open audio in new tab to save manually?")) {
+                    window.open(googleUrl, '_blank');
+                }
             } finally {
-                // Reset button state
-                downloadBtn.disabled = false;
-                spinner.style.display = 'none';
-                btnText.textContent = "Download MP3";
+                setLoading(false);
             }
         });
+
+        function setLoading(isLoading) {
+            downloadBtn.disabled = isLoading;
+            spinner.style.display = isLoading ? 'block' : 'none';
+            btnText.textContent = isLoading ? 'Generating...' : 'Download MP3';
+        }
     </script>
 </body>
 </html>
