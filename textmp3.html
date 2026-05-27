@@ -3,14 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Male Voice MP3 Downloader</title>
+    <title>Google Male Voice Recorder</title>
     <style>
         :root {
-            --primary: #3b82f6; /* Blue for Male theme */
+            --primary: #2563eb;
             --bg-dark: #0f172a;
             --bg-card: #1e293b;
             --text-main: #f8fafc;
-            --text-muted: #94a3b8;
             --border: #334155;
         }
 
@@ -38,135 +37,180 @@
 
         h1 { margin-top: 0; text-align: center; color: var(--primary); }
         
-        label { display: block; margin-bottom: 0.5rem; color: var(--text-muted); font-size: 0.9rem; }
+        label { display: block; margin-bottom: 0.5rem; color: #94a3b8; font-size: 0.9rem; }
         
         textarea {
             width: 100%; height: 120px;
             background: rgba(0,0,0,0.2); border: 1px solid var(--border);
-            color: var(--text-main); padding: 10px; border-radius: 8px;
+            color: white; padding: 10px; border-radius: 8px;
             resize: vertical; font-family: inherit;
         }
 
         select {
             width: 100%; padding: 10px;
             background: rgba(0,0,0,0.2); border: 1px solid var(--border);
-            color: var(--text-main); border-radius: 8px;
+            color: white; border-radius: 8px; margin-bottom: 1rem;
         }
 
         button {
-            width: 100%; padding: 12px;
-            background: var(--primary); color: white; border: none;
+            width: 100%; padding: 14px;
+            background: #ef4444; color: white; border: none;
             border-radius: 8px; font-weight: bold; cursor: pointer;
-            margin-top: 10px; transition: background 0.2s;
+            transition: background 0.2s; margin-top: 10px;
         }
-        button:hover { background: #2563eb; }
+        button:hover { background: #dc2626; }
+        button.recording { animation: pulse 1.5s infinite; background: #b91c1c; }
         button:disabled { background: var(--border); cursor: not-allowed; }
 
-        .spinner {
-            display: none; width: 20px; height: 20px;
-            border: 3px solid rgba(255,255,255,0.3); border-radius: 50%;
-            border-top-color: #fff; animation: spin 1s ease-in-out infinite;
-            margin: 0 auto;
+        .instructions {
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid #2563eb;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            color: #bfdbfe;
+            margin-bottom: 1rem;
+            line-height: 1.4;
         }
-        @keyframes spin { to { transform: rotate(360deg); } }
-        
-        .error-msg { color: #ef4444; font-size: 0.85rem; display: none; margin-top: 10px; text-align: center;}
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+        }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h1>Male Voice Generator</h1>
+        <h1>Google Male Voice Recorder</h1>
         
-        <div style="margin-bottom: 1rem;">
-            <label for="voiceSelect">Select Voice</label>
-            <select id="voiceSelect">
-                <!-- MALE VOICES -->
-                <option value="Brian">Brian (UK Male)</option>
-                <option value="Russell">Russell (AU Male)</option>
-                <option value="Joey">Joey (US Male)</option>
-                <option value="Justin">Justin (US Male)</option>
-                <option value="Matthew">Matthew (US Male)</option>
-                <option value="Guy">Guy (UK Male)</option>
-                
-                <!-- FEMALE VOICES (Included just in case) -->
-                <option value="Amy">Amy (UK Female)</option>
-                <option value="Emma">Emma (UK Female)</option>
-                <option value="Ivy">Ivy (US Child)</option>
-            </select>
+        <div class="instructions">
+            <strong>Instructions:</strong><br>
+            1. Select a voice (e.g., "Google US English Male").<br>
+            2. Click "Record & Download".<br>
+            3. Select <strong>Share Tab</strong> and check <strong>Share Audio</strong>.
         </div>
 
-        <div>
-            <label for="textInput">Enter Text</label>
-            <textarea id="textInput" placeholder="Type your text here..."></textarea>
-        </div>
+        <label for="voiceSelect">Select Voice (Look for "Male")</label>
+        <select id="voiceSelect"><option>Loading voices...</option></select>
 
-        <button id="downloadBtn">
-            <span class="spinner" id="spinner"></span>
-            <span id="btnText">Download MP3</span>
-        </button>
-        
-        <div id="errorMsg" class="error-msg">Error downloading. Click to open in new tab.</div>
+        <label for="textInput">Enter Text</label>
+        <textarea id="textInput" placeholder="Type here..."></textarea>
+
+        <button id="recordBtn">Start Recording & Download</button>
     </div>
 
     <script>
-        const downloadBtn = document.getElementById('downloadBtn');
-        const textInput = document.getElementById('textInput');
+        const synth = window.speechSynthesis;
         const voiceSelect = document.getElementById('voiceSelect');
-        const spinner = document.getElementById('spinner');
-        const btnText = document.getElementById('btnText');
-        const errorMsg = document.getElementById('errorMsg');
+        const textInput = document.getElementById('textInput');
+        const recordBtn = document.getElementById('recordBtn');
 
-        downloadBtn.addEventListener('click', async () => {
+        let mediaRecorder;
+        let audioChunks = [];
+
+        // 1. Load Voices (Filter for Google Male if possible)
+        function loadVoices() {
+            const voices = synth.getVoices();
+            voiceSelect.innerHTML = '';
+            
+            voices.forEach(voice => {
+                const option = document.createElement('option');
+                option.textContent = `${voice.name} (${voice.lang})`;
+                option.value = voice.name;
+                
+                // Auto-select a Google Male voice if found
+                if (voice.name.includes('Male') && voice.name.includes('Google')) {
+                    option.selected = true;
+                }
+                
+                voiceSelect.appendChild(option);
+            });
+        }
+
+        loadVoices();
+        if (speechSynthesis.onvoiceschanged !== undefined) {
+            speechSynthesis.onvoiceschanged = loadVoices;
+        }
+
+        // 2. The Recording Logic
+        recordBtn.addEventListener('click', async () => {
             const text = textInput.value.trim();
-            const voice = voiceSelect.value;
-            errorMsg.style.display = 'none';
-
             if (!text) return alert("Please enter text.");
 
-            setLoading(true);
+            const selectedVoiceName = voiceSelect.value;
+            const voice = synth.getVoices().find(v => v.name === selectedVoiceName);
 
+            // A. Start Screen Capture (To get Audio)
             try {
-                // 1. StreamElements API URL (Has Male Voices)
-                const apiUrl = `https://api.streamelements.com/kappa/v2/speech?voice=${voice}&text=${encodeURIComponent(text)}`;
+                // Ask user to share tab audio
+                const stream = await navigator.mediaDevices.getDisplayMedia({
+                    video: true, // Required to get audio in some browsers
+                    audio: true,
+                    preferCurrentTab: true // Try to suggest current tab
+                });
 
-                // 2. Add Proxy to bypass the download error
-                const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(apiUrl)}`;
-
-                // 3. Fetch and Download
-                const response = await fetch(proxyUrl);
-                
-                if (!response.ok) throw new Error("Network error");
-
-                const blob = await response.blob();
-                
-                const url = window.URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `${voice}_audio.mp3`;
-                document.body.appendChild(a);
-                a.click();
-                window.URL.revokeObjectURL(url);
-                document.body.removeChild(a);
-
-            } catch (error) {
-                console.error(error);
-                errorMsg.style.display = 'block';
-                // Fallback: Open directly if proxy fails
-                const directUrl = `https://api.streamelements.com/kappa/v2/speech?voice=${voice}&text=${encodeURIComponent(text)}`;
-                if(confirm("Download failed. Play audio in new tab instead?")) {
-                    window.open(directUrl, '_blank');
+                // We only want the audio track
+                const audioTrack = stream.getAudioTracks()[0];
+                if (!audioTrack) {
+                    alert("You must select 'Share Tab Audio' in the browser popup!");
+                    stream.getTracks().forEach(track => track.stop());
+                    return;
                 }
-            } finally {
-                setLoading(false);
+
+                // Create a MediaRecorder to capture the audio
+                const audioStream = new MediaStream([audioTrack]);
+                mediaRecorder = new MediaRecorder(audioStream, { mimeType: 'audio/webm' });
+                audioChunks = [];
+
+                mediaRecorder.ondataavailable = event => {
+                    audioChunks.push(event.data);
+                };
+
+                mediaRecorder.onstop = () => {
+                    // Create Download
+                    const blob = new Blob(audioChunks, { type: 'audio/webm' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `recording_${Date.now()}.webm`; // Most players play webm, rename to .mp3 if needed
+                    a.click();
+                    
+                    // Cleanup
+                    stream.getTracks().forEach(track => track.stop());
+                    recordBtn.textContent = "Start Recording & Download";
+                    recordBtn.classList.remove('recording');
+                };
+
+                // Start Recording
+                mediaRecorder.start();
+                recordBtn.textContent = "Recording... (Speak Now)";
+                recordBtn.classList.add('recording');
+
+                // B. Speak the Text
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.voice = voice;
+
+                utterance.onend = () => {
+                    // Stop recording when speech finishes
+                    if (mediaRecorder.state === 'recording') {
+                        mediaRecorder.stop();
+                    }
+                };
+
+                utterance.onerror = () => {
+                     mediaRecorder.stop();
+                     alert("Speech error. Stopping recording.");
+                };
+
+                synth.speak(utterance);
+
+            } catch (err) {
+                console.error(err);
+                alert("Error: You cancelled the screen share or your browser blocked it.");
             }
         });
-
-        function setLoading(isLoading) {
-            downloadBtn.disabled = isLoading;
-            spinner.style.display = isLoading ? 'block' : 'none';
-            btnText.textContent = isLoading ? 'Generating...' : 'Download MP3';
-        }
     </script>
 </body>
 </html>
