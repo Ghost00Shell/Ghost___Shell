@@ -3,786 +3,211 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VoiceCraft Studio | Professional Text-to-Speech</title>
+    <title>Free Text to MP3 Downloader</title>
     <style>
         :root {
             --primary: #6366f1;
-            --primary-hover: #4f46e5;
-            --secondary: #ec4899;
             --bg-dark: #0f172a;
             --bg-card: #1e293b;
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
             --border: #334155;
-            --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
-            --radius: 12px;
-            --font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            outline: none;
         }
 
         body {
-            font-family: var(--font-family);
+            font-family: 'Segoe UI', sans-serif;
             background-color: var(--bg-dark);
             color: var(--text-main);
             display: flex;
-            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             min-height: 100vh;
-            overflow-x: hidden;
+            margin: 0;
+            padding: 20px;
         }
 
-        /* --- Layout & Header --- */
-        header {
-            background: rgba(15, 23, 42, 0.9);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--border);
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .brand {
-            font-size: 1.5rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .brand svg {
-            width: 24px;
-            height: 24px;
-            fill: var(--primary);
-        }
-
-        main {
-            flex: 1;
-            display: grid;
-            grid-template-columns: 1fr 350px;
-            gap: 2rem;
+        .container {
+            background: var(--bg-card);
             padding: 2rem;
-            max-width: 1400px;
-            margin: 0 auto;
+            border-radius: 16px;
             width: 100%;
-        }
-
-        @media (max-width: 900px) {
-            main {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* --- Editor Section --- */
-        .editor-container {
-            background: var(--bg-card);
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
+            max-width: 500px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
             border: 1px solid var(--border);
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            position: relative;
         }
 
-        .toolbar {
-            padding: 1rem;
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: rgba(30, 41, 59, 0.5);
+        h1 {
+            margin-top: 0;
+            text-align: center;
+            font-size: 1.5rem;
+            color: var(--primary);
         }
 
-        .char-count {
-            color: var(--text-muted);
-            font-size: 0.85rem;
-            font-weight: 500;
-        }
-
-        textarea {
-            flex: 1;
-            background: transparent;
-            border: none;
-            color: var(--text-main);
-            padding: 1.5rem;
-            font-size: 1.1rem;
-            line-height: 1.6;
-            resize: none;
-            min-height: 400px;
-        }
-
-        textarea::placeholder {
-            color: var(--border);
-        }
-
-        textarea:focus {
-            background: rgba(255, 255, 255, 0.02);
-        }
-
-        /* --- Controls Section --- */
-        .controls-panel {
-            background: var(--bg-card);
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            border: 1px solid var(--border);
-            padding: 1.5rem;
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-            height: fit-content;
-        }
-
-        h2 {
-            font-size: 1.1rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 0.5rem;
-        }
-
-        .control-group {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
+        .form-group {
+            margin-bottom: 1.5rem;
         }
 
         label {
-            font-size: 0.9rem;
+            display: block;
+            margin-bottom: 0.5rem;
             color: var(--text-muted);
-            display: flex;
-            justify-content: space-between;
+            font-size: 0.9rem;
         }
 
-        .value-display {
-            color: var(--primary);
-            font-weight: 600;
+        textarea {
+            width: 100%;
+            height: 120px;
+            background: rgba(0,0,0,0.2);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 10px;
+            border-radius: 8px;
+            resize: vertical;
+            font-family: inherit;
         }
 
-        /* Custom Select */
         select {
             width: 100%;
-            padding: 0.75rem;
-            background: var(--bg-dark);
+            padding: 10px;
+            background: rgba(0,0,0,0.2);
             border: 1px solid var(--border);
             color: var(--text-main);
             border-radius: 8px;
-            font-size: 0.95rem;
             cursor: pointer;
-            transition: border-color 0.2s;
-        }
-
-        select:focus {
-            border-color: var(--primary);
-        }
-
-        /* Custom Range Sliders */
-        input[type=range] {
-            -webkit-appearance: none;
-            width: 100%;
-            background: transparent;
-        }
-
-        input[type=range]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            height: 18px;
-            width: 18px;
-            border-radius: 50%;
-            background: var(--primary);
-            cursor: pointer;
-            margin-top: -7px;
-            box-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
-        }
-
-        input[type=range]::-webkit-slider-runnable-track {
-            width: 100%;
-            height: 4px;
-            background: var(--border);
-            border-radius: 2px;
-        }
-
-        input[type=range]:focus::-webkit-slider-thumb {
-            background: var(--primary-hover);
-            transform: scale(1.1);
-        }
-
-        /* Buttons */
-        .btn-group {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 0.75rem;
-            margin-top: 0.5rem;
-        }
-
-        .btn-full {
-            grid-column: 1 / -1;
         }
 
         button {
-            padding: 0.85rem;
-            border: none;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            font-size: 0.95rem;
-        }
-
-        .btn-primary {
+            width: 100%;
+            padding: 12px;
             background: var(--primary);
             color: white;
-            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
         }
 
-        .btn-primary:hover {
-            background: var(--primary-hover);
-            transform: translateY(-1px);
-        }
-
-        .btn-secondary {
-            background: transparent;
-            border: 1px solid var(--border);
-            color: var(--text-main);
-        }
-
-        .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.05);
-            border-color: var(--text-muted);
-        }
-
-        .btn-danger {
-            background: rgba(239, 68, 68, 0.1);
-            color: #ef4444;
-            border: 1px solid rgba(239, 68, 68, 0.2);
-        }
-
-        .btn-danger:hover {
-            background: rgba(239, 68, 68, 0.2);
+        button:hover {
+            background: #4f46e5;
         }
 
         button:disabled {
-            opacity: 0.5;
+            background: var(--border);
             cursor: not-allowed;
-            transform: none !important;
-        }
-
-        /* --- Visualizer --- */
-        .visualizer-container {
-            height: 80px;
-            background: var(--bg-dark);
-            border-radius: 8px;
-            overflow: hidden;
-            position: relative;
-            border: 1px solid var(--border);
-        }
-
-        canvas {
-            width: 100%;
-            height: 100%;
-            display: block;
-        }
-
-        .visualizer-overlay {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            pointer-events: none;
             opacity: 0.7;
         }
 
-        /* --- Toast Notification --- */
-        .toast {
-            position: fixed;
-            bottom: 2rem;
-            left: 50%;
-            transform: translateX(-50%) translateY(100px);
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            padding: 1rem 2rem;
-            border-radius: 50px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            opacity: 0;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            z-index: 1000;
-        }
-
-        .toast.show {
-            transform: translateX(-50%) translateY(0);
-            opacity: 1;
-        }
-
-        .toast-icon {
-            color: var(--primary);
-        }
-
-        /* --- Modal --- */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.7);
-            backdrop-filter: blur(4px);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 2000;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s;
-        }
-
-        .modal-overlay.active {
-            opacity: 1;
-            pointer-events: all;
-        }
-
-        .modal {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            padding: 2rem;
-            border-radius: var(--radius);
-            max-width: 450px;
-            width: 90%;
-            text-align: center;
-            transform: scale(0.9);
-            transition: transform 0.3s;
-        }
-
-        .modal-overlay.active .modal {
-            transform: scale(1);
-        }
-
-        .modal h3 {
-            margin-bottom: 1rem;
-            color: var(--text-main);
-        }
-
-        .modal p {
-            color: var(--text-muted);
-            margin-bottom: 1.5rem;
-            line-height: 1.5;
-        }
-
-        /* Utility for Icons */
-        .icon {
+        .spinner {
             width: 20px;
             height: 20px;
-            fill: currentColor;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+            display: none;
         }
 
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
     </style>
 </head>
 <body>
 
-    <header>
-        <div class="brand">
-            <svg viewBox="0 0 24 24">
-                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/>
-            </svg>
-            VoiceCraft Studio
+    <div class="container">
+        <h1>MP3 Generator</h1>
+        
+        <div class="form-group">
+            <label for="voiceSelect">Select Voice</label>
+            <select id="voiceSelect">
+                <option value="Brian">Brian (UK Male)</option>
+                <option value="Amy">Amy (UK Female)</option>
+                <option value="Emma">Emma (UK Female)</option>
+                <option value="Russell">Russell (AU Male)</option>
+                <option value="Joey">Joey (US Male)</option>
+                <option value="Justin">Justin (US Male)</option>
+                <option value="Matthew">Matthew (US Male)</option>
+                <option value="Ivy">Ivy (US Child)</option>
+                <option value="Geraint">Geraint (UK Male - Welles)</option>
+            </select>
         </div>
-        <button id="downloadBtn" class="btn-secondary" style="padding: 0.5rem 1rem; font-size: 0.85rem;">
-            <svg class="icon" viewBox="0 0 24 24" style="margin-right: 5px;">
-                <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
-            </svg>
-            Export Audio
+
+        <div class="form-group">
+            <label for="textInput">Enter Text</label>
+            <textarea id="textInput" placeholder="Type what you want to convert to MP3..."></textarea>
+        </div>
+
+        <button id="downloadBtn">
+            <span class="spinner" id="spinner"></span>
+            <span id="btnText">Download MP3</span>
         </button>
-    </header>
-
-    <main>
-        <!-- Editor Area -->
-        <section class="editor-container">
-            <div class="toolbar">
-                <span style="color:var(--primary); font-weight:600;">Input Text</span>
-                <span class="char-count" id="charCount">0 characters</span>
-            </div>
-            <textarea id="textInput" placeholder="Type or paste your text here to convert it to speech..."></textarea>
-        </section>
-
-        <!-- Controls Area -->
-        <section class="controls-panel">
-            
-            <!-- Visualizer -->
-            <div class="visualizer-container">
-                <canvas id="audioVisualizer"></canvas>
-                <div class="visualizer-overlay" id="visOverlay">Audio Idle</div>
-            </div>
-
-            <!-- Voice Selection -->
-            <div class="control-group">
-                <label for="voiceSelect">Select Voice</label>
-                <select id="voiceSelect">
-                    <option value="" disabled selected>Loading voices...</option>
-                </select>
-            </div>
-
-            <!-- Sliders -->
-            <div class="control-group">
-                <label>Rate (Speed) <span class="value-display" id="rateVal">1.0</span></label>
-                <input type="range" id="rate" min="0.5" max="2" value="1" step="0.1">
-            </div>
-
-            <div class="control-group">
-                <label>Pitch <span class="value-display" id="pitchVal">1.0</span></label>
-                <input type="range" id="pitch" min="0.5" max="2" value="1" step="0.1">
-            </div>
-
-            <div class="control-group">
-                <label>Volume <span class="value-display" id="volVal">100%</span></label>
-                <input type="range" id="volume" min="0" max="1" value="1" step="0.1">
-            </div>
-
-            <!-- Playback Controls -->
-            <div class="btn-group">
-                <button id="playBtn" class="btn-primary">
-                    <svg class="icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                    Play
-                </button>
-                <button id="pauseBtn" class="btn-secondary" disabled>
-                    <svg class="icon" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
-                    Pause
-                </button>
-                <button id="stopBtn" class="btn-danger btn-full" disabled>
-                    <svg class="icon" viewBox="0 0 24 24"><path d="M6 6h12v12H6z"/></svg>
-                    Stop
-                </button>
-            </div>
-        </section>
-    </main>
-
-    <!-- Toast Notification -->
-    <div id="toast" class="toast">
-        <div class="toast-icon">
-            <svg class="icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
-        </div>
-        <span id="toastMsg">Notification</span>
-    </div>
-
-    <!-- Info Modal for Download Limitation -->
-    <div class="modal-overlay" id="infoModal">
-        <div class="modal">
-            <h3>Export Limitation</h3>
-            <p>Due to browser security policies, the native Text-to-Speech engine cannot save audio directly as an MP3 file without a backend server.</p>
-            <p><strong>Workaround:</strong> You can use screen recording software (like OBS) to capture the system audio while playing.</p>
-            <button class="btn-primary" onclick="closeModal()">Got it</button>
-        </div>
     </div>
 
     <script>
-        /**
-         * VoiceCraft Studio Logic
-         * Handles SpeechSynthesis, UI interaction, and Canvas Visualizer.
-         */
-
-        // --- DOM Elements ---
+        const downloadBtn = document.getElementById('downloadBtn');
         const textInput = document.getElementById('textInput');
         const voiceSelect = document.getElementById('voiceSelect');
-        const rateInput = document.getElementById('rate');
-        const pitchInput = document.getElementById('pitch');
-        const volInput = document.getElementById('volume');
-        const rateVal = document.getElementById('rateVal');
-        const pitchVal = document.getElementById('pitchVal');
-        const volVal = document.getElementById('volVal');
-        const playBtn = document.getElementById('playBtn');
-        const pauseBtn = document.getElementById('pauseBtn');
-        const stopBtn = document.getElementById('stopBtn');
-        const charCount = document.getElementById('charCount');
-        const canvas = document.getElementById('audioVisualizer');
-        const ctx = canvas.getContext('2d');
-        const visOverlay = document.getElementById('visOverlay');
-        const toast = document.getElementById('toast');
-        const toastMsg = document.getElementById('toastMsg');
-        const downloadBtn = document.getElementById('downloadBtn');
-        const infoModal = document.getElementById('infoModal');
+        const spinner = document.getElementById('spinner');
+        const btnText = document.getElementById('btnText');
 
-        // --- State Variables ---
-        let synth = window.speechSynthesis;
-        let voices = [];
-        let isSpeaking = false;
-        let isPaused = false;
-        let animationId;
-        
-        // --- Initialization ---
+        downloadBtn.addEventListener('click', async () => {
+            const text = textInput.value.trim();
+            const voice = voiceSelect.value;
 
-        function populateVoices() {
-            voices = synth.getVoices().sort((a, b) => {
-                const aname = a.name.toUpperCase();
-                const bname = b.name.toUpperCase();
-                if (aname < bname) return -1;
-                else if (aname == bname) return 0;
-                return +1;
-            });
-
-            voiceSelect.innerHTML = '';
-            
-            // Filter only English voices or provide full list? Let's provide all but default to a good one.
-            voices.forEach((voice) => {
-                const option = document.createElement('option');
-                option.textContent = `${voice.name} (${voice.lang})`;
-                option.setAttribute('data-lang', voice.lang);
-                option.setAttribute('data-name', voice.name);
-                
-                // Select a default voice (Microsoft David or Google US English if available)
-                if (voice.default) {
-                    option.selected = true;
-                }
-                
-                voiceSelect.appendChild(option);
-            });
-
-            if(voices.length === 0) {
-                 const option = document.createElement('option');
-                 option.textContent = "No voices found";
-                 voiceSelect.appendChild(option);
-            }
-        }
-
-        populateVoices();
-        // Chrome loads voices asynchronously
-        if (speechSynthesis.onvoiceschanged !== undefined) {
-            speechSynthesis.onvoiceschanged = populateVoices;
-        }
-
-        // --- Event Listeners ---
-
-        // Text Input Stats
-        textInput.addEventListener('input', () => {
-            charCount.textContent = `${textInput.value.length} characters`;
-        });
-
-        // Slider Updates
-        rateInput.addEventListener('input', () => rateVal.textContent = rateInput.value);
-        pitchInput.addEventListener('input', () => pitchVal.textContent = pitchInput.value);
-        volInput.addEventListener('input', () => volVal.textContent = `${Math.round(volInput.value * 100)}%`);
-
-        // Play Button
-        playBtn.addEventListener('click', () => {
-            if (isPaused) {
-                resumeSpeech();
-            } else {
-                speak();
-            }
-        });
-
-        // Pause Button
-        pauseBtn.addEventListener('click', () => {
-            if (isSpeaking && !isPaused) {
-                pauseSpeech();
-            }
-        });
-
-        // Stop Button
-        stopBtn.addEventListener('click', () => {
-            cancelSpeech();
-        });
-
-        // Download Button (Trigger Modal)
-        downloadBtn.addEventListener('click', () => {
-            infoModal.classList.add('active');
-        });
-
-        function closeModal() {
-            infoModal.classList.remove('active');
-        }
-
-        // --- Speech Logic ---
-
-        function speak() {
-            if (synth.speaking) {
-                console.error('Already speaking...');
-                cancelSpeech();
-                // Allow a tiny moment to clear before restarting
-                setTimeout(startSpeaking, 100);
-            } else {
-                startSpeaking();
-            }
-        }
-
-        function startSpeaking() {
-            if (textInput.value === '') {
-                showToast('Please enter some text first.');
+            if (!text) {
+                alert("Please enter some text first.");
                 return;
             }
 
-            const utterThis = new SpeechSynthesisUtterance(textInput.value);
-            
-            // Get selected voice
-            const selectedOption = voiceSelect.selectedOptions[0].getAttribute('data-name');
-            for (let i = 0; i < voices.length; i++) {
-                if (voices[i].name === selectedOption) {
-                    utterThis.voice = voices[i];
-                    break;
-                }
+            // 1. Show Loading State
+            downloadBtn.disabled = true;
+            spinner.style.display = 'block';
+            btnText.textContent = "Generating...";
+
+            try {
+                // 2. Call the StreamElements API
+                // We use encodeURIComponent to handle spaces and special characters
+                const apiUrl = `https://api.streamelements.com/kappa/v2/speech?voice=${voice}&text=${encodeURIComponent(text)}`;
+                
+                // 3. Fetch the audio data as a Blob
+                const response = await fetch(apiUrl);
+                
+                if (!response.ok) throw new Error("Failed to generate audio");
+
+                const blob = await response.blob();
+                
+                // 4. Create a download link
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.style.display = 'none';
+                a.href = url;
+                // Generate filename based on first few words
+                const filename = text.split(' ').slice(0, 3).join('_').replace(/[^a-z0-9_]/gi, '') || 'audio';
+                a.download = `${filename}.mp3`;
+                
+                document.body.appendChild(a);
+                a.click();
+                
+                // 5. Cleanup
+                window.URL.revokeObjectURL(url);
+                document.body.removeChild(a);
+
+            } catch (error) {
+                console.error(error);
+                alert("Error generating audio. Please check your internet connection.");
+            } finally {
+                // Reset button state
+                downloadBtn.disabled = false;
+                spinner.style.display = 'none';
+                btnText.textContent = "Download MP3";
             }
-
-            // Apply settings
-            utterThis.pitch = pitchInput.value;
-            utterThis.rate = rateInput.value;
-            utterThis.volume = volInput.value;
-
-            // Events
-            utterThis.onstart = () => {
-                isSpeaking = true;
-                isPaused = false;
-                updateButtons();
-                visOverlay.style.opacity = '0';
-                startVisualizer();
-            };
-
-            utterThis.onend = () => {
-                isSpeaking = false;
-                isPaused = false;
-                updateButtons();
-                stopVisualizer();
-                visOverlay.style.opacity = '0.7';
-            };
-
-            utterThis.onerror = (e) => {
-                console.error('Speech synthesis error', e);
-                isSpeaking = false;
-                isPaused = false;
-                updateButtons();
-                stopVisualizer();
-            };
-
-            synth.speak(utterThis);
-        }
-
-        function pauseSpeech() {
-            synth.pause();
-            isPaused = true;
-            updateButtons();
-            stopVisualizer(); // Optional: pause animation too
-            visOverlay.textContent = "Paused";
-            visOverlay.style.opacity = '1';
-        }
-
-        function resumeSpeech() {
-            synth.resume();
-            isPaused = false;
-            updateButtons();
-            startVisualizer();
-            visOverlay.style.opacity = '0';
-        }
-
-        function cancelSpeech() {
-            synth.cancel();
-            isSpeaking = false;
-            isPaused = false;
-            updateButtons();
-            stopVisualizer();
-            visOverlay.style.opacity = '0.7';
-        }
-
-        function updateButtons() {
-            playBtn.disabled = isSpeaking && !isPaused;
-            playBtn.innerHTML = isPaused ? 
-                `<svg class="icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> Resume` : 
-                `<svg class="icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> Play`;
-            
-            pauseBtn.disabled = !isSpeaking || isPaused;
-            stopBtn.disabled = !isSpeaking;
-        }
-
-        // --- Visualizer (Canvas 2D) ---
-        // Note: Since we can't capture the actual audio stream from speechSynthesis easily,
-        // we simulate the waveform based on the 'speaking' state.
-        
-        let bars = [];
-        const barCount = 50;
-
-        function initVisualizer() {
-            // Setup bars
-            canvas.width = canvas.parentElement.offsetWidth;
-            canvas.height = canvas.parentElement.offsetHeight;
-            
-            bars = [];
-            for(let i=0; i<barCount; i++) {
-                bars.push({
-                    x: i * (canvas.width / barCount),
-                    height: 5,
-                    speed: Math.random() * 2 + 1
-                });
-            }
-            drawVisualizer();
-        }
-
-        function drawVisualizer() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--primary').trim();
-            
-            bars.forEach(bar => {
-                // Draw rounded bar
-                const centerY = canvas.height / 2;
-                ctx.beginPath();
-                ctx.roundRect(bar.x + 2, centerY - bar.height/2, (canvas.width / barCount) - 4, bar.height, 4);
-                ctx.fill();
-            });
-        }
-
-        function animateVisualizer() {
-            bars.forEach(bar => {
-                // Randomize height to simulate voice activity
-                // Smooth transition
-                const targetHeight = Math.random() * (canvas.height * 0.8);
-                bar.height += (targetHeight - bar.height) * 0.2;
-            });
-            drawVisualizer();
-            animationId = requestAnimationFrame(animateVisualizer);
-        }
-
-        function startVisualizer() {
-            initVisualizer();
-            if(animationId) cancelAnimationFrame(animationId);
-            animateVisualizer();
-        }
-
-        function stopVisualizer() {
-            if(animationId) cancelAnimationFrame(animationId);
-            // Reset to flat line
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--border').trim();
-            const centerY = canvas.height / 2;
-            ctx.fillRect(0, centerY, canvas.width, 2);
-        }
-
-        // Initialize flat line visualizer on load
-        window.addEventListener('resize', initVisualizer);
-        // Small timeout to ensure CSS variables are loaded
-        setTimeout(stopVisualizer, 100);
-
-        // --- Toast Utility ---
-        function showToast(message) {
-            toastMsg.textContent = message;
-            toast.classList.add('show');
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 3000);
-        }
-
+        });
     </script>
 </body>
 </html>
