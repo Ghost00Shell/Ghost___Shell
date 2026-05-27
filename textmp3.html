@@ -3,214 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Google Male Voice Recorder</title>
+    <title>Reliable Male Voice Downloader</title>
     <style>
-        :root {
-            --primary: #2563eb;
-            --bg-dark: #0f172a;
-            --bg-card: #1e293b;
-            --text-main: #f8fafc;
-            --border: #334155;
-        }
-
         body {
-            font-family: 'Segoe UI', sans-serif;
-            background-color: var(--bg-dark);
-            color: var(--text-main);
+            font-family: sans-serif;
+            background: #111;
+            color: #fff;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
+            height: 100vh;
             margin: 0;
+        }
+        .box {
+            background: #222;
             padding: 20px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 400px;
+            border: 1px solid #444;
         }
-
-        .container {
-            background: var(--bg-card);
-            padding: 2rem;
-            border-radius: 16px;
+        select, textarea, button {
             width: 100%;
-            max-width: 500px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-            border: 1px solid var(--border);
-        }
-
-        h1 { margin-top: 0; text-align: center; color: var(--primary); }
-        
-        label { display: block; margin-bottom: 0.5rem; color: #94a3b8; font-size: 0.9rem; }
-        
-        textarea {
-            width: 100%; height: 120px;
-            background: rgba(0,0,0,0.2); border: 1px solid var(--border);
-            color: white; padding: 10px; border-radius: 8px;
-            resize: vertical; font-family: inherit;
-        }
-
-        select {
-            width: 100%; padding: 10px;
-            background: rgba(0,0,0,0.2); border: 1px solid var(--border);
-            color: white; border-radius: 8px; margin-bottom: 1rem;
-        }
-
-        button {
-            width: 100%; padding: 14px;
-            background: #ef4444; color: white; border: none;
-            border-radius: 8px; font-weight: bold; cursor: pointer;
-            transition: background 0.2s; margin-top: 10px;
-        }
-        button:hover { background: #dc2626; }
-        button.recording { animation: pulse 1.5s infinite; background: #b91c1c; }
-        button:disabled { background: var(--border); cursor: not-allowed; }
-
-        .instructions {
-            background: rgba(59, 130, 246, 0.1);
-            border: 1px solid #2563eb;
             padding: 10px;
-            border-radius: 8px;
-            font-size: 0.85rem;
-            color: #bfdbfe;
-            margin-bottom: 1rem;
-            line-height: 1.4;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #555;
+            background: #333;
+            color: white;
+            font-size: 16px;
+            box-sizing: border-box;
         }
-
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
-            70% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+        button {
+            background: #007bff;
+            cursor: pointer;
+            border: none;
+            font-weight: bold;
         }
+        button:hover { background: #0056b3; }
+        .note { font-size: 12px; color: #aaa; text-align: center; margin-top: 5px; }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <h1>Google Male Voice Recorder</h1>
-        
-        <div class="instructions">
-            <strong>Instructions:</strong><br>
-            1. Select a voice (e.g., "Google US English Male").<br>
-            2. Click "Record & Download".<br>
-            3. Select <strong>Share Tab</strong> and check <strong>Share Audio</strong>.
-        </div>
+<div class="box">
+    <h3 style="text-align:center; margin-top:0;">Male Voice Downloader</h3>
+    
+    <label>Pick a Voice:</label>
+    <select id="voice">
+        <option value="Brian">Brian (Male - UK)</option>
+        <option value="Joey">Joey (Male - US)</option>
+        <option value="Justin">Justin (Male - US)</option>
+        <option value="Russell">Russell (Male - AU)</option>
+        <option value="Matthew">Matthew (Male - US)</option>
+        <option value="Guy">Guy (Male - UK)</option>
+    </select>
 
-        <label for="voiceSelect">Select Voice (Look for "Male")</label>
-        <select id="voiceSelect"><option>Loading voices...</option></select>
+    <label>Type Text:</label>
+    <textarea id="text" rows="4" placeholder="Type here..."></textarea>
 
-        <label for="textInput">Enter Text</label>
-        <textarea id="textInput" placeholder="Type here..."></textarea>
+    <button onclick="downloadAudio()">Download MP3</button>
+    <p class="note">If download fails, a new tab will open. Right-click and "Save Audio As".</p>
+</div>
 
-        <button id="recordBtn">Start Recording & Download</button>
-    </div>
+<script>
+    async function downloadAudio() {
+        const voice = document.getElementById('voice').value;
+        const text = document.getElementById('text').value;
 
-    <script>
-        const synth = window.speechSynthesis;
-        const voiceSelect = document.getElementById('voiceSelect');
-        const textInput = document.getElementById('textInput');
-        const recordBtn = document.getElementById('recordBtn');
+        if(!text) return alert("Please type something!");
 
-        let mediaRecorder;
-        let audioChunks = [];
+        // 1. The StreamElements API URL
+        const url = `https://api.streamelements.com/kappa/v2/speech?voice=${voice}&text=${encodeURIComponent(text)}`;
 
-        // 1. Load Voices (Filter for Google Male if possible)
-        function loadVoices() {
-            const voices = synth.getVoices();
-            voiceSelect.innerHTML = '';
+        // 2. Try to download using a Proxy (corsproxy.io)
+        const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(url)}`;
+
+        try {
+            const response = await fetch(proxyUrl);
+            const blob = await response.blob();
             
-            voices.forEach(voice => {
-                const option = document.createElement('option');
-                option.textContent = `${voice.name} (${voice.lang})`;
-                option.value = voice.name;
-                
-                // Auto-select a Google Male voice if found
-                if (voice.name.includes('Male') && voice.name.includes('Google')) {
-                    option.selected = true;
-                }
-                
-                voiceSelect.appendChild(option);
-            });
+            // Create download link
+            const blobUrl = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = blobUrl;
+            a.download = "voice.mp3";
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        } 
+        catch (error) {
+            // 3. FALLBACK: If proxy fails, just open in new tab
+            alert("Auto-download blocked. Opening in new tab...");
+            window.open(url, '_blank');
         }
+    }
+</script>
 
-        loadVoices();
-        if (speechSynthesis.onvoiceschanged !== undefined) {
-            speechSynthesis.onvoiceschanged = loadVoices;
-        }
-
-        // 2. The Recording Logic
-        recordBtn.addEventListener('click', async () => {
-            const text = textInput.value.trim();
-            if (!text) return alert("Please enter text.");
-
-            const selectedVoiceName = voiceSelect.value;
-            const voice = synth.getVoices().find(v => v.name === selectedVoiceName);
-
-            // A. Start Screen Capture (To get Audio)
-            try {
-                // Ask user to share tab audio
-                const stream = await navigator.mediaDevices.getDisplayMedia({
-                    video: true, // Required to get audio in some browsers
-                    audio: true,
-                    preferCurrentTab: true // Try to suggest current tab
-                });
-
-                // We only want the audio track
-                const audioTrack = stream.getAudioTracks()[0];
-                if (!audioTrack) {
-                    alert("You must select 'Share Tab Audio' in the browser popup!");
-                    stream.getTracks().forEach(track => track.stop());
-                    return;
-                }
-
-                // Create a MediaRecorder to capture the audio
-                const audioStream = new MediaStream([audioTrack]);
-                mediaRecorder = new MediaRecorder(audioStream, { mimeType: 'audio/webm' });
-                audioChunks = [];
-
-                mediaRecorder.ondataavailable = event => {
-                    audioChunks.push(event.data);
-                };
-
-                mediaRecorder.onstop = () => {
-                    // Create Download
-                    const blob = new Blob(audioChunks, { type: 'audio/webm' });
-                    const url = URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.href = url;
-                    a.download = `recording_${Date.now()}.webm`; // Most players play webm, rename to .mp3 if needed
-                    a.click();
-                    
-                    // Cleanup
-                    stream.getTracks().forEach(track => track.stop());
-                    recordBtn.textContent = "Start Recording & Download";
-                    recordBtn.classList.remove('recording');
-                };
-
-                // Start Recording
-                mediaRecorder.start();
-                recordBtn.textContent = "Recording... (Speak Now)";
-                recordBtn.classList.add('recording');
-
-                // B. Speak the Text
-                const utterance = new SpeechSynthesisUtterance(text);
-                utterance.voice = voice;
-
-                utterance.onend = () => {
-                    // Stop recording when speech finishes
-                    if (mediaRecorder.state === 'recording') {
-                        mediaRecorder.stop();
-                    }
-                };
-
-                utterance.onerror = () => {
-                     mediaRecorder.stop();
-                     alert("Speech error. Stopping recording.");
-                };
-
-                synth.speak(utterance);
-
-            } catch (err) {
-                console.error(err);
-                alert("Error: You cancelled the screen share or your browser blocked it.");
-            }
-        });
-    </script>
 </body>
 </html>
