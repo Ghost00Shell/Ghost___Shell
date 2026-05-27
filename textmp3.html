@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reliable Male Voice Downloader</title>
+    <title>Fixed MP3 Downloader</title>
     <style>
         body {
             font-family: sans-serif;
@@ -35,19 +35,19 @@
             box-sizing: border-box;
         }
         button {
-            background: #007bff;
+            background: #28a745; /* Green for success */
             cursor: pointer;
             border: none;
             font-weight: bold;
         }
-        button:hover { background: #0056b3; }
+        button:hover { background: #218838; }
         .note { font-size: 12px; color: #aaa; text-align: center; margin-top: 5px; }
     </style>
 </head>
 <body>
 
 <div class="box">
-    <h3 style="text-align:center; margin-top:0;">Male Voice Downloader</h3>
+    <h3 style="text-align:center; margin-top:0;">MP3 Downloader (Fixed)</h3>
     
     <label>Pick a Voice:</label>
     <select id="voice">
@@ -57,13 +57,14 @@
         <option value="Russell">Russell (Male - AU)</option>
         <option value="Matthew">Matthew (Male - US)</option>
         <option value="Guy">Guy (Male - UK)</option>
+        <option value="Amy">Amy (Female - UK)</option>
     </select>
 
     <label>Type Text:</label>
     <textarea id="text" rows="4" placeholder="Type here..."></textarea>
 
-    <button onclick="downloadAudio()">Download MP3</button>
-    <p class="note">If download fails, a new tab will open. Right-click and "Save Audio As".</p>
+    <button onclick="downloadAudio()">Download Clean MP3</button>
+    <p class="note">Uses Base64 transfer to prevent corruption.</p>
 </div>
 
 <script>
@@ -73,29 +74,50 @@
 
         if(!text) return alert("Please type something!");
 
-        // 1. The StreamElements API URL
-        const url = `https://api.streamelements.com/kappa/v2/speech?voice=${voice}&text=${encodeURIComponent(text)}`;
-
-        // 2. Try to download using a Proxy (corsproxy.io)
-        const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(url)}`;
+        const btn = document.querySelector('button');
+        btn.textContent = "Processing...";
+        btn.disabled = true;
 
         try {
-            const response = await fetch(proxyUrl);
-            const blob = await response.blob();
+            // 1. The StreamElements URL
+            const url = `https://api.streamelements.com/kappa/v2/speech?voice=${voice}&text=${encodeURIComponent(text)}`;
+
+            // 2. Use allorigins to get data as Base64 JSON (Safe transfer)
+            // We use '/get' so it returns JSON with the audio inside
+            const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`;
             
-            // Create download link
+            const response = await fetch(proxyUrl);
+            const data = await response.json();
+
+            if (!data.contents) throw new Error("No data received");
+
+            // 3. Convert Base64 string back to Binary Data (MP3)
+            const base64Audio = data.contents;
+            const binaryString = window.atob(base64Audio);
+            const bytes = new Uint8Array(binaryString.length);
+            
+            for (let i = 0; i < binaryString.length; i++) {
+                bytes[i] = binaryString.charCodeAt(i);
+            }
+
+            // 4. Create Blob with correct MIME type
+            const blob = new Blob([bytes], { type: 'audio/mpeg' });
+            
+            // 5. Download
             const blobUrl = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = blobUrl;
-            a.download = "voice.mp3";
+            a.download = `${voice}_audio.mp3`;
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
-        } 
-        catch (error) {
-            // 3. FALLBACK: If proxy fails, just open in new tab
-            alert("Auto-download blocked. Opening in new tab...");
-            window.open(url, '_blank');
+            
+        } catch (error) {
+            console.error(error);
+            alert("Error. Try shorter text.");
+        } finally {
+            btn.textContent = "Download Clean MP3";
+            btn.disabled = false;
         }
     }
 </script>
