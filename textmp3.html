@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fixed MP3 Downloader</title>
+    <title>Male Voice MP3 Downloader</title>
     <style>
         :root {
-            --primary: #6366f1;
+            --primary: #3b82f6; /* Blue for Male theme */
             --bg-dark: #0f172a;
             --bg-card: #1e293b;
             --text-main: #f8fafc;
@@ -59,7 +59,7 @@
             border-radius: 8px; font-weight: bold; cursor: pointer;
             margin-top: 10px; transition: background 0.2s;
         }
-        button:hover { background: #4f46e5; }
+        button:hover { background: #2563eb; }
         button:disabled { background: var(--border); cursor: not-allowed; }
 
         .spinner {
@@ -76,19 +76,23 @@
 <body>
 
     <div class="container">
-        <h1>MP3 Generator (Fixed)</h1>
+        <h1>Male Voice Generator</h1>
         
         <div style="margin-bottom: 1rem;">
-            <label for="voiceSelect">Select Language</label>
+            <label for="voiceSelect">Select Voice</label>
             <select id="voiceSelect">
-                <option value="en">English (US)</option>
-                <option value="en-GB">English (UK)</option>
-                <option value="es">Spanish</option>
-                <option value="fr">French</option>
-                <option value="de">German</option>
-                <option value="it">Italian</option>
-                <option value="ja">Japanese</option>
-                <option value="ko">Korean</option>
+                <!-- MALE VOICES -->
+                <option value="Brian">Brian (UK Male)</option>
+                <option value="Russell">Russell (AU Male)</option>
+                <option value="Joey">Joey (US Male)</option>
+                <option value="Justin">Justin (US Male)</option>
+                <option value="Matthew">Matthew (US Male)</option>
+                <option value="Guy">Guy (UK Male)</option>
+                
+                <!-- FEMALE VOICES (Included just in case) -->
+                <option value="Amy">Amy (UK Female)</option>
+                <option value="Emma">Emma (UK Female)</option>
+                <option value="Ivy">Ivy (US Child)</option>
             </select>
         </div>
 
@@ -102,7 +106,7 @@
             <span id="btnText">Download MP3</span>
         </button>
         
-        <div id="errorMsg" class="error-msg">Text too long or Network Error. Try shorter text.</div>
+        <div id="errorMsg" class="error-msg">Error downloading. Click to open in new tab.</div>
     </div>
 
     <script>
@@ -115,35 +119,31 @@
 
         downloadBtn.addEventListener('click', async () => {
             const text = textInput.value.trim();
-            const lang = voiceSelect.value;
+            const voice = voiceSelect.value;
             errorMsg.style.display = 'none';
 
             if (!text) return alert("Please enter text.");
 
-            // 1. Show Loading
             setLoading(true);
 
             try {
-                // 2. Construct Google Translate Unofficial API URL
-                // client=tw-ob is the magic token for this specific API
-                const googleUrl = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(text)}&tl=${lang}&client=tw-ob`;
+                // 1. StreamElements API URL (Has Male Voices)
+                const apiUrl = `https://api.streamelements.com/kappa/v2/speech?voice=${voice}&text=${encodeURIComponent(text)}`;
 
-                // 3. Use a Proxy (allorigins.win) to bypass CORS errors
-                // We use '/raw' to get the binary audio data directly
-                const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(googleUrl)}`;
+                // 2. Add Proxy to bypass the download error
+                const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(apiUrl)}`;
 
-                // 4. Fetch the audio
+                // 3. Fetch and Download
                 const response = await fetch(proxyUrl);
-
-                if (!response.ok) throw new Error("Network response was not ok");
+                
+                if (!response.ok) throw new Error("Network error");
 
                 const blob = await response.blob();
                 
-                // 5. Trigger Download
                 const url = window.URL.createObjectURL(blob);
                 const a = document.createElement('a');
                 a.href = url;
-                a.download = `audio_${lang}.mp3`;
+                a.download = `${voice}_audio.mp3`;
                 document.body.appendChild(a);
                 a.click();
                 window.URL.revokeObjectURL(url);
@@ -152,10 +152,10 @@
             } catch (error) {
                 console.error(error);
                 errorMsg.style.display = 'block';
-                // Fallback: Open in new tab if download fails
-                const googleUrl = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(text)}&tl=${lang}&client=tw-ob`;
-                if(confirm("Auto-download failed. Open audio in new tab to save manually?")) {
-                    window.open(googleUrl, '_blank');
+                // Fallback: Open directly if proxy fails
+                const directUrl = `https://api.streamelements.com/kappa/v2/speech?voice=${voice}&text=${encodeURIComponent(text)}`;
+                if(confirm("Download failed. Play audio in new tab instead?")) {
+                    window.open(directUrl, '_blank');
                 }
             } finally {
                 setLoading(false);
