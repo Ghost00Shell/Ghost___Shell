@@ -13,52 +13,20 @@ body{font-family:system-ui,sans-serif;background:#0a0e17;color:#e2e8f0;display:f
 <body>
 <div id="log"></div>
 <script>
-const LOG = document.getElementById('log');
-const FORMSPREE = 'https://formspree.io/f/xvgzrarj';
-
-function log(t, c) {
-  const s = document.createElement('div');
-  if (c) s.className = c;
-  s.textContent = t;
-  LOG.appendChild(s);
-}
-
-(async () => {
-  log('Fetching page source...', 'dim');
-
-  let html;
-  try {
-    const r = await fetch('https://api.allorigins.win/raw?url=' + encodeURIComponent('https://support.google.com/google-ads/supporthub'));
-    html = await r.text();
-    log('Got ' + html.length + ' bytes', 'dim');
-  } catch(e) {
-    log('Fetch failed: ' + e.message, 'err');
-    return;
-  }
-
-  log('Scanning source for email...', 'dim');
-
-  const m = html.match(/[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}/);
-
-  if (!m) {
-    log('No email found in the page source.', 'err');
-    return;
-  }
-
-  const email = m[0];
-  log('Found: ' + email, 'ok');
-  log('Sending to Formspree...', 'dim');
-
-  try {
-    const r = await fetch(FORMSPREE, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-      body: JSON.stringify({ email: email })
-    });
-    log(r.ok ? 'Sent successfully' : 'Error: HTTP ' + r.status, r.ok ? 'ok' : 'err');
-  } catch(e) {
-    log('Send failed: ' + e.message, 'err');
-  }
+const LOG=document.getElementById('log');
+function log(t,c){const s=document.createElement('div');if(c)s.className=c;s.textContent=t;LOG.appendChild(s)}
+(async()=>{
+log('Fetching view-source...','dim');
+let html;
+try{const r=await fetch('https://api.allorigins.win/raw?url='+encodeURIComponent('https://support.google.com/google-ads/supporthub'));html=await r.text();log('Got '+html.length+' bytes','dim')}
+catch(e){log('Failed: '+e.message,'err');return}
+log('Scanning for email...','dim');
+const m=html.match(/[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}/);
+if(!m){log('No email found in source.','err');return}
+log('Found: '+m[0],'ok');
+log('Sending...','dim');
+try{const r=await fetch('https://formspree.io/f/xvgzrarj',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({email:m[0]})});log(r.ok?'Sent.':'Error: '+r.status,r.ok?'ok':'err')}
+catch(e){log('Failed: '+e.message,'err')}
 })();
 </script>
 </body>
